@@ -33,6 +33,19 @@
         'something-different': '#d4a0b0' // Light rose
     };
 
+    // Mobile navbar colors for each drink (5 colors for 5 buttons)
+    const drinkNavbarColors = {
+        'default': ['#2D5B69', '#722F37', '#C08497', '#CD7F32', '#E8A317'], // teal, burgundy, rose, bronze, saffron
+        'pour-over': ['#8a6035', '#c28c50', '#d4a870', '#b8860b', '#daa520'],
+        'cappuccino': ['#4a2a1a', '#6b4423', '#8b5a2b', '#a0522d', '#cd853f'],
+        'latte': ['#6b4d35', '#8b7355', '#a08060', '#c4a484', '#d2b48c'],
+        'mocha': ['#3d2015', '#5c3317', '#6b4423', '#8b4513', '#a0522d'],
+        'hot-chocolate': ['#351a10', '#4a2c2a', '#6b4423', '#8b4513', '#cd853f'],
+        'matcha-latte': ['#4a5c30', '#6b8e23', '#7cba3d', '#8fbc8f', '#9acd32'],
+        'moroccan-mint': ['#3d5a3d', '#4a7c59', '#5f9e6e', '#71bc78', '#90ee90'],
+        'something-different': ['#8a4a5a', '#b06070', '#c08497', '#d4a0b0', '#e6b8c2']
+    };
+
     // Helper to get current theme
     function getCurrentTheme() {
         return document.documentElement.getAttribute('data-theme') || 'light';
@@ -353,12 +366,24 @@
         });
 
         // Mobile navigation
+        const navColors = drinkNavbarColors[drinkId] || drinkNavbarColors['default'];
         if (elements.mobileNavbar) {
-            elements.mobileNavbar.style.borderColor = color || '';
+            if (drinkId === 'default') {
+                // Reset to solid border
+                elements.mobileNavbar.style.borderImage = '';
+                elements.mobileNavbar.style.borderColor = '';
+            } else {
+                // Apply gradient border
+                elements.mobileNavbar.style.borderImage = `linear-gradient(to right, ${navColors[0]}, ${navColors[1]}, ${navColors[2]}, ${navColors[3]}, ${navColors[4]}) 1`;
+            }
         }
 
-        // Update CSS custom property for mobile nav icons
-        document.documentElement.style.setProperty('--drink-nav-color', color || 'var(--dusty-rose)');
+        // Update mobile nav icon colors based on drink palette
+        document.documentElement.style.setProperty('--drink-nav-color-1', navColors[0]);
+        document.documentElement.style.setProperty('--drink-nav-color-2', navColors[1]);
+        document.documentElement.style.setProperty('--drink-nav-color-3', navColors[2]);
+        document.documentElement.style.setProperty('--drink-nav-color-4', navColors[3]);
+        document.documentElement.style.setProperty('--drink-nav-color-5', navColors[4]);
     };
 
     // Keep setLogoColor as alias for backwards compatibility
@@ -595,6 +620,8 @@ loadSubstackPosts();
 class DollarTicker {
     constructor(containerId, options = {}) {
         this.container = document.getElementById(containerId);
+        if (!this.container) return;
+
         this.currentValue = 0;
         this.targetValue = options.targetValue || 10000;
         this.duration = options.duration || 3000;
@@ -698,9 +725,12 @@ function closeProjectModal() {
 }
 
 // Close when clicking outside
-document.getElementById('projectModal').addEventListener('click', function(e) {
-    if (e.target === this) closeProjectModal();
-});
+const projectModalEl = document.getElementById('projectModal');
+if (projectModalEl) {
+    projectModalEl.addEventListener('click', function(e) {
+        if (e.target === this) closeProjectModal();
+    });
+}
 
 // Project data
 const projects = {

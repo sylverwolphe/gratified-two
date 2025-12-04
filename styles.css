@@ -50,6 +50,13 @@ body, p, .blog-excerpt, .project-subtitle, .team-title {
     --modal-overlay-bg: rgba(60, 60, 60, 0.8);
     --ticker-bg: #3C3C3C;
     --dot-bg: rgba(247, 243, 233, 0.6);
+
+    /* Mobile nav icon colors (default) */
+    --drink-nav-color-1: #2D5B69;
+    --drink-nav-color-2: #722F37;
+    --drink-nav-color-3: #C08497;
+    --drink-nav-color-4: #CD7F32;
+    --drink-nav-color-5: #E8A317;
 }
 
 [data-theme="dark"] {
@@ -1572,6 +1579,13 @@ footer a:hover {
 .pages-container {
     position: relative;
     min-height: 100vh;
+    padding-top: 70px;
+}
+
+@media (max-width: 768px) {
+    .pages-container {
+        padding-top: 0;
+    }
 }
 
 .page {
@@ -2071,8 +2085,9 @@ footer a:hover {
     display: block;
     width: 20px;
     height: 3px;
-    background-color: var(--deep-teal);
+    background-color: var(--drink-nav-color-1);
     border-radius: 1px;
+    transition: background-color 0.4s ease;
 }
 
 .mobile-nav-icon.icon-equal::before {
@@ -2080,30 +2095,34 @@ footer a:hover {
     display: block;
     width: 20px;
     height: 3px;
-    background-color: var(--deep-burgundy);
+    background-color: var(--drink-nav-color-2);
     border-radius: 1px;
-    box-shadow: 0 6px 0 var(--deep-burgundy);
+    box-shadow: 0 6px 0 var(--drink-nav-color-2);
     transform: translateY(-3px);
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* Mobile nav icon colors */
 .mobile-nav-icon.icon-diamond {
-    color: var(--drink-nav-color, var(--dusty-rose));
+    color: var(--drink-nav-color-3);
     width: 24px;
     height: 24px;
     transform: rotate(45deg);
+    transition: color 0.4s ease;
 }
 
 .mobile-nav-icon.icon-bronze {
-    color: #CD7F32;
+    color: var(--drink-nav-color-4);
     width: 24px;
     height: 24px;
+    transition: color 0.4s ease;
 }
 
 .mobile-nav-icon.icon-yellow {
-    color: var(--rich-saffron);
+    color: var(--drink-nav-color-5);
     width: 24px;
     height: 24px;
+    transition: color 0.4s ease;
 }
 
 /* Mobile nav active state */
