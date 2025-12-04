@@ -2100,28 +2100,9 @@ footer a:hover {
 }
 
 /* Mobile nav active state */
-.mobile-nav-item.active .mobile-nav-icon {
-    color: var(--rich-saffron);
-}
-
-/* Active state for CSS-drawn icons */
-.mobile-nav-item.active .mobile-nav-icon.icon-dash::before {
-    background-color: var(--rich-saffron);
-}
-
-.mobile-nav-item.active .mobile-nav-icon.icon-equal::before {
-    background-color: var(--rich-saffron);
-    box-shadow: 0 6px 0 var(--rich-saffron);
-}
-
-.mobile-nav-item.active .mobile-nav-icon.icon-diamond,
-.mobile-nav-item.active .mobile-nav-icon.icon-bronze,
-.mobile-nav-item.active .mobile-nav-icon.icon-yellow {
-    filter: brightness(1.2);
-}
-
-.mobile-nav-item.active .mobile-nav-label {
-    color: var(--dusty-rose);
+.mobile-nav-item.active {
+    background-color: var(--card-bg);
+    border-radius: 8px;
 }
 
 /* Responsive adjustments */
