@@ -259,7 +259,7 @@
                                     <li>Early access to event announcements</li>
                                     <li>Behind-the-scenes content</li>
                                 </ul>
-                                <button class="sub-btn">Join Substack</button>
+                                <a href="https://substack.com/@gratifiedwegrow" target="_blank" class="sub-btn">Join Substack</a>
                             </div>
 
                             <div class="subscription-card featured">
@@ -272,7 +272,7 @@
                                     <li>Exclusive member events</li>
                                     <li>Name on our supporters wall</li>
                                 </ul>
-                                <button class="sub-btn primary">Go Unlimited</button>
+                                <button class="sub-btn primary" onclick="openModal('unlimitedModal')">Go Unlimited</button>
                             </div>
 
                             <div class="subscription-card">
@@ -285,7 +285,7 @@
                                     <li>Lifetime unlimited drinks</li>
                                     <li>Founding investor recognition</li>
                                 </ul>
-                                <button class="sub-btn">Let's Talk</button>
+                                <button class="sub-btn" onclick="openModal('investorModal')">Let's Talk</button>
                             </div>
                         </div>
                     </div>
@@ -337,7 +337,7 @@
                                     <li>Creative offices</li>
                                     <li>Community spaces</li>
                                 </ul>
-                                <button class="partner-btn" onclick="openBookingModal()">Let's Talk</button>
+                                <button class="partner-btn" onclick="openModal('hostModal')">Let's Talk</button>
                             </div>
 
                             <div class="partner-card">
@@ -349,7 +349,7 @@
                                     <li>Specialty vendors</li>
                                     <li>Small batch producers</li>
                                 </ul>
-                                <button class="partner-btn" onclick="openBookingModal()">Partner With Us</button>
+                                <button class="partner-btn" onclick="openModal('foodModal')">Partner With Us</button>
                             </div>
 
                             <div class="partner-card">
@@ -361,7 +361,7 @@
                                     <li>Collaborative projects</li>
                                     <li>Zine and print features</li>
                                 </ul>
-                                <button class="partner-btn" onclick="openBookingModal()">Create With Us</button>
+                                <button class="partner-btn" onclick="openModal('artModal')">Create With Us</button>
                             </div>
 
                             <div class="partner-card">
@@ -373,7 +373,7 @@
                                     <li>Social media creators</li>
                                     <li>Artists and designers</li>
                                 </ul>
-                                <button class="partner-btn">Apply Now</button>
+                                <button class="partner-btn" onclick="openModal('teamModal')">Apply Now</button>
                             </div>
                         </div>
                     </div>
@@ -431,13 +431,13 @@
 
     </div>
 
-    <!-- Booking Modal -->
-    <div class="modal-overlay" id="bookingModal">
+    <!-- Host Us Modal -->
+    <div class="modal-overlay" id="hostModal">
         <div class="booking-modal">
-            <button class="modal-close" onclick="closeBookingModal()">&times;</button>
-            <h2 class="modal-title">Book Your Popup</h2>
+            <button class="modal-close" onclick="closeModal('hostModal')">&times;</button>
+            <h2 class="modal-title">Host Gratified</h2>
 
-            <form id="bookingForm">
+            <form id="hostForm">
                 <div class="form-group">
                     <label class="form-label">Your Name</label>
                     <input type="text" class="form-input" name="name" required>
@@ -448,59 +448,248 @@
                     <input type="email" class="form-input" name="email" required>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Event Date</label>
-                        <input type="date" class="form-input" name="date" required onchange="updateEstimate()">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Duration</label>
-                        <select class="form-select" name="duration" onchange="updateEstimate()">
-                            <option value="">Select duration</option>
-                            <option value="1 hour">1 hour</option>
-                            <option value="2 hours">2 hours</option>
-                            <option value="3 hours">3 hours</option>
-                            <option value="4+ hours">4+ hours</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Expected Attendees</label>
-                        <input type="number" class="form-input" name="attendees" min="5" placeholder="Minimum 5" onchange="updateEstimate()">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Event Type</label>
-                        <select class="form-select" name="eventType" onchange="updateEstimate()">
-                            <option value="">Select type</option>
-                            <option value="Corporate Event">Corporate Event</option>
-                            <option value="Private Party">Private Party</option>
-                            <option value="Wedding/Celebration">Wedding/Celebration</option>
-                            <option value="Community Event">Community Event</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Space Type</label>
+                    <select class="form-select" name="spaceType" required>
+                        <option value="">Select type</option>
+                        <option value="Coworking Space">Coworking Space</option>
+                        <option value="Art Studio">Art Studio</option>
+                        <option value="Creative Office">Creative Office</option>
+                        <option value="Community Space">Community Space</option>
+                        <option value="Other">Other</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Event Location</label>
-                    <input type="text" class="form-input" name="location" placeholder="Address or venue name" required>
-                </div>
-
-                <div class="estimate-display" id="estimateDisplay" style="display: none;">
-                    <div class="estimate-amount" id="estimateAmount">$0</div>
-                    <div class="estimate-note">Rough estimate • Final pricing may vary</div>
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-input" name="location" placeholder="Address or neighborhood" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Tell us about your event</label>
-                    <textarea class="form-textarea" name="details" placeholder="What's the occasion? Any special requests for drinks or setup?"></textarea>
+                    <label class="form-label">Tell us about your space</label>
+                    <textarea class="form-textarea" name="details" placeholder="Size, foot traffic, what you're looking for..."></textarea>
                 </div>
 
-                <button type="submit" class="submit-btn">Send Request</button>
+                <button type="submit" class="submit-btn">Send Inquiry</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Food Partner Modal -->
+    <div class="modal-overlay" id="foodModal">
+        <div class="booking-modal">
+            <button class="modal-close" onclick="closeModal('foodModal')">&times;</button>
+            <h2 class="modal-title">Food Partnership</h2>
+
+            <form id="foodForm">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Business Name</label>
+                    <input type="text" class="form-input" name="business" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">What do you make?</label>
+                    <select class="form-select" name="foodType" required>
+                        <option value="">Select type</option>
+                        <option value="Bakery/Pastries">Bakery/Pastries</option>
+                        <option value="Savory Snacks">Savory Snacks</option>
+                        <option value="Specialty Foods">Specialty Foods</option>
+                        <option value="Small Batch Producer">Small Batch Producer</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tell us about your products</label>
+                    <textarea class="form-textarea" name="details" placeholder="What you make, pricing, availability..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Inquiry</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Art Collaboration Modal -->
+    <div class="modal-overlay" id="artModal">
+        <div class="booking-modal">
+            <button class="modal-close" onclick="closeModal('artModal')">&times;</button>
+            <h2 class="modal-title">Art Collaboration</h2>
+
+            <form id="artForm">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">What kind of artist are you?</label>
+                    <select class="form-select" name="artType" required>
+                        <option value="">Select type</option>
+                        <option value="Visual Artist">Visual Artist</option>
+                        <option value="Photographer">Photographer</option>
+                        <option value="Illustrator">Illustrator</option>
+                        <option value="Zine Maker">Zine Maker</option>
+                        <option value="Mixed Media">Mixed Media</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Portfolio Link</label>
+                    <input type="url" class="form-input" name="portfolio" placeholder="Website or Instagram">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">What are you interested in?</label>
+                    <textarea class="form-textarea" name="details" placeholder="Gallery show, residency, collaboration idea..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Inquiry</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Join Team Modal -->
+    <div class="modal-overlay" id="teamModal">
+        <div class="booking-modal">
+            <button class="modal-close" onclick="closeModal('teamModal')">&times;</button>
+            <h2 class="modal-title">Join the Team</h2>
+
+            <form id="teamForm">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Role you're interested in</label>
+                    <select class="form-select" name="role" required>
+                        <option value="">Select role</option>
+                        <option value="Barista">Barista</option>
+                        <option value="Event Coordinator">Event Coordinator</option>
+                        <option value="Social Media">Social Media Creator</option>
+                        <option value="Artist/Designer">Artist/Designer</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Link to your work (if applicable)</label>
+                    <input type="url" class="form-input" name="portfolio" placeholder="Portfolio, LinkedIn, Instagram...">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Why do you want to join Gratified?</label>
+                    <textarea class="form-textarea" name="details" placeholder="Tell us about yourself..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Apply</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Unlimited Membership Modal -->
+    <div class="modal-overlay" id="unlimitedModal">
+        <div class="booking-modal">
+            <button class="modal-close" onclick="closeModal('unlimitedModal')">&times;</button>
+            <h2 class="modal-title">Go Unlimited</h2>
+
+            <form id="unlimitedForm">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phone (for membership card)</label>
+                    <input type="tel" class="form-input" name="phone" placeholder="Optional">
+                </div>
+
+                <div class="estimate-display" style="display: block;">
+                    <div class="estimate-amount">$99/month</div>
+                    <div class="estimate-note">Unlimited drinks at all popups • Cancel anytime</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">How did you hear about us?</label>
+                    <select class="form-select" name="source">
+                        <option value="">Select one</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Twitter">Twitter</option>
+                        <option value="Friend">Friend</option>
+                        <option value="Popup">Visited a popup</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">Start Membership</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Investor Modal -->
+    <div class="modal-overlay" id="investorModal">
+        <div class="booking-modal">
+            <button class="modal-close" onclick="closeModal('investorModal')">&times;</button>
+            <h2 class="modal-title">Invest in Gratified</h2>
+
+            <form id="investorForm">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" class="form-input" name="phone" required>
+                </div>
+
+                <div class="estimate-display" style="display: block;">
+                    <div class="estimate-amount">$25,000</div>
+                    <div class="estimate-note">0.2% equity stake • Founding investor</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tell us about yourself</label>
+                    <textarea class="form-textarea" name="details" placeholder="Your background, why you're interested in Gratified..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">LinkedIn or Website</label>
+                    <input type="url" class="form-input" name="linkedin" placeholder="Optional">
+                </div>
+
+                <button type="submit" class="submit-btn">Request Info</button>
             </form>
         </div>
     </div>

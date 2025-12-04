@@ -1824,6 +1824,7 @@ footer a:hover {
 }
 
 .sub-btn {
+    display: block;
     width: 100%;
     padding: 14px;
     background-color: transparent;
@@ -1835,6 +1836,9 @@ footer a:hover {
     letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
 }
 
 .sub-btn:hover,

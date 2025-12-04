@@ -464,129 +464,56 @@ function scrollToSection(sectionId) {
     }
 }
 
-// Booking Modal Functions
-function openBookingModal() {
-    document.getElementById('bookingModal').classList.add('active');
+// Modal Functions
+function openModal(modalId) {
+    document.getElementById(modalId).classList.add('active');
     document.body.style.overflow = 'hidden';
 }
 
-function closeBookingModal() {
-    document.getElementById('bookingModal').classList.remove('active');
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
     document.body.style.overflow = 'auto';
 }
 
-// Close modal when clicking outside
-document.getElementById('bookingModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeBookingModal();
+// Close modals when clicking outside
+['hostModal', 'foodModal', 'artModal', 'teamModal', 'unlimitedModal', 'investorModal'].forEach(modalId => {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal(modalId);
+            }
+        });
     }
 });
 
-// Simple pricing calculator
-function updateEstimate() {
-    const form = document.getElementById('bookingForm');
-    const durationText = form.duration.value;
-    const attendees = parseInt(form.attendees.value) || 0;
-    const eventType = form.eventType.value;
+// Form submission handlers for all modals
+const formMessages = {
+    'hostForm': 'hosting inquiry',
+    'foodForm': 'food partnership inquiry',
+    'artForm': 'art collaboration inquiry',
+    'teamForm': 'application',
+    'unlimitedForm': 'unlimited membership signup',
+    'investorForm': 'investor inquiry'
+};
 
-    // Extract hours from duration text
-    let duration = 0;
-    if (durationText.includes('1 hour')) duration = 1;
-    else if (durationText.includes('2 hours')) duration = 2;
-    else if (durationText.includes('3 hours')) duration = 3;
-    else if (durationText.includes('4+')) duration = 4;
+Object.keys(formMessages).forEach(formId => {
+    const form = document.getElementById(formId);
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-    if (duration && attendees >= 5) {
-        // Basic pricing: $8 per person per hour
-        let basePrice = duration * attendees * 8;
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
 
-        // Event type multipliers
-        const multipliers = {
-            'Corporate Event': 1.2,
-            'Wedding/Celebration': 1.3,
-            'Private Party': 1.0,
-            'Community Event': 0.9,
-            'Other': 1.0
-        };
+            // Get the modal ID from form ID
+            const modalId = formId.replace('Form', 'Modal');
 
-        if (eventType && multipliers[eventType]) {
-            basePrice *= multipliers[eventType];
-        }
-
-        // Minimum charge
-        basePrice = Math.max(basePrice, 200);
-
-        document.getElementById('estimateAmount').textContent = `$${Math.round(basePrice)}`;
-        document.getElementById('estimateDisplay').style.display = 'block';
-    } else {
-        document.getElementById('estimateDisplay').style.display = 'none';
+            alert(`Thanks ${data.name}! We've received your ${formMessages[formId]}. We'll get back to you within a few days.`);
+            closeModal(modalId);
+            this.reset();
+        });
     }
-}
-
-// Form submission via Google Forms using iframe method
-document.getElementById('bookingForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-
-    // Parse the date
-    let year = '', month = '', day = '';
-    if (data.date) {
-        const eventDate = new Date(data.date);
-        if (!isNaN(eventDate.getTime())) {
-            year = eventDate.getFullYear();
-            month = eventDate.getMonth() + 1;
-            day = eventDate.getDate();
-        }
-    }
-
-    // Create a hidden iframe for submission
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.name = 'hidden_iframe';
-    document.body.appendChild(iframe);
-
-    // Create a form that targets the iframe
-    const submitForm = document.createElement('form');
-    submitForm.target = 'hidden_iframe';
-    submitForm.method = 'POST';
-    submitForm.action = 'https://docs.google.com/forms/d/e/1FAIpQLSfD05y3ArWCKtll47Ldcgqhhoq8NFnmNAsBtEZk2WRXjyL8QQ/formResponse';
-
-    // Field mapping
-    const fields = {
-        'entry.967764436': data.name || '',
-        'entry.730489725': data.email || '',
-        'entry.316028121_year': year,
-        'entry.316028121_month': month,
-        'entry.316028121_day': day,
-        'entry.659088047': data.duration || '',
-        'entry.682142952': data.attendees || '',
-        'entry.1436995149': data.eventType || '',
-        'entry.579753193': data.location || '',
-        'entry.457948607': data.details || ''
-    };
-
-    Object.keys(fields).forEach(key => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = fields[key];
-        submitForm.appendChild(input);
-    });
-
-    document.body.appendChild(submitForm);
-    submitForm.submit();
-
-    // Clean up and show success message
-    setTimeout(() => {
-        document.body.removeChild(iframe);
-        document.body.removeChild(submitForm);
-        alert(`Thanks ${data.name}! We'll get back to you about your ${data.eventType || 'event'} within 24 hours.`);
-        closeBookingModal();
-        this.reset();
-        document.getElementById('estimateDisplay').style.display = 'none';
-    }, 1000);
 });
 
 // Load Substack Posts
