@@ -502,31 +502,151 @@ function closeModal(modalId) {
     }
 });
 
-// Form submission handlers for all modals
-const formMessages = {
-    'hostForm': 'hosting inquiry',
-    'foodForm': 'food partnership inquiry',
-    'artForm': 'art collaboration inquiry',
-    'teamForm': 'application',
-    'unlimitedForm': 'unlimited membership signup',
-    'investorForm': 'investor inquiry'
+// Google Forms submission configuration
+// To set up: Create a Google Form, get the form ID and entry IDs from the form's pre-filled link
+const googleFormsConfig = {
+    'hostForm': {
+        formId: 'YOUR_HOST_FORM_ID', // Replace with actual Google Form ID
+        fields: {
+            'name': 'entry.XXXXXXXXX',      // Replace with actual entry IDs
+            'email': 'entry.XXXXXXXXX',
+            'spaceType': 'entry.XXXXXXXXX',
+            'location': 'entry.XXXXXXXXX',
+            'details': 'entry.XXXXXXXXX'
+        },
+        successMessage: 'hosting inquiry'
+    },
+    'foodForm': {
+        formId: 'YOUR_FOOD_FORM_ID',
+        fields: {
+            'name': 'entry.XXXXXXXXX',
+            'email': 'entry.XXXXXXXXX',
+            'business': 'entry.XXXXXXXXX',
+            'foodType': 'entry.XXXXXXXXX',
+            'details': 'entry.XXXXXXXXX'
+        },
+        successMessage: 'food partnership inquiry'
+    },
+    'artForm': {
+        formId: 'YOUR_ART_FORM_ID',
+        fields: {
+            'name': 'entry.XXXXXXXXX',
+            'email': 'entry.XXXXXXXXX',
+            'artType': 'entry.XXXXXXXXX',
+            'portfolio': 'entry.XXXXXXXXX',
+            'details': 'entry.XXXXXXXXX'
+        },
+        successMessage: 'art collaboration inquiry'
+    },
+    'teamForm': {
+        formId: 'YOUR_TEAM_FORM_ID',
+        fields: {
+            'name': 'entry.XXXXXXXXX',
+            'email': 'entry.XXXXXXXXX',
+            'role': 'entry.XXXXXXXXX',
+            'portfolio': 'entry.XXXXXXXXX',
+            'details': 'entry.XXXXXXXXX'
+        },
+        successMessage: 'application'
+    },
+    'unlimitedForm': {
+        formId: 'YOUR_UNLIMITED_FORM_ID',
+        fields: {
+            'name': 'entry.XXXXXXXXX',
+            'email': 'entry.XXXXXXXXX',
+            'phone': 'entry.XXXXXXXXX',
+            'source': 'entry.XXXXXXXXX'
+        },
+        successMessage: 'unlimited membership signup'
+    },
+    'investorForm': {
+        formId: 'YOUR_INVESTOR_FORM_ID',
+        fields: {
+            'name': 'entry.XXXXXXXXX',
+            'email': 'entry.XXXXXXXXX',
+            'phone': 'entry.XXXXXXXXX',
+            'details': 'entry.XXXXXXXXX',
+            'linkedin': 'entry.XXXXXXXXX'
+        },
+        successMessage: 'investor inquiry'
+    }
 };
 
-Object.keys(formMessages).forEach(formId => {
+// Submit form data to Google Forms via hidden iframe
+function submitToGoogleForm(formId, formData) {
+    const config = googleFormsConfig[formId];
+    if (!config || config.formId.includes('YOUR_')) {
+        // If not configured, just show success (for testing)
+        console.log('Google Form not configured for:', formId, formData);
+        return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+        // Create hidden iframe
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.name = 'hidden_iframe_' + Date.now();
+        document.body.appendChild(iframe);
+
+        // Create form targeting the iframe
+        const submitForm = document.createElement('form');
+        submitForm.target = iframe.name;
+        submitForm.method = 'POST';
+        submitForm.action = `https://docs.google.com/forms/d/e/${config.formId}/formResponse`;
+
+        // Map form fields to Google Form entry IDs
+        Object.keys(config.fields).forEach(fieldName => {
+            if (formData[fieldName] !== undefined) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = config.fields[fieldName];
+                input.value = formData[fieldName] || '';
+                submitForm.appendChild(input);
+            }
+        });
+
+        document.body.appendChild(submitForm);
+        submitForm.submit();
+
+        // Clean up after submission
+        setTimeout(() => {
+            document.body.removeChild(iframe);
+            document.body.removeChild(submitForm);
+            resolve();
+        }, 1000);
+    });
+}
+
+// Form submission handlers for all modals
+Object.keys(googleFormsConfig).forEach(formId => {
     const form = document.getElementById(formId);
     if (form) {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
-
-            // Get the modal ID from form ID
+            const config = googleFormsConfig[formId];
             const modalId = formId.replace('Form', 'Modal');
 
-            alert(`Thanks ${data.name}! We've received your ${formMessages[formId]}. We'll get back to you within a few days.`);
-            closeModal(modalId);
-            this.reset();
+            // Disable submit button while processing
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            try {
+                await submitToGoogleForm(formId, data);
+                alert(`Thanks ${data.name}! We've received your ${config.successMessage}. We'll get back to you within a few days.`);
+                closeModal(modalId);
+                this.reset();
+            } catch (error) {
+                console.error('Form submission error:', error);
+                alert('There was an error submitting the form. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
         });
     }
 });
