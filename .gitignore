@@ -14,3 +14,5 @@ Thumbs.db
 # Local development
 .env
 .env.local
+
+.mp4e

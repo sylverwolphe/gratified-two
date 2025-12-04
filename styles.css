@@ -1418,31 +1418,32 @@ footer a:hover {
 .theme-toggle-icon {
     position: absolute;
     transform: rotate(-45deg);
-    font-size: 22px;
+    width: 22px;
+    height: 22px;
     transition: all 0.4s ease;
 }
 
-.theme-toggle-icon.sun {
+.theme-toggle-icon.light {
     color: var(--rich-saffron);
-    opacity: 1;
-    transform: rotate(-45deg) scale(1);
-}
-
-.theme-toggle-icon.moon {
-    color: var(--dusty-rose);
     opacity: 0;
     transform: rotate(-45deg) scale(0.5);
+}
+
+.theme-toggle-icon.dark {
+    color: var(--dusty-rose);
+    opacity: 1;
+    transform: rotate(-45deg) scale(1);
 }
 
 /* Dark theme toggle states */
-[data-theme="dark"] .theme-toggle-icon.sun {
-    opacity: 0;
-    transform: rotate(-45deg) scale(0.5);
-}
-
-[data-theme="dark"] .theme-toggle-icon.moon {
+[data-theme="dark"] .theme-toggle-icon.light {
     opacity: 1;
     transform: rotate(-45deg) scale(1);
+}
+
+[data-theme="dark"] .theme-toggle-icon.dark {
+    opacity: 0;
+    transform: rotate(-45deg) scale(0.5);
 }
 
 @media (max-width: 768px) {
@@ -1454,7 +1455,8 @@ footer a:hover {
     }
 
     .theme-toggle-icon {
-        font-size: 18px;
+        width: 18px;
+        height: 18px;
     }
 }
 
