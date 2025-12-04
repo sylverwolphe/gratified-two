@@ -217,7 +217,7 @@ body {
 
 .tagline {
     font-size: 28px;
-    color: var(--deep-teal);
+    color: var(--olive-bronze);
     font-weight: 400;
     letter-spacing: 4px;
 }
@@ -2071,7 +2071,7 @@ footer a:hover {
     display: block;
     width: 20px;
     height: 3px;
-    background-color: var(--drink-nav-color, var(--dusty-rose));
+    background-color: var(--deep-teal);
     border-radius: 1px;
 }
 
@@ -2080,23 +2080,30 @@ footer a:hover {
     display: block;
     width: 20px;
     height: 3px;
-    background-color: var(--drink-nav-color, var(--dusty-rose));
+    background-color: var(--deep-burgundy);
     border-radius: 1px;
-    box-shadow: 0 6px 0 var(--drink-nav-color, var(--dusty-rose));
+    box-shadow: 0 6px 0 var(--deep-burgundy);
     transform: translateY(-3px);
 }
 
 /* Mobile nav icon colors */
 .mobile-nav-icon.icon-diamond {
     color: var(--drink-nav-color, var(--dusty-rose));
+    width: 24px;
+    height: 24px;
+    transform: rotate(45deg);
 }
 
 .mobile-nav-icon.icon-bronze {
-    color: var(--olive-bronze);
+    color: #CD7F32;
+    width: 24px;
+    height: 24px;
 }
 
 .mobile-nav-icon.icon-yellow {
     color: var(--rich-saffron);
+    width: 24px;
+    height: 24px;
 }
 
 /* Mobile nav active state */
