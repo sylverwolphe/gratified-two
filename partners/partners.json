@@ -9,6 +9,11 @@
       "name": "TimeCube",
       "logo": "timecube.png",
       "url": ""
+    },
+    {
+      "name": "CoRo",
+      "logo": "corologo.png",
+      "url": "https://www.corocoffee.com/"
     }
   ]
 }
