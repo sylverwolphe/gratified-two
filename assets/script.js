@@ -130,15 +130,18 @@ async function loadPartnerLogos() {
 
 document.addEventListener('DOMContentLoaded', loadPartnerLogos);
 
-// Spice Dust Particle System with drink-based colors
-(function initSpiceDust() {
+// Multi-Mode Particle System with drink-based colors
+// Modes: 'dots' (original), 'diamonds', 'steam'
+(function initParticleSystem() {
     const canvas = document.getElementById('spice-canvas');
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     let particles = [];
 
-    const PARTICLE_COUNT = 200;
+    // Current particle mode - can be toggled
+    let particleMode = 'steam'; // 'dots', 'diamonds', 'steam', 'dust', 'grounds'
+    const PARTICLE_COUNTS = { dots: 200, diamonds: 200, steam: 120, dust: 150, grounds: 100 };
 
     // Logo colors for each drink - theme awarthree for accessibility
     const drinkLogoColorsLight = {
@@ -307,30 +310,108 @@ document.addEventListener('DOMContentLoaded', loadPartnerLogos);
         }
     }
 
-    function createParticle() {
+    function createParticle(randomizeLife = true) {
         const color = currentColors[Math.floor(Math.random() * currentColors.length)];
-        // Use larger sizes to simulate blur effect (better cross-browser than ctx.filter)
-        const baseSize = Math.random() * 4 + 2;
-        return {
+
+        // Base particle properties shared across modes
+        const particle = {
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            size: baseSize,
-            speedX: (Math.random() - 0.5) * 0.3,
-            speedY: Math.random() * 0.2 + 0.05,
-            opacity: Math.random() * 0.25 + 0.08,  // Lower opacity for soft look
             color: { ...color },
             targetColor: { ...color },
-            colorIndex: Math.floor(Math.random() * currentColors.length),
-            wobble: Math.random() * Math.PI * 2,
-            wobbleSpeed: Math.random() * 0.02 + 0.005
+            colorIndex: Math.floor(Math.random() * currentColors.length)
         };
+
+        // Mode-specific properties
+        if (particleMode === 'dots') {
+            particle.size = Math.random() * 4 + 2;
+            particle.speedX = (Math.random() - 0.5) * 0.3;
+            particle.speedY = Math.random() * 0.2 + 0.05; // Falling down
+            particle.opacity = Math.random() * 0.25 + 0.08;
+            particle.wobble = Math.random() * Math.PI * 2;
+            particle.wobbleSpeed = Math.random() * 0.02 + 0.005;
+        } else if (particleMode === 'diamonds') {
+            particle.size = Math.random() * 4 + 2;
+            particle.speedX = (Math.random() - 0.5) * 0.3;
+            particle.speedY = Math.random() * 0.2 + 0.05; // Falling down
+            particle.opacity = Math.random() * 0.25 + 0.08;
+            particle.wobble = Math.random() * Math.PI * 2;
+            particle.wobbleSpeed = Math.random() * 0.02 + 0.005;
+            particle.rotation = Math.random() * Math.PI * 2;
+        } else if (particleMode === 'steam') {
+            particle.size = Math.random() * 6 + 3;
+            particle.originalSize = particle.size;
+            particle.y = canvas.height + Math.random() * 50; // Start from bottom
+            particle.speedY = -(Math.random() * 0.4 + 0.2); // Rising up
+            particle.curlOffset = Math.random() * Math.PI * 2;
+            particle.curlSpeed = Math.random() * 0.008 + 0.003;
+            particle.curlAmplitude = Math.random() * 40 + 20;
+            particle.life = randomizeLife ? Math.floor(Math.random() * 400) : 0;
+            particle.maxLife = Math.random() * 400 + 300;
+        } else if (particleMode === 'dust') {
+            particle.size = Math.random() * 3 + 1.5; // Smaller, matte particles
+            particle.opacity = Math.random() * 0.35 + 0.15; // More visible, no glow
+            // Mostly horizontal drift with gentle vertical
+            particle.speedX = (Math.random() - 0.5) * 0.4;
+            particle.speedY = (Math.random() - 0.5) * 0.15;
+            // Swirl parameters - like dust caught in light
+            particle.swirlPhase = Math.random() * Math.PI * 2;
+            particle.swirlSpeed = Math.random() * 0.01 + 0.005;
+            particle.swirlRadius = Math.random() * 15 + 5;
+            // Occasional direction changes
+            particle.directionTimer = Math.floor(Math.random() * 200);
+            particle.directionInterval = Math.floor(Math.random() * 300) + 200;
+        } else if (particleMode === 'grounds') {
+            // Coffee grounds - irregular sizes, very slow, some sink some float
+            particle.size = Math.random() * 2.5 + 1; // Small irregular particles
+            particle.opacity = Math.random() * 0.4 + 0.2; // More visible
+            // Very slow movement
+            particle.speedX = (Math.random() - 0.5) * 0.08;
+            // Most sink slowly, some float up slightly
+            particle.speedY = Math.random() < 0.7
+                ? Math.random() * 0.12 + 0.02  // Sinking (70%)
+                : -(Math.random() * 0.05 + 0.01); // Floating up (30%)
+            // Irregular wobble
+            particle.wobble = Math.random() * Math.PI * 2;
+            particle.wobbleSpeed = Math.random() * 0.008 + 0.002;
+            particle.wobbleAmount = Math.random() * 0.3 + 0.1;
+            // Rotation for non-circular appearance
+            particle.rotation = Math.random() * Math.PI * 2;
+            particle.rotationSpeed = (Math.random() - 0.5) * 0.01;
+            // Elongation factor for irregular shapes
+            particle.stretch = Math.random() * 0.5 + 0.8;
+        }
+
+        return particle;
     }
 
     function init() {
         resize();
         particles = [];
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-            particles.push(createParticle());
+        const count = PARTICLE_COUNTS[particleMode] || 150;
+        for (let i = 0; i < count; i++) {
+            particles.push(createParticle(true));
+        }
+    }
+
+    // Switch particle mode and reinitialize
+    window.setParticleMode = function(mode) {
+        if (['dots', 'diamonds', 'steam', 'dust', 'grounds'].includes(mode)) {
+            particleMode = mode;
+            init();
+            updateToggleButton();
+        }
+    };
+
+    window.getParticleMode = function() {
+        return particleMode;
+    };
+
+    function updateToggleButton() {
+        const btn = document.getElementById('particleToggle');
+        if (btn) {
+            const labels = { dots: 'Dots', diamonds: 'Diamonds', steam: 'Steam', dust: 'Spice Dust', grounds: 'Coffee Grounds' };
+            btn.textContent = `Particles: ${labels[particleMode]}`;
         }
     }
 
@@ -357,45 +438,224 @@ document.addEventListener('DOMContentLoaded', loadPartnerLogos);
         // Smooth scroll interpolation for parallax
         scrollY += (targetScrollY - scrollY) * 0.1;
 
-        particles.forEach(p => {
-            p.wobble += p.wobbleSpeed;
-
+        particles.forEach((p) => {
             // Smoothly transition particle color toward target
             p.color = lerpColor(p.color, p.targetColor, colorTransitionSpeed);
 
-            // Move
-            p.x += p.speedX + Math.sin(p.wobble) * 0.2;
-            p.y += p.speedY;
+            if (particleMode === 'dots') {
+                // === DOTS MODE ===
+                p.wobble += p.wobbleSpeed;
+                p.x += p.speedX + Math.sin(p.wobble) * 0.2;
+                p.y += p.speedY;
 
-            // Wrap edges
-            if (p.y > canvas.height + 10) {
-                p.y = -10;
-                p.x = Math.random() * canvas.width;
-                // When particle resets, pick new target color from current palette
-                p.colorIndex = Math.floor(Math.random() * targetColors.length);
-                p.targetColor = { ...targetColors[p.colorIndex] };
+                // Wrap edges
+                if (p.y > canvas.height + 10) {
+                    p.y = -10;
+                    p.x = Math.random() * canvas.width;
+                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                    p.targetColor = { ...targetColors[p.colorIndex] };
+                }
+                if (p.x > canvas.width + 10) p.x = -10;
+                if (p.x < -10) p.x = canvas.width + 10;
+
+                const depthFactor = (p.size / 6) * parallaxStrength;
+                const parallaxOffsetY = scrollY * depthFactor;
+
+                const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${p.opacity})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y - parallaxOffsetY, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = colorStr;
+                ctx.shadowColor = colorStr;
+                ctx.shadowBlur = p.size * 2;
+                ctx.fill();
+
+            } else if (particleMode === 'diamonds') {
+                // === DIAMONDS MODE ===
+                p.wobble += p.wobbleSpeed;
+                p.x += p.speedX + Math.sin(p.wobble) * 0.2;
+                p.y += p.speedY;
+
+                // Wrap edges
+                if (p.y > canvas.height + 10) {
+                    p.y = -10;
+                    p.x = Math.random() * canvas.width;
+                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                    p.targetColor = { ...targetColors[p.colorIndex] };
+                }
+                if (p.x > canvas.width + 10) p.x = -10;
+                if (p.x < -10) p.x = canvas.width + 10;
+
+                const depthFactor = (p.size / 6) * parallaxStrength;
+                const parallaxOffsetY = scrollY * depthFactor;
+                const x = p.x;
+                const y = p.y - parallaxOffsetY;
+                const size = p.size * 1.5;
+
+                const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${p.opacity})`;
+
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(Math.PI / 4 + p.wobble * 0.1);
+                ctx.beginPath();
+                ctx.rect(-size / 2, -size / 2, size, size);
+                ctx.fillStyle = colorStr;
+                ctx.shadowColor = colorStr;
+                ctx.shadowBlur = p.size * 2;
+                ctx.fill();
+                ctx.restore();
+
+            } else if (particleMode === 'steam') {
+                // === STEAM MODE ===
+                p.life++;
+                p.curlOffset += p.curlSpeed;
+                const curlX = Math.sin(p.curlOffset) * p.curlAmplitude * (p.life / p.maxLife);
+                p.y += p.speedY;
+
+                const lifeRatio = p.life / p.maxLife;
+                let opacity;
+                if (lifeRatio < 0.1) {
+                    opacity = (lifeRatio / 0.1) * 0.15;
+                } else if (lifeRatio > 0.7) {
+                    opacity = ((1 - lifeRatio) / 0.3) * 0.15;
+                } else {
+                    opacity = 0.15;
+                }
+
+                p.size = p.originalSize * (1 + lifeRatio * 0.5);
+
+                if (p.life >= p.maxLife || p.y < -50) {
+                    p.x = Math.random() * canvas.width;
+                    p.y = canvas.height + Math.random() * 50;
+                    p.life = 0;
+                    p.maxLife = Math.random() * 400 + 300;
+                    p.curlOffset = Math.random() * Math.PI * 2;
+                    p.curlAmplitude = Math.random() * 40 + 20;
+                    p.size = p.originalSize;
+                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                    p.targetColor = { ...targetColors[p.colorIndex] };
+                }
+
+                const depthFactor = (p.originalSize / 8) * parallaxStrength;
+                const parallaxOffsetY = scrollY * depthFactor;
+                const x = p.x + curlX;
+                const y = p.y - parallaxOffsetY;
+
+                const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${opacity})`;
+                const gradient = ctx.createRadialGradient(x, y, 0, x, y, p.size);
+                gradient.addColorStop(0, colorStr);
+                gradient.addColorStop(0.5, `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${opacity * 0.5})`);
+                gradient.addColorStop(1, `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, 0)`);
+
+                ctx.beginPath();
+                ctx.arc(x, y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+            } else if (particleMode === 'dust') {
+                // === SPICE DUST MODE ===
+                // Update swirl phase
+                p.swirlPhase += p.swirlSpeed;
+
+                // Occasional direction changes (like air currents)
+                p.directionTimer++;
+                if (p.directionTimer >= p.directionInterval) {
+                    p.directionTimer = 0;
+                    p.directionInterval = Math.floor(Math.random() * 300) + 200;
+                    // Gentle direction shift
+                    p.speedX += (Math.random() - 0.5) * 0.2;
+                    p.speedY += (Math.random() - 0.5) * 0.1;
+                    // Clamp speeds
+                    p.speedX = Math.max(-0.5, Math.min(0.5, p.speedX));
+                    p.speedY = Math.max(-0.2, Math.min(0.2, p.speedY));
+                }
+
+                // Apply swirl motion (dust caught in light beams)
+                const swirlX = Math.sin(p.swirlPhase) * p.swirlRadius * 0.02;
+                const swirlY = Math.cos(p.swirlPhase * 0.7) * p.swirlRadius * 0.01;
+
+                p.x += p.speedX + swirlX;
+                p.y += p.speedY + swirlY;
+
+                // Wrap edges smoothly
+                if (p.x > canvas.width + 20) {
+                    p.x = -20;
+                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                    p.targetColor = { ...targetColors[p.colorIndex] };
+                }
+                if (p.x < -20) {
+                    p.x = canvas.width + 20;
+                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                    p.targetColor = { ...targetColors[p.colorIndex] };
+                }
+                if (p.y > canvas.height + 20) {
+                    p.y = -20;
+                }
+                if (p.y < -20) {
+                    p.y = canvas.height + 20;
+                }
+
+                const depthFactor = (p.size / 4) * parallaxStrength;
+                const parallaxOffsetY = scrollY * depthFactor;
+
+                // Draw matte particle (no glow, solid fill)
+                const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${p.opacity})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y - parallaxOffsetY, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = colorStr;
+                ctx.fill();
+
+            } else if (particleMode === 'grounds') {
+                // === COFFEE GROUNDS MODE ===
+                // Update wobble and rotation
+                p.wobble += p.wobbleSpeed;
+                p.rotation += p.rotationSpeed;
+
+                // Very slow drift with subtle wobble
+                p.x += p.speedX + Math.sin(p.wobble) * p.wobbleAmount;
+                p.y += p.speedY;
+
+                // Wrap edges - respawn at top if sinking, bottom if floating
+                if (p.y > canvas.height + 20) {
+                    p.y = -20;
+                    p.x = Math.random() * canvas.width;
+                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                    p.targetColor = { ...targetColors[p.colorIndex] };
+                }
+                if (p.y < -20) {
+                    p.y = canvas.height + 20;
+                    p.x = Math.random() * canvas.width;
+                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                    p.targetColor = { ...targetColors[p.colorIndex] };
+                }
+                if (p.x > canvas.width + 20) p.x = -20;
+                if (p.x < -20) p.x = canvas.width + 20;
+
+                const depthFactor = (p.size / 3) * parallaxStrength;
+                const parallaxOffsetY = scrollY * depthFactor;
+                const x = p.x;
+                const y = p.y - parallaxOffsetY;
+
+                // Draw irregular shaped particle (stretched ellipse)
+                const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${p.opacity})`;
+
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(p.rotation);
+                ctx.scale(1, p.stretch); // Stretch to make irregular
+
+                ctx.beginPath();
+                ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = colorStr;
+                ctx.fill();
+
+                ctx.restore();
             }
-            if (p.x > canvas.width + 10) p.x = -10;
-            if (p.x < -10) p.x = canvas.width + 10;
-
-            // Apply parallax offset based on particle depth
-            const depthFactor = (p.size / 6) * parallaxStrength;
-            const parallaxOffsetY = scrollY * depthFactor;
-
-            // Draw particle
-            const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${p.opacity})`;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y - parallaxOffsetY, p.size, 0, Math.PI * 2);
-            ctx.fillStyle = colorStr;
-
-            // Apply shadow blur
-            ctx.shadowColor = colorStr;
-            ctx.shadowBlur = p.size * 2;
-            ctx.fill();
         });
 
-        // Reset shadow after drawing all particles
-        ctx.shadowBlur = 0;
+        // Reset shadow after dots/diamonds
+        if (particleMode === 'dots' || particleMode === 'diamonds') {
+            ctx.shadowBlur = 0;
+        }
 
         requestAnimationFrame(animate);
     }

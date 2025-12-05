@@ -14,6 +14,17 @@
     <div class="grain-overlay"></div>
     <div class="ancient-pattern"></div>
 
+    <!-- Temporary Particle Toggle Button -->
+    <button class="particle-toggle" id="particleToggle" onclick="cycleParticleMode()">Particles: Steam</button>
+    <script>
+        function cycleParticleMode() {
+            const modes = ['dots', 'diamonds', 'steam', 'dust', 'grounds'];
+            const current = window.getParticleMode ? window.getParticleMode() : 'steam';
+            const nextIndex = (modes.indexOf(current) + 1) % modes.length;
+            if (window.setParticleMode) window.setParticleMode(modes[nextIndex]);
+        }
+    </script>
+
     <!-- Main Navigation -->
     <nav class="main-nav" id="mainNav">
         <a href="#landing" class="nav-link active" data-page="landing">Home</a>

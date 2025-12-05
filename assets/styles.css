@@ -1467,6 +1467,38 @@ footer a:hover {
     }
 }
 
+/* ===== TEMPORARY PARTICLE TOGGLE ===== */
+.particle-toggle {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    z-index: 9999;
+    padding: 10px 16px;
+    background-color: var(--card-bg);
+    border: 2px solid var(--dusty-rose);
+    color: var(--charcoal-ink);
+    font-family: 'Satoshi', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.particle-toggle:hover {
+    opacity: 1;
+    border-color: var(--rich-saffron);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .particle-toggle {
+        bottom: 90px;
+        right: 10px;
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+}
+
 /* ===== MOBILE BOTTOM NAVBAR ===== */
 .mobile-navbar {
     display: none;
