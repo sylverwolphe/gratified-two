@@ -47,8 +47,13 @@ Added accessible labels to mobile navbar in `index.html`:
 - `aria-label="Mobile navigation"` on the `<nav>` element
 - `aria-hidden="true"` on decorative SVG icons
 
-### 6. Modals Need Focus Trapping
-When a modal opens, focus can escape to background elements. Implement focus trapping to keep keyboard navigation within the modal.
+### ~~6. Modals Need Focus Trapping~~ ✓ FIXED
+Implemented comprehensive focus management in `modals.js`:
+- Focus traps Tab/Shift+Tab within modal boundaries
+- Auto-focuses close button (or first focusable element) when modal opens
+- Restores focus to triggering element when modal closes
+- Escape key closes any open modal
+- Works for all form modals and project modal
 
 ### 7. Missing `aria-live` Regions
 Form submission success/error messages use `alert()` which interrupts screen readers. Consider using `aria-live="polite"` regions instead.
@@ -111,19 +116,8 @@ All form IDs are placeholders (`YOUR_*_FORM_ID`). Forms will silently "succeed" 
 ### ~~3. Substack Posts Fail Silently~~ ✓ REMOVED
 Feature removed entirely as it was unused. Substack links remain as direct links to the Substack page.
 
-### 4. Missing Project Modal Close on Escape
-Users can't close modals with the Escape key. Add:
-```javascript
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        // Close any open modal
-        document.querySelectorAll('.modal-overlay.active').forEach(modal => {
-            modal.classList.remove('active');
-        });
-        document.body.style.overflow = 'auto';
-    }
-});
-```
+### ~~4. Missing Project Modal Close on Escape~~ ✓ FIXED
+Escape key now closes any open modal. Implemented as part of the focus trapping system in `modals.js`.
 
 ### 5. Drink Detail View State Persists
 If you select a drink, navigate away, and come back, the detail view state isn't reset. Consider resetting when navigating away from the menu page.
@@ -221,7 +215,7 @@ Values like `transitionDuration = 500` and various pixel values could be CSS var
 - [x] Add `for` attributes to all form labels
 - [x] Add focus styles for interactive elements
 - [x] Add `aria-label` to mobile nav items
-- [ ] Add Escape key handler for modals
+- [x] Add Escape key handler for modals
 - [ ] Remove or hide the particle toggle button before launch
 - [ ] Add `font-display: swap` to @font-face rules
 - [ ] Add Open Graph meta tags

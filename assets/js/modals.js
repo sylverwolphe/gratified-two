@@ -1,5 +1,91 @@
 // ===== MODALS, FORMS, AND UI COMPONENTS =====
 
+// ===== FOCUS TRAPPING FOR ACCESSIBILITY =====
+let lastFocusedElement = null;
+let currentTrapModal = null;
+
+// Get all focusable elements within a container
+function getFocusableElements(container) {
+    const focusableSelectors = [
+        'button:not([disabled])',
+        'a[href]',
+        'input:not([disabled])',
+        'select:not([disabled])',
+        'textarea:not([disabled])',
+        '[tabindex]:not([tabindex="-1"])'
+    ].join(', ');
+    return Array.from(container.querySelectorAll(focusableSelectors));
+}
+
+// Trap focus within a modal (only on Tab key)
+function trapFocus(e) {
+    if (e.key !== 'Tab' || !currentTrapModal) return;
+
+    const focusable = getFocusableElements(currentTrapModal);
+    if (focusable.length === 0) return;
+
+    const firstFocusable = focusable[0];
+    const lastFocusable = focusable[focusable.length - 1];
+
+    if (e.shiftKey && document.activeElement === firstFocusable) {
+        e.preventDefault();
+        lastFocusable.focus();
+    } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+        e.preventDefault();
+        firstFocusable.focus();
+    }
+}
+
+// Handle Escape key to close modals
+function handleEscapeKey(e) {
+    if (e.key === 'Escape') {
+        // Check for active modals and close them
+        const activeModal = document.querySelector('.modal-overlay.active');
+        if (activeModal) {
+            const modalId = activeModal.id;
+            if (modalId === 'projectModal') {
+                closeProjectModal();
+            } else {
+                closeModal(modalId);
+            }
+        }
+    }
+}
+
+// Set up focus trap for a modal
+function enableFocusTrap(modal) {
+    lastFocusedElement = document.activeElement;
+    currentTrapModal = modal;
+
+    // Focus the close button or first focusable element
+    const closeBtn = modal.querySelector('.modal-close');
+    const focusable = getFocusableElements(modal);
+
+    setTimeout(() => {
+        if (closeBtn) {
+            closeBtn.focus();
+        } else if (focusable.length > 0) {
+            focusable[0].focus();
+        }
+    }, 50);
+
+    document.addEventListener('keydown', trapFocus);
+}
+
+// Remove focus trap and restore focus
+function disableFocusTrap() {
+    document.removeEventListener('keydown', trapFocus);
+    currentTrapModal = null;
+
+    if (lastFocusedElement) {
+        lastFocusedElement.focus();
+        lastFocusedElement = null;
+    }
+}
+
+// Global Escape key listener
+document.addEventListener('keydown', handleEscapeKey);
+
 // Team Section Toggle
 function toggleTeam() {
     const content = document.getElementById('teamContent');
@@ -31,13 +117,16 @@ function scrollToSection(sectionId) {
 
 // Modal Functions
 function openModal(modalId) {
-    document.getElementById(modalId).classList.add('active');
+    const modal = document.getElementById(modalId);
+    modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    enableFocusTrap(modal);
 }
 
 function closeModal(modalId) {
     document.getElementById(modalId).classList.remove('active');
     document.body.style.overflow = 'auto';
+    disableFocusTrap();
 }
 
 // Close modals when clicking outside
@@ -282,10 +371,12 @@ const ticker = new DollarTicker('ticker', {
 
 // Project Modal Functions
 function openProjectModal(projectData) {
+    const modal = document.getElementById('projectModal');
     document.getElementById('projectTitle').textContent = projectData.title;
     document.getElementById('projectContent').innerHTML = projectData.content;
-    document.getElementById('projectModal').classList.add('active');
+    modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    enableFocusTrap(modal);
 
     if (projectData.title === 'Parallel') {
         modalCurrentSlide = 0;
@@ -297,6 +388,7 @@ function closeProjectModal() {
     clearInterval(modalSlideInterval);
     document.getElementById('projectModal').classList.remove('active');
     document.body.style.overflow = 'auto';
+    disableFocusTrap();
 }
 
 // Close project modal when clicking outside
