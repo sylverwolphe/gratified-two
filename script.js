@@ -138,12 +138,7 @@ document.addEventListener('DOMContentLoaded', loadPartnerLogos);
     const ctx = canvas.getContext('2d');
     let particles = [];
 
-    // Detect mobile early for performance optimizations
-    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-        || window.innerWidth < 768;
-
-    // Reduced particle count on mobile for better performance
-    const PARTICLE_COUNT = isMobileDevice ? 80 : 200;
+    const PARTICLE_COUNT = 200;
 
     // Logo colors for each drink - theme awarthree for accessibility
     const drinkLogoColorsLight = {
@@ -272,13 +267,10 @@ document.addEventListener('DOMContentLoaded', loadPartnerLogos);
     let targetScrollY = 0;
     const parallaxStrength = 0.15; // How much particles shift based on scroll
 
-    // Use the mobile detection from above
-    const isMobile = isMobileDevice;
-
     // Tab visibility - reduce updates when tab is hidden
     let isTabActive = true;
     let lastFrameTime = 0;
-    const activeFrameInterval = isMobile ? 1000 / 30 : 1000 / 60;  // 30fps on mobile, 60fps on desktop
+    const activeFrameInterval = 1000 / 60;  // 60fps
     const inactiveFrameInterval = 1000 / 10; // 10fps when inactive
 
     document.addEventListener('visibilitychange', () => {
@@ -386,12 +378,9 @@ document.addEventListener('DOMContentLoaded', loadPartnerLogos);
             if (p.x > canvas.width + 10) p.x = -10;
             if (p.x < -10) p.x = canvas.width + 10;
 
-            // Apply parallax offset based on particle depth (skip on mobile for performance)
-            let parallaxOffsetY = 0;
-            if (!isMobile) {
-                const depthFactor = (p.size / 6) * parallaxStrength;
-                parallaxOffsetY = scrollY * depthFactor;
-            }
+            // Apply parallax offset based on particle depth
+            const depthFactor = (p.size / 6) * parallaxStrength;
+            const parallaxOffsetY = scrollY * depthFactor;
 
             // Draw particle
             const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${p.opacity})`;
@@ -399,18 +388,14 @@ document.addEventListener('DOMContentLoaded', loadPartnerLogos);
             ctx.arc(p.x, p.y - parallaxOffsetY, p.size, 0, Math.PI * 2);
             ctx.fillStyle = colorStr;
 
-            // Only apply shadow blur on desktop (expensive on mobile)
-            if (!isMobile) {
-                ctx.shadowColor = colorStr;
-                ctx.shadowBlur = p.size * 2;
-            }
+            // Apply shadow blur
+            ctx.shadowColor = colorStr;
+            ctx.shadowBlur = p.size * 2;
             ctx.fill();
         });
 
         // Reset shadow after drawing all particles
-        if (!isMobile) {
-            ctx.shadowBlur = 0;
-        }
+        ctx.shadowBlur = 0;
 
         requestAnimationFrame(animate);
     }
