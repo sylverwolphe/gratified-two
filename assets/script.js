@@ -682,6 +682,8 @@ document.addEventListener('DOMContentLoaded', loadPartnerLogos);
         projectsTitle: document.querySelector('#projects .section-title'),
         teamTitle: document.querySelector('#team .section-title'),
         drinkDetailName: document.querySelector('.drink-detail-name'),
+        drinkDetailBack: document.querySelector('.drink-detail-back'),
+        drinkDetailIllustration: document.querySelector('.drink-detail-illustration'),
         menuSection: document.querySelector('#menu'),
         projectsSection: document.querySelector('#projects'),
         teamSection: document.querySelector('#team'),
@@ -714,6 +716,20 @@ document.addEventListener('DOMContentLoaded', loadPartnerLogos);
                 title.style.color = color;
             }
         });
+
+        // Drink detail back button (using CSS variable for hover state support)
+        if (elements.drinkDetailBack) {
+            if (color) {
+                elements.drinkDetailBack.style.setProperty('--btn-color', color);
+            } else {
+                elements.drinkDetailBack.style.removeProperty('--btn-color');
+            }
+        }
+
+        // Drink detail illustration box
+        if (elements.drinkDetailIllustration) {
+            elements.drinkDetailIllustration.style.borderColor = color || '';
+        }
 
         // Section borders (the ::before pseudo-element border)
         [elements.menuSection, elements.projectsSection, elements.teamSection].forEach(section => {
