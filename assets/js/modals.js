@@ -194,34 +194,6 @@ Object.keys(googleFormsConfig).forEach(formId => {
     }
 });
 
-// Load Substack Posts
-async function loadSubstackPosts() {
-    try {
-        const res = await fetch('/latest-posts.json');
-        if (!res.ok) throw new Error('Network response not ok');
-
-        const posts = await res.json();
-        const ul = document.getElementById('substack-posts');
-        ul.innerHTML = '';
-
-        posts.forEach(post => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.href = post.link;
-            a.textContent = post.title;
-            a.target = '_blank';
-            li.appendChild(a);
-            ul.appendChild(li);
-        });
-    } catch (err) {
-        console.error('Failed to load Substack posts:', err);
-        const el = document.getElementById('substack-posts');
-        if (el) el.innerHTML = '<li>Could not load posts.</li>';
-    }
-}
-
-loadSubstackPosts();
-
 // Dollar Ticker Class
 class DollarTicker {
     constructor(containerId, options = {}) {

@@ -120,13 +120,8 @@ The `loadMenuConfig()` will fail when opening the HTML file directly (not on a s
 
 All form IDs are placeholders (`YOUR_*_FORM_ID`). Forms will silently "succeed" but not actually submit data. Replace with actual Google Form IDs or implement an alternative backend.
 
-### 3. Substack Posts Fail Silently
-**Location:** `script.js` line 1032
-
-`loadSubstackPosts()` assumes `/latest-posts.json` exists but there's no such file in the project. Either:
-- Create the file with post data
-- Remove this functionality
-- Add proper error handling UI
+### ~~3. Substack Posts Fail Silently~~ ✓ REMOVED
+Feature removed entirely as it was unused. Substack links remain as direct links to the Substack page.
 
 ### 4. Missing Project Modal Close on Escape
 Users can't close modals with the Escape key. Add:
@@ -218,7 +213,7 @@ Split into 8 modular files in `assets/js/`:
 - `liquid-shader.js` - WebGL liquid effect for coffee cup
 - `menu-loader.js` - Menu config loading and card rendering
 - `drink-detail.js` - Drink detail view and slider
-- `modals.js` - Modal, form handling, ticker, Substack loader
+- `modals.js` - Modal, form handling, ticker, project data
 - `partners-loader.js` - Partner logos loading
 - `navigation.js` - Page navigation system with scroll-snap
 
