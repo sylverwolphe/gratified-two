@@ -1737,6 +1737,11 @@ body {
     opacity: 1;
 }
 
+.scroll-hint.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
 .scroll-hint-text {
     font-size: 12px;
     letter-spacing: 2px;

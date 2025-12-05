@@ -1887,6 +1887,9 @@ const defaultDrink = 'none';
         threshold: 0
     };
 
+    // Scroll hint element
+    const scrollHint = document.querySelector('.scroll-hint');
+
     const pageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -1896,6 +1899,11 @@ const defaultDrink = 'none';
 
                     // Update nav highlighting
                     updateNavActiveStates(pageName);
+
+                    // Show/hide scroll hint based on current page
+                    if (scrollHint) {
+                        scrollHint.classList.toggle('hidden', pageName !== 'landing');
+                    }
 
                     // Update URL hash (debounced to prevent rapid updates)
                     clearTimeout(scrollTimeout);
@@ -1942,7 +1950,6 @@ const defaultDrink = 'none';
     }
 
     // Scroll hint click handler
-    const scrollHint = document.querySelector('.scroll-hint');
     if (scrollHint) {
         scrollHint.addEventListener('click', () => {
             navigateTo('menu');
