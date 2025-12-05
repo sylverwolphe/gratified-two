@@ -41,13 +41,11 @@ Added visible focus styles for keyboard navigation in `styles.css` (lines 116-14
 - Uses `:focus-visible` to hide outline on mouse clicks while preserving keyboard accessibility
 - Covers: nav links, buttons, drink cards, project cards, team members, theme toggle, modals
 
-### 5. Mobile Nav Icons Lack Accessible Labels
-The mobile navbar icons (lines 578-592) have no `aria-label` or visible text for screen readers.
-
-**Fix:**
-```html
-<a href="#landing" class="mobile-nav-item" data-page="landing" aria-label="Home">
-```
+### ~~5. Mobile Nav Icons Lack Accessible Labels~~ ✓ FIXED
+Added accessible labels to mobile navbar in `index.html`:
+- `aria-label` on each nav item (Home, Menu, Subscribe, Partnerships, Buttercup)
+- `aria-label="Mobile navigation"` on the `<nav>` element
+- `aria-hidden="true"` on decorative SVG icons
 
 ### 6. Modals Need Focus Trapping
 When a modal opens, focus can escape to background elements. Implement focus trapping to keep keyboard navigation within the modal.
@@ -222,7 +220,7 @@ Values like `transitionDuration = 500` and various pixel values could be CSS var
 - [ ] Add `<meta name="description">` tag
 - [x] Add `for` attributes to all form labels
 - [x] Add focus styles for interactive elements
-- [ ] Add `aria-label` to mobile nav items
+- [x] Add `aria-label` to mobile nav items
 - [ ] Add Escape key handler for modals
 - [ ] Remove or hide the particle toggle button before launch
 - [ ] Add `font-display: swap` to @font-face rules
