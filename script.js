@@ -5,7 +5,7 @@ let drinkDetails = {};
 
 async function loadMenuConfig() {
     try {
-        const response = await fetch('menu-config.json');
+        const response = await fetch('config/menu-config.json');
         menuConfig = await response.json();
 
         // Build drinkDetails object from config
