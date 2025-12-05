@@ -1791,26 +1791,6 @@ const defaultDrink = 'none';
         observer.observe(menuEl);
     }
 
-    // Also listen for page transitions - resize canvas when menu page becomes active
-    const menuPage = document.getElementById('page-menu');
-    if (menuPage) {
-        const pageObserver = new MutationObserver((mutations) => {
-            mutations.forEach(mutation => {
-                if (mutation.attributeName === 'class') {
-                    if (menuPage.classList.contains('active')) {
-                        // Small delay to ensure the page is fully visible
-                        setTimeout(() => {
-                            resize();
-                            isVisible = true;
-                            startAnimation();
-                        }, 50);
-                    }
-                }
-            });
-        });
-        pageObserver.observe(menuPage, { attributes: true });
-    }
-
     // Start animation
     startAnimation();
 
@@ -1887,9 +1867,6 @@ const defaultDrink = 'none';
         threshold: 0
     };
 
-    // Scroll hint element
-    const scrollHint = document.querySelector('.scroll-hint');
-
     const pageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -1899,11 +1876,6 @@ const defaultDrink = 'none';
 
                     // Update nav highlighting
                     updateNavActiveStates(pageName);
-
-                    // Show/hide scroll hint based on current page
-                    if (scrollHint) {
-                        scrollHint.classList.toggle('hidden', pageName !== 'landing');
-                    }
 
                     // Update URL hash (debounced to prevent rapid updates)
                     clearTimeout(scrollTimeout);
@@ -1950,6 +1922,7 @@ const defaultDrink = 'none';
     }
 
     // Scroll hint click handler
+    const scrollHint = document.querySelector('.scroll-hint');
     if (scrollHint) {
         scrollHint.addEventListener('click', () => {
             navigateTo('menu');

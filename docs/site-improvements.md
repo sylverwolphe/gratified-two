@@ -163,7 +163,11 @@ Add `font-display: swap` to @font-face declarations to prevent Flash of Invisibl
 ### 2. Canvas Rendering
 The particle system and liquid shader both run continuously. The tab visibility check is good, but could be more aggressive:
 - Pause particle system when not on landing/menu page
-- Pause liquid shader when menu section is not visible
+- ~~Pause liquid shader when menu section is not visible~~ ✓ ALREADY IMPLEMENTED
+  - Uses `IntersectionObserver` on `#menu` element (`script.js:1778-1792`)
+  - Sets `isVisible` flag when menu enters/exits viewport
+  - Animation loop stops when `!isVisible` (`script.js:1732-1735`)
+  - Removed obsolete MutationObserver for `.active` class (no longer needed with scroll-snap)
 
 ### 3. Image Lazy Loading
 Partner logos use `loading="lazy"` (good!), but modal slideshow images in the Parallel project don't. Add lazy loading to those images.
@@ -207,14 +211,18 @@ The diamond-shaped slider thumb may be hard to grab on mobile. Consider a larger
 
 ### Suggestions
 
-#### 1. Split script.js (1900 lines)
-Consider splitting into modules:
-- `js/navigation.js` - Page navigation system
-- `js/particles.js` - Particle system
-- `js/liquid-shader.js` - WebGL liquid effect
-- `js/forms.js` - Modal and form handling
-- `js/menu-loader.js` - Menu config loading
-- `js/theme.js` - Theme toggle and drink theming
+#### ~~1. Split script.js (1900 lines)~~ ✓ FIXED
+Split into 8 modular files in `assets/js/`:
+- `theme.js` - Theme toggle (light/dark mode)
+- `particles.js` - Multi-mode particle system with drink theming
+- `liquid-shader.js` - WebGL liquid effect for coffee cup
+- `menu-loader.js` - Menu config loading and card rendering
+- `drink-detail.js` - Drink detail view and slider
+- `modals.js` - Modal, form handling, ticker, Substack loader
+- `partners-loader.js` - Partner logos loading
+- `navigation.js` - Page navigation system with scroll-snap
+
+Old `script.js` can be deleted or kept for reference.
 
 #### 2. Duplicate Color Definitions
 `drinkSpiceColors` appears in both the archived file and current script. The archived version can be left as-is for historical reference.
@@ -250,6 +258,6 @@ Values like `transitionDuration = 500` and various pixel values could be CSS var
 3. Accessibility: ~~Skip link~~, focus trapping
 
 ### Low Priority (Post-Launch)
-1. Code organization: Split script.js
+1. ~~Code organization: Split script.js~~ ✓ DONE
 2. Performance: Batch CSS updates
 3. SEO: Structured data
