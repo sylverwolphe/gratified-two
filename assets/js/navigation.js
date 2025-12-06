@@ -127,12 +127,4 @@
         }, 100);
     }
 
-    // Scroll hint click handler
-    const scrollHint = document.querySelector('.scroll-hint');
-    if (scrollHint) {
-        scrollHint.addEventListener('click', () => {
-            navigateTo('menu');
-        });
-    }
-
 })();
