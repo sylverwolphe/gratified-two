@@ -2103,78 +2103,179 @@ body {
 }
 
 /* ========== PARTNERSHIPS PAGE ========== */
-.partnership-options {
+
+/* Side-by-side layout */
+.partnership-layout {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
     margin-top: 30px;
+    align-items: start;
 }
 
-.partner-card {
+/* Form container */
+.partnership-form-container {
     background-color: var(--card-bg);
     border: 3px solid var(--dusty-rose);
+    padding: 35px 30px;
+}
+
+.partnership-form .form-group {
+    margin-bottom: 20px;
+}
+
+/* Category-specific fields (hidden by default) */
+.category-fields {
+    display: none;
+}
+
+.category-fields.active {
+    display: block;
+}
+
+/* Info card container */
+.partnership-info-container {
+    position: sticky;
+    top: 100px;
+}
+
+.partnership-info-card {
+    background-color: var(--card-bg);
+    border: 3px solid var(--olive-bronze);
     padding: 35px 30px;
     position: relative;
 }
 
-.partner-card::before {
+.partnership-info-card::before {
     content: '';
     position: absolute;
     top: 10px;
     right: 10px;
     bottom: 10px;
     left: 10px;
-    border: 1px solid var(--dusty-rose);
+    border: 1px solid var(--olive-bronze);
     opacity: 0.3;
     pointer-events: none;
 }
 
-.partner-title {
+.info-card-content {
+    position: relative;
+    z-index: 1;
+}
+
+.info-card-title {
     font-family: 'BluuNext', serif;
     font-size: 24px;
     color: var(--dusty-rose);
     margin-bottom: 15px;
 }
 
-.partner-card p {
+.info-card-content p {
     color: var(--charcoal-ink);
-    margin-bottom: 20px;
     line-height: 1.7;
+    margin-bottom: 20px;
 }
 
-.partner-card ul {
+.info-card-content h4 {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dusty-rose);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.info-card-content ul {
     list-style: none;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
-.partner-card li {
-    padding: 8px 0;
+.info-card-content li {
+    padding: 6px 0;
     color: var(--olive-bronze);
     font-size: 14px;
 }
 
-.partner-card li::before {
+.info-card-content li::before {
     content: '→ ';
     color: var(--dusty-rose);
 }
 
-.partner-btn {
-    width: 100%;
-    padding: 14px;
-    background-color: transparent;
-    border: 2px solid var(--dusty-rose);
-    color: var(--dusty-rose);
-    font-family: 'Satoshi', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.info-note {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--olive-bronze);
+    opacity: 0.9;
 }
 
-.partner-btn:hover {
+.info-tag {
+    display: inline-block;
     background-color: var(--dusty-rose);
     color: var(--cream-parchment);
+    font-size: 10px;
+    padding: 2px 8px;
+    margin-left: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Investor tier display */
+.investor-tier {
+    background-color: var(--cream-parchment);
+    border: 2px solid var(--rich-saffron);
+    padding: 20px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.tier-amount {
+    font-family: 'BluuNext', serif;
+    font-size: 36px;
+    color: var(--rich-saffron);
+    margin-bottom: 5px;
+}
+
+.tier-equity {
+    font-size: 14px;
+    color: var(--charcoal-ink);
+    margin-bottom: 5px;
+}
+
+.tier-label {
+    font-size: 12px;
+    color: var(--olive-bronze);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Mobile responsive */
+@media (max-width: 900px) {
+    .partnership-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .partnership-info-container {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .partnership-form-container,
+    .partnership-info-card {
+        padding: 25px 20px;
+    }
+
+    .info-card-title {
+        font-size: 20px;
+    }
+
+    .tier-amount {
+        font-size: 28px;
+    }
 }
 
 .partners-note {

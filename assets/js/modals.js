@@ -29,6 +29,128 @@ function showNotification(message, type = 'success') {
     }, 5000);
 }
 
+// ===== UNIFIED PARTNERSHIP FORM =====
+const partnershipCategorySelect = document.getElementById('partner-category');
+const partnershipSubmitBtn = document.getElementById('partnershipSubmit');
+const partnershipInfoCard = document.getElementById('partnershipInfoCard');
+
+const categorySubmitText = {
+    'host': 'Send Hosting Inquiry',
+    'food': 'Send Partnership Inquiry',
+    'art': 'Send Collaboration Inquiry',
+    'team': 'Submit Application',
+    'investor': 'Request Investment Info'
+};
+
+if (partnershipCategorySelect) {
+    partnershipCategorySelect.addEventListener('change', function() {
+        const selectedCategory = this.value;
+
+        // Update category-specific form fields
+        document.querySelectorAll('.category-fields').forEach(field => {
+            field.classList.remove('active');
+        });
+        if (selectedCategory) {
+            const activeFields = document.querySelector(`.category-fields[data-category="${selectedCategory}"]`);
+            if (activeFields) {
+                activeFields.classList.add('active');
+            }
+        }
+
+        // Update info card
+        if (partnershipInfoCard) {
+            partnershipInfoCard.querySelectorAll('.info-card-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            const targetContent = partnershipInfoCard.querySelector(
+                `.info-card-content[data-category="${selectedCategory || 'default'}"]`
+            );
+            if (targetContent) {
+                targetContent.style.display = 'block';
+            }
+        }
+
+        // Update submit button
+        if (partnershipSubmitBtn) {
+            if (selectedCategory && categorySubmitText[selectedCategory]) {
+                partnershipSubmitBtn.disabled = false;
+                partnershipSubmitBtn.textContent = categorySubmitText[selectedCategory];
+            } else {
+                partnershipSubmitBtn.disabled = true;
+                partnershipSubmitBtn.textContent = 'Select a category above';
+            }
+        }
+    });
+}
+
+// Partnership form submission
+const partnershipForm = document.getElementById('partnershipForm');
+if (partnershipForm) {
+    partnershipForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        const category = data.category;
+
+        if (!category) {
+            showNotification('Please select a category first.', 'error');
+            return;
+        }
+
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+
+        try {
+            // Map to appropriate Google Form based on category
+            const formIdMap = {
+                'host': 'hostForm',
+                'food': 'foodForm',
+                'art': 'artForm',
+                'team': 'teamForm',
+                'investor': 'investorForm'
+            };
+
+            const targetFormId = formIdMap[category];
+            if (targetFormId && typeof submitToGoogleForm === 'function') {
+                await submitToGoogleForm(targetFormId, data);
+            }
+
+            const successMessages = {
+                'host': 'hosting inquiry',
+                'food': 'food partnership inquiry',
+                'art': 'art collaboration inquiry',
+                'team': 'application',
+                'investor': 'investor inquiry'
+            };
+
+            showNotification(
+                `Thanks ${data.name}! We've received your ${successMessages[category]}. We'll get back to you within a few days.`,
+                'success'
+            );
+            this.reset();
+
+            // Reset form state
+            document.querySelectorAll('.category-fields').forEach(f => f.classList.remove('active'));
+            if (partnershipInfoCard) {
+                partnershipInfoCard.querySelectorAll('.info-card-content').forEach(c => c.style.display = 'none');
+                const defaultContent = partnershipInfoCard.querySelector('.info-card-content[data-category="default"]');
+                if (defaultContent) defaultContent.style.display = 'block';
+            }
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Select a category above';
+
+        } catch (error) {
+            console.error('Form submission error:', error);
+            showNotification('There was an error submitting the form. Please try again.', 'error');
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
+    });
+}
+
 // ===== FOCUS TRAPPING FOR ACCESSIBILITY =====
 let lastFocusedElement = null;
 let currentTrapModal = null;
@@ -159,7 +281,7 @@ function closeModal(modalId) {
 }
 
 // Close modals when clicking outside
-['hostModal', 'foodModal', 'artModal', 'teamModal', 'unlimitedModal', 'investorModal'].forEach(modalId => {
+['unlimitedModal'].forEach(modalId => {
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.addEventListener('click', function(e) {
