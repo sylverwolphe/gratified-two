@@ -1606,7 +1606,6 @@ footer a:hover {
     text-decoration: none;
     color: var(--charcoal-ink);
     padding: 8px 16px;
-    border-radius: 8px;
     transition: all 0.3s ease;
     min-width: 60px;
 }
