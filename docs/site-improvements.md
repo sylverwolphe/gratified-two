@@ -55,8 +55,15 @@ Implemented comprehensive focus management in `modals.js`:
 - Escape key closes any open modal
 - Works for all form modals and project modal
 
-### 7. Missing `aria-live` Regions
-Form submission success/error messages use `alert()` which interrupts screen readers. Consider using `aria-live="polite"` regions instead.
+### ~~7. Missing `aria-live` Regions~~ ✓ FIXED
+~~Form submission success/error messages use `alert()` which interrupts screen readers. Consider using `aria-live="polite"` regions instead.~~
+
+Replaced `alert()` calls with accessible toast notifications:
+- Added `#formNotification` element with `role="status"` and `aria-live="polite"` in `index.html`
+- Added `.form-notification` toast styles in `styles.css` (lines 556-598)
+- Added `showNotification()` helper function in `modals.js` (lines 3-30)
+- Success messages use olive-bronze accent, error messages use dusty-rose accent
+- Toast auto-dismisses after 5 seconds
 
 ---
 
@@ -216,6 +223,7 @@ Values like `transitionDuration = 500` and various pixel values could be CSS var
 - [x] Add focus styles for interactive elements
 - [x] Add `aria-label` to mobile nav items
 - [x] Add Escape key handler for modals
+- [x] Replace `alert()` with `aria-live` notifications for forms
 - [ ] Remove or hide the particle toggle button before launch
 - [ ] Add `font-display: swap` to @font-face rules
 - [ ] Add Open Graph meta tags

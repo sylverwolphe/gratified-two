@@ -553,6 +553,50 @@ footer a:hover {
     display: flex;
 }
 
+/* ===== FORM NOTIFICATION (ARIA-LIVE TOAST) ===== */
+.form-notification {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background-color: var(--charcoal-ink);
+    color: var(--cream-parchment);
+    padding: 16px 28px;
+    z-index: 2000;
+    max-width: 90%;
+    text-align: center;
+    font-family: 'BluuNext', serif;
+    font-size: 15px;
+    line-height: 1.5;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    border-left: 4px solid var(--dusty-rose);
+}
+
+.form-notification.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.form-notification.success {
+    border-left-color: var(--olive-bronze);
+}
+
+.form-notification.error {
+    border-left-color: var(--dusty-rose);
+}
+
+@media (max-width: 768px) {
+    .form-notification {
+        bottom: 120px;
+        font-size: 14px;
+        padding: 14px 20px;
+    }
+}
+
 .booking-modal {
     background-color: var(--modal-bg);
     max-width: 650px;

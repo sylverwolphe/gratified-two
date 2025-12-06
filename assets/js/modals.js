@@ -1,5 +1,34 @@
 // ===== MODALS, FORMS, AND UI COMPONENTS =====
 
+// ===== ACCESSIBLE FORM NOTIFICATIONS (ARIA-LIVE) =====
+let notificationTimeout = null;
+
+function showNotification(message, type = 'success') {
+    const notification = document.getElementById('formNotification');
+    if (!notification) return;
+
+    // Clear any existing timeout
+    if (notificationTimeout) {
+        clearTimeout(notificationTimeout);
+    }
+
+    // Remove existing classes and set new content
+    notification.classList.remove('visible', 'success', 'error');
+    notification.textContent = message;
+    notification.classList.add(type);
+
+    // Trigger reflow to restart animation
+    void notification.offsetWidth;
+
+    // Show notification
+    notification.classList.add('visible');
+
+    // Auto-hide after 5 seconds
+    notificationTimeout = setTimeout(() => {
+        notification.classList.remove('visible');
+    }, 5000);
+}
+
 // ===== FOCUS TRAPPING FOR ACCESSIBILITY =====
 let lastFocusedElement = null;
 let currentTrapModal = null;
@@ -269,12 +298,12 @@ Object.keys(googleFormsConfig).forEach(formId => {
 
             try {
                 await submitToGoogleForm(formId, data);
-                alert(`Thanks ${data.name}! We've received your ${config.successMessage}. We'll get back to you within a few days.`);
                 closeModal(modalId);
                 this.reset();
+                showNotification(`Thanks ${data.name}! We've received your ${config.successMessage}. We'll get back to you within a few days.`, 'success');
             } catch (error) {
                 console.error('Form submission error:', error);
-                alert('There was an error submitting the form. Please try again.');
+                showNotification('There was an error submitting the form. Please try again.', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
