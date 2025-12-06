@@ -192,7 +192,7 @@ const googleFormsConfig = {
             'foodType': 'entry.XXXXXXXXX',
             'details': 'entry.XXXXXXXXX'
         },
-        successMessage: 'food collab inquiry'
+        successMessage: 'food partnership inquiry'
     },
     'artForm': {
         formId: 'YOUR_ART_FORM_ID',

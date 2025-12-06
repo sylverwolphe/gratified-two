@@ -121,7 +121,7 @@ body, p, .blog-excerpt, .project-subtitle, .team-title {
 .mobile-nav-item:focus,
 .cta-btn:focus,
 .drink-card:focus,
-.collab-btn:focus,
+.partner-btn:focus,
 .sub-btn:focus,
 .project-card:focus,
 .team-member:focus,
@@ -137,7 +137,7 @@ body, p, .blog-excerpt, .project-subtitle, .team-title {
 .mobile-nav-item:focus:not(:focus-visible),
 .cta-btn:focus:not(:focus-visible),
 .drink-card:focus:not(:focus-visible),
-.collab-btn:focus:not(:focus-visible),
+.partner-btn:focus:not(:focus-visible),
 .sub-btn:focus:not(:focus-visible),
 .project-card:focus:not(:focus-visible),
 .team-member:focus:not(:focus-visible),
@@ -2102,22 +2102,22 @@ body {
     line-height: 1.7;
 }
 
-/* ========== COLLABS PAGE ========== */
-.collab-options {
+/* ========== PARTNERSHIPS PAGE ========== */
+.partnership-options {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     margin-top: 30px;
 }
 
-.collab-card {
+.partner-card {
     background-color: var(--card-bg);
     border: 3px solid var(--dusty-rose);
     padding: 35px 30px;
     position: relative;
 }
 
-.collab-card::before {
+.partner-card::before {
     content: '';
     position: absolute;
     top: 10px;
@@ -2129,36 +2129,36 @@ body {
     pointer-events: none;
 }
 
-.collab-title {
+.partner-title {
     font-family: 'BluuNext', serif;
     font-size: 24px;
     color: var(--dusty-rose);
     margin-bottom: 15px;
 }
 
-.collab-card p {
+.partner-card p {
     color: var(--charcoal-ink);
     margin-bottom: 20px;
     line-height: 1.7;
 }
 
-.collab-card ul {
+.partner-card ul {
     list-style: none;
     margin-bottom: 25px;
 }
 
-.collab-card li {
+.partner-card li {
     padding: 8px 0;
     color: var(--olive-bronze);
     font-size: 14px;
 }
 
-.collab-card li::before {
+.partner-card li::before {
     content: '→ ';
     color: var(--dusty-rose);
 }
 
-.collab-btn {
+.partner-btn {
     width: 100%;
     padding: 14px;
     background-color: transparent;
@@ -2172,25 +2172,25 @@ body {
     transition: all 0.3s ease;
 }
 
-.collab-btn:hover {
+.partner-btn:hover {
     background-color: var(--dusty-rose);
     color: var(--cream-parchment);
 }
 
-.collabs-note {
+.partners-note {
     text-align: center;
     color: var(--olive-bronze);
     margin-bottom: 30px;
 }
 
-.collabs-logos {
+.partners-logos {
     display: flex;
     justify-content: center;
     gap: 30px;
     flex-wrap: wrap;
 }
 
-.collab-logo-placeholder {
+.partner-logo-placeholder {
     width: 150px;
     height: 80px;
     border: 2px dashed var(--dusty-rose);
@@ -2203,7 +2203,7 @@ body {
     opacity: 0.6;
 }
 
-.collab-logo {
+.partner-logo {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2217,13 +2217,13 @@ body {
     box-sizing: border-box;
 }
 
-.collab-logo:hover {
+.partner-logo:hover {
     border-color: var(--rich-saffron);
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(114, 47, 55, 0.15);
 }
 
-.collab-logo img {
+.partner-logo img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
@@ -2232,7 +2232,7 @@ body {
     transition: all 0.3s ease;
 }
 
-.collab-logo:hover img {
+.partner-logo:hover img {
     filter: grayscale(0%);
     opacity: 1;
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Gratified - A coffee experience bringing warmth, creativity, and community to every corner. Explore our menu, subscribe for perks, or collab with us.">
+    <meta name="description" content="Gratified - A coffee experience bringing warmth, creativity, and community to every corner. Explore our menu, subscribe for perks, or partner with us.">
     <title>Gratified  |  coffee + art</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='8' y='8' width='16' height='16' fill='%23C08497' transform='rotate(45 16 16)'/><rect x='10' y='10' width='12' height='12' fill='%23C08497' transform='rotate(45 16 16)'/></svg>">
     <link href="https://api.fontshare.com/v2/css?f[]=Satoshi@1&display=swap" rel="stylesheet">
@@ -34,7 +34,7 @@
         <a href="#landing" class="nav-link active" data-page="landing">Home</a>
         <a href="#menu" class="nav-link" data-page="menu">Menu</a>
         <a href="#subscribe" class="nav-link" data-page="subscribe">Subscribe</a>
-        <a href="#collabs" class="nav-link" data-page="collabs">Collab</a>
+        <a href="#partnerships" class="nav-link" data-page="partnerships">Partner</a>
         <a href="#buttercup" class="nav-link" data-page="buttercup">Buttercup</a>
     </nav>
 
@@ -185,11 +185,11 @@
             </div>
         </div>
 
-        <!-- ========== COLLABS PAGE ========== -->
-        <div class="page" id="page-collabs" data-page="collabs">
+        <!-- ========== PARTNERSHIPS PAGE ========== -->
+        <div class="page" id="page-partnerships" data-page="partnerships">
             <div class="container">
                 <div class="header">
-                    <h2 class="logo">Collab</h2>
+                    <h2 class="logo">Partner</h2>
                     <div class="tagline">grow with us</div>
                 </div>
 
@@ -198,9 +198,9 @@
                         <h3 class="section-title">Work With Us</h3>
                         <p class="section-intro">We're always looking for venues, brands, and creatives who share our vision of community through coffee and art.</p>
 
-                        <div class="collab-options">
-                            <div class="collab-card">
-                                <h3 class="collab-title">Host Us</h3>
+                        <div class="partnership-options">
+                            <div class="partner-card">
+                                <h3 class="partner-title">Host Us</h3>
                                 <p>Have a space that could use a cafe? We bring the coffee, the community, and the atmosphere. Perfect for:</p>
                                 <ul>
                                     <li>Coworking spaces</li>
@@ -208,23 +208,23 @@
                                     <li>Creative offices</li>
                                     <li>Community spaces</li>
                                 </ul>
-                                <button class="collab-btn" onclick="openModal('hostModal')">Let's Talk</button>
+                                <button class="partner-btn" onclick="openModal('hostModal')">Let's Talk</button>
                             </div>
 
-                            <div class="collab-card">
-                                <h3 class="collab-title">Food Collabs</h3>
-                                <p>We love featuring local food alongside our coffee. Currently working with pastry and snack collaborators:</p>
+                            <div class="partner-card">
+                                <h3 class="partner-title">Food Partners</h3>
+                                <p>We love featuring local food alongside our coffee. Currently working with pastry and snack partners:</p>
                                 <ul>
                                     <li>Bakeries</li>
                                     <li>Local food makers</li>
                                     <li>Specialty vendors</li>
                                     <li>Small batch producers</li>
                                 </ul>
-                                <button class="collab-btn" onclick="openModal('foodModal')">Collab With Us</button>
+                                <button class="partner-btn" onclick="openModal('foodModal')">Partner With Us</button>
                             </div>
 
-                            <div class="collab-card">
-                                <h3 class="collab-title">Art Collabs</h3>
+                            <div class="partner-card">
+                                <h3 class="partner-title">Art Collaborations</h3>
                                 <p>Coffee and art go together. We're looking to feature and collaborate with artists:</p>
                                 <ul>
                                     <li>Gallery shows at our space</li>
@@ -232,11 +232,11 @@
                                     <li>Collaborative projects</li>
                                     <li>Zine and print features</li>
                                 </ul>
-                                <button class="collab-btn" onclick="openModal('artModal')">Create With Us</button>
+                                <button class="partner-btn" onclick="openModal('artModal')">Create With Us</button>
                             </div>
 
-                            <div class="collab-card">
-                                <h3 class="collab-title">Join the Team</h3>
+                            <div class="partner-card">
+                                <h3 class="partner-title">Join the Team</h3>
                                 <p>Passionate about coffee, art, or community building? We're growing and looking for:</p>
                                 <ul>
                                     <li>Baristas (training provided)</li>
@@ -244,17 +244,17 @@
                                     <li>Social media creators</li>
                                     <li>Artists and designers</li>
                                 </ul>
-                                <button class="collab-btn" onclick="openModal('teamModal')">Apply Now</button>
+                                <button class="partner-btn" onclick="openModal('teamModal')">Apply Now</button>
                             </div>
                         </div>
                     </div>
 
                     <div class="section">
-                        <h3 class="section-title">Past Collabs</h3>
-                        <p class="collabs-note">We've had the pleasure of working with amazing venues and brands across the Bay Area.</p>
-                        <!-- Collab logos are dynamically loaded from partners/partners.json -->
-                        <div class="collabs-logos" id="collabsLogos">
-                            <div class="collab-logo-placeholder">Your logo here</div>
+                        <h3 class="section-title">Past Partners</h3>
+                        <p class="partners-note">We've had the pleasure of working with amazing venues and brands across the Bay Area.</p>
+                        <!-- Partner logos are dynamically loaded from partners/partners.json -->
+                        <div class="partners-logos" id="partnersLogos">
+                            <div class="partner-logo-placeholder">Your logo here</div>
                         </div>
                     </div>
                 </div>
@@ -345,11 +345,11 @@
         </div>
     </div>
 
-    <!-- Food Collab Modal -->
+    <!-- Food Partner Modal -->
     <div class="modal-overlay" id="foodModal">
         <div class="booking-modal">
             <button class="modal-close" onclick="closeModal('foodModal')">&times;</button>
-            <h2 class="modal-title">Food Collab</h2>
+            <h2 class="modal-title">Food Partnership</h2>
 
             <form id="foodForm">
                 <div class="form-group">
@@ -587,7 +587,7 @@
         <a href="#subscribe" class="mobile-nav-item" data-page="subscribe" aria-label="Subscribe">
             <svg class="mobile-nav-icon icon-diamond" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
         </a>
-        <a href="#collabs" class="mobile-nav-item" data-page="collabs" aria-label="Collabs">
+        <a href="#partnerships" class="mobile-nav-item" data-page="partnerships" aria-label="Partnerships">
             <svg class="mobile-nav-icon icon-bronze" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
         </a>
         <a href="#buttercup" class="mobile-nav-item" data-page="buttercup" aria-label="Buttercup">
