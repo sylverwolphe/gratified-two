@@ -2348,7 +2348,7 @@ body {
 /* Mobile nav active state */
 .mobile-nav-item.active {
     background-color: var(--card-bg);
-    border-radius: 8px;
+    border-radius: 0;
 }
 
 /* Responsive adjustments */
