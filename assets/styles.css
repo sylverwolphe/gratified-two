@@ -55,8 +55,8 @@ body, p, .blog-excerpt, .project-subtitle, .team-title {
     --dot-bg: rgba(247, 243, 233, 0.6);
 
     /* Mobile nav icon colors (default) */
-    --drink-nav-color-1: #2D5B69;
-    --drink-nav-color-2: #722F37;
+    --drink-nav-color-1: #6B5740;
+    --drink-nav-color-2: #D2691E;
     --drink-nav-color-3: #C08497;
     --drink-nav-color-4: #CD7F32;
     --drink-nav-color-5: #E8A317;
