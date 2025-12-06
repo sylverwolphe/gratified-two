@@ -69,8 +69,8 @@ Replaced `alert()` calls with accessible toast notifications:
 
 ## SEO Improvements
 
-### 1. Missing Meta Description
-Add to `<head>`:
+### ~~1. Missing Meta Description~~ ✓ FIXED
+Added to `index.html` line 6:
 ```html
 <meta name="description" content="Gratified - A coffee experience bringing warmth, creativity, and community to every corner. Explore our menu, subscribe for perks, or partner with us.">
 ```
@@ -86,11 +86,11 @@ For social sharing, add:
 <meta name="twitter:card" content="summary_large_image">
 ```
 
-### 3. Single H1 Issue
-The page has multiple `.logo` elements acting as headings but no semantic hierarchy. Consider:
-- Using `<h1>` for the main logo/brand name
-- Using `<h2>` for page titles (Menu, Subscribe, etc.)
-- Using `<h3>` for section titles
+### ~~3. Single H1 Issue~~ ✓ FIXED
+Proper semantic heading hierarchy now exists in `index.html`:
+- `<h1>` for main logo/brand name (line 54: "Gratified")
+- `<h2>` for page titles (Menu, Subscribe, Partner, Buttercup Destiny, modal titles)
+- `<h3>` for section titles and subsections
 
 ### 4. Missing Structured Data
 Consider adding JSON-LD for LocalBusiness schema:
@@ -133,16 +133,8 @@ If you select a drink, navigate away, and come back, the detail view state isn't
 
 ## Performance Suggestions
 
-### 1. Font Loading
-Add `font-display: swap` to @font-face declarations to prevent Flash of Invisible Text (FOIT):
-```css
-@font-face {
-    font-family: 'BluuNext';
-    src: url('../fonts/BluuNext-Bold.otf') format('opentype');
-    font-weight: bold;
-    font-display: swap;
-}
-```
+### ~~1. Font Loading~~ ✓ FIXED
+Added `font-display: swap` to all @font-face declarations in `styles.css` (lines 7, 14, 22) to prevent Flash of Invisible Text (FOIT).
 
 ### 2. Canvas Rendering
 The particle system and liquid shader both run continuously. The tab visibility check is good, but could be more aggressive:
@@ -218,14 +210,14 @@ Values like `transitionDuration = 500` and various pixel values could be CSS var
 
 ## Quick Wins Checklist
 
-- [ ] Add `<meta name="description">` tag
+- [x] Add `<meta name="description">` tag
 - [x] Add `for` attributes to all form labels
 - [x] Add focus styles for interactive elements
 - [x] Add `aria-label` to mobile nav items
 - [x] Add Escape key handler for modals
 - [x] Replace `alert()` with `aria-live` notifications for forms
 - [ ] Remove or hide the particle toggle button before launch
-- [ ] Add `font-display: swap` to @font-face rules
+- [x] Add `font-display: swap` to @font-face rules
 - [ ] Add Open Graph meta tags
 
 ---
@@ -233,14 +225,14 @@ Values like `transitionDuration = 500` and various pixel values could be CSS var
 ## Priority Order
 
 ### High Priority (Before Launch)
-1. Accessibility: Form labels, focus indicators, aria-labels
+1. ~~Accessibility: Form labels, focus indicators, aria-labels~~ ✓ DONE
 2. Functionality: Set up Google Forms or alternative
-3. SEO: Meta description and Open Graph tags
+3. SEO: ~~Meta description~~ ✓ and Open Graph tags
 
 ### Medium Priority
-1. Performance: Font loading, lazy images
+1. Performance: ~~Font loading~~ ✓, lazy images
 2. UX: Loading states, empty states
-3. Accessibility: ~~Skip link~~, focus trapping
+3. Accessibility: ~~Skip link~~, ~~focus trapping~~ ✓ DONE
 
 ### Low Priority (Post-Launch)
 1. ~~Code organization: Split script.js~~ ✓ DONE

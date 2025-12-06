@@ -1,33 +1,33 @@
-// ===== PARTNER LOGOS LOADER =====
-// Loads partner logos from partners/partners.json
+// ===== COLLAB LOGOS LOADER =====
+// Loads collab logos from partners/partners.json
 
-async function loadPartnerLogos() {
-    const container = document.getElementById('partnersLogos');
+async function loadCollabLogos() {
+    const container = document.getElementById('collabsLogos');
     if (!container) return;
 
     try {
         const response = await fetch('partners/partners.json');
         const data = await response.json();
 
-        // Filter out the _readme entry and check if we have real partners
-        const partners = data.partners.filter(p => p.logo && p.logo !== 'example-logo.png');
+        // Filter out the _readme entry and check if we have real collabs
+        const collabs = data.partners.filter(p => p.logo && p.logo !== 'example-logo.png');
 
-        if (partners.length === 0) {
-            // Keep the placeholder if no partners
+        if (collabs.length === 0) {
+            // Keep the placeholder if no collabs
             return;
         }
 
         // Clear placeholder
         container.innerHTML = '';
 
-        // Add each partner logo
-        partners.forEach(partner => {
+        // Add each collab logo
+        collabs.forEach(collab => {
             const logoWrapper = document.createElement('a');
-            logoWrapper.className = 'partner-logo';
-            logoWrapper.title = partner.name;
+            logoWrapper.className = 'collab-logo';
+            logoWrapper.title = collab.name;
 
-            if (partner.url) {
-                logoWrapper.href = partner.url;
+            if (collab.url) {
+                logoWrapper.href = collab.url;
                 logoWrapper.target = '_blank';
                 logoWrapper.rel = 'noopener noreferrer';
             } else {
@@ -35,16 +35,16 @@ async function loadPartnerLogos() {
             }
 
             const img = document.createElement('img');
-            img.src = `partners/${partner.logo}`;
-            img.alt = partner.name;
+            img.src = `partners/${collab.logo}`;
+            img.alt = collab.name;
             img.loading = 'lazy';
 
             logoWrapper.appendChild(img);
             container.appendChild(logoWrapper);
         });
     } catch (error) {
-        console.log('No partner logos configured yet');
+        console.log('No collab logos configured yet');
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadPartnerLogos);
+document.addEventListener('DOMContentLoaded', loadCollabLogos);
