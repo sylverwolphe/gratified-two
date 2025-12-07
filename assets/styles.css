@@ -1876,6 +1876,7 @@ body {
 }
 
 .coffee-fill {
+    transform: translateY(70px);
     animation: coffeeFill 2s ease 1.8s forwards;
 }
 
