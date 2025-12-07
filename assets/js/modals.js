@@ -33,6 +33,8 @@ function showNotification(message, type = 'success') {
 const partnershipCategorySelect = document.getElementById('partner-category');
 const partnershipSubmitBtn = document.getElementById('partnershipSubmit');
 const partnershipInfoCard = document.getElementById('partnershipInfoCard');
+const partnershipInfoContainer = document.querySelector('.partnership-info-container');
+const infoCardToggle = document.getElementById('infoCardToggle');
 
 const categorySubmitText = {
     'host': 'Send Hosting Inquiry',
@@ -41,6 +43,28 @@ const categorySubmitText = {
     'team': 'Submit Application',
     'investor': 'Request Investment Info'
 };
+
+// Toggle info card visibility
+function toggleInfoCard(show) {
+    if (!partnershipInfoContainer || !infoCardToggle) return;
+
+    if (show === undefined) {
+        // Toggle
+        partnershipInfoContainer.classList.toggle('visible');
+        infoCardToggle.classList.toggle('active');
+    } else if (show) {
+        partnershipInfoContainer.classList.add('visible');
+        infoCardToggle.classList.add('active');
+    } else {
+        partnershipInfoContainer.classList.remove('visible');
+        infoCardToggle.classList.remove('active');
+    }
+}
+
+// Info card toggle button
+if (infoCardToggle) {
+    infoCardToggle.addEventListener('click', () => toggleInfoCard());
+}
 
 if (partnershipCategorySelect) {
     partnershipCategorySelect.addEventListener('change', function() {
@@ -57,7 +81,7 @@ if (partnershipCategorySelect) {
             }
         }
 
-        // Update info card
+        // Update info card content
         if (partnershipInfoCard) {
             partnershipInfoCard.querySelectorAll('.info-card-content').forEach(content => {
                 content.style.display = 'none';
@@ -68,6 +92,13 @@ if (partnershipCategorySelect) {
             if (targetContent) {
                 targetContent.style.display = 'block';
             }
+        }
+
+        // Auto-show info card when category selected, hide when cleared
+        if (selectedCategory) {
+            toggleInfoCard(true);
+        } else {
+            toggleInfoCard(false);
         }
 
         // Update submit button
@@ -139,6 +170,7 @@ if (partnershipForm) {
                 const defaultContent = partnershipInfoCard.querySelector('.info-card-content[data-category="default"]');
                 if (defaultContent) defaultContent.style.display = 'block';
             }
+            toggleInfoCard(false);
             submitBtn.disabled = true;
             submitBtn.textContent = 'Select a category above';
 

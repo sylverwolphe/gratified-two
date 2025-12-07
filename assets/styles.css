@@ -2104,13 +2104,10 @@ body {
 
 /* ========== PARTNERSHIPS PAGE ========== */
 
-/* Side-by-side layout */
+/* Layout container */
 .partnership-layout {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 40px;
+    position: relative;
     margin-top: 30px;
-    align-items: start;
 }
 
 /* Form container */
@@ -2118,6 +2115,9 @@ body {
     background-color: var(--card-bg);
     border: 3px solid var(--dusty-rose);
     padding: 35px 30px;
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
 }
 
 .partnership-form .form-group {
@@ -2126,6 +2126,41 @@ body {
 
 .partnership-form .form-textarea {
     min-height: 150px;
+}
+
+/* Diamond toggle button */
+.info-card-toggle {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    background-color: var(--olive-bronze);
+    border: none;
+    cursor: pointer;
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-card-toggle:hover {
+    background-color: var(--dusty-rose);
+    transform: rotate(45deg) scale(1.1);
+}
+
+.info-card-toggle::after {
+    content: '→';
+    color: var(--cream-parchment);
+    font-size: 16px;
+    transform: rotate(-45deg);
+    transition: transform 0.3s ease;
+}
+
+.info-card-toggle.active::after {
+    transform: rotate(-45deg) scaleX(-1);
 }
 
 /* Category-specific fields (hidden by default) */
@@ -2137,16 +2172,29 @@ body {
     display: block;
 }
 
-/* Info card container */
+/* Info card container - slides out from behind */
 .partnership-info-container {
-    position: sticky;
-    top: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 320px;
+    z-index: 1;
+    transform: translateX(0);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.4s ease, opacity 0.3s ease;
+}
+
+.partnership-info-container.visible {
+    transform: translateX(calc(600px + 30px));
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .partnership-info-card {
     background-color: var(--card-bg);
     border: 3px solid var(--olive-bronze);
-    padding: 35px 30px;
+    padding: 30px 25px;
     position: relative;
 }
 
@@ -2255,15 +2303,32 @@ body {
 }
 
 /* Mobile responsive */
-@media (max-width: 900px) {
-    .partnership-layout {
-        grid-template-columns: 1fr;
-        gap: 30px;
+@media (max-width: 1000px) {
+    .partnership-form-container {
+        max-width: 100%;
     }
 
     .partnership-info-container {
-        position: static;
-        order: -1;
+        position: fixed;
+        top: auto;
+        bottom: 80px;
+        left: 20px;
+        right: 20px;
+        width: auto;
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    .partnership-info-container.visible {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .info-card-toggle {
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        z-index: 100;
     }
 }
 
@@ -2279,6 +2344,12 @@ body {
 
     .tier-amount {
         font-size: 28px;
+    }
+
+    .info-card-toggle {
+        width: 32px;
+        height: 32px;
+        bottom: 95px;
     }
 }
 
