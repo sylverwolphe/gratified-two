@@ -2071,7 +2071,7 @@ body {
 .sub-tier {
     font-family: 'BluuNext', serif;
     font-size: 28px;
-    color: var(--dusty-rose);
+    color: var(--theme-accent);
     margin-bottom: 15px;
 }
 
