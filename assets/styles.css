@@ -60,6 +60,9 @@ body, p, .blog-excerpt, .project-subtitle, .team-title {
     --drink-nav-color-3: #C08497;
     --drink-nav-color-4: #CD7F32;
     --drink-nav-color-5: #E8A317;
+
+    /* Theme accent (changes with drink selection) */
+    --theme-accent: var(--dusty-rose);
 }
 
 [data-theme="dark"] {
@@ -319,7 +322,7 @@ body {
     cursor: pointer;
     transition: all 0.4s ease;
     transform: rotate(45deg);
-    border: 2px solid var(--dusty-rose);
+    border: 2px solid var(--theme-accent);
 }
 
 .dot.active {
@@ -380,7 +383,7 @@ body {
 .section-title {
     font-size: 32px;
     margin-bottom: 25px;
-    color: var(--dusty-rose);
+    color: var(--theme-accent);
     font-weight: 700;
     letter-spacing: 2px;
     text-align: center;
@@ -435,7 +438,7 @@ body {
 .project-title {
     font-weight: 700;
     font-size: 22px;
-    color: var(--dusty-rose);
+    color: var(--theme-accent);
     margin-bottom: 10px;
     letter-spacing: 1px;
     font-family: 'BluuNext', serif;
@@ -466,7 +469,7 @@ body {
     text-align: center;
     background-color: var(--team-bg);
     padding: 30px;
-    border: 2px solid var(--dusty-rose);
+    border: 2px solid var(--theme-accent);
     transition: all 0.4s ease;
 }
 
@@ -489,7 +492,7 @@ body {
     font-weight: 700;
     font-size: 22px;
     margin-bottom: 8px;
-    color: var(--dusty-rose);
+    color: var(--theme-accent);
     letter-spacing: 1px;
 }
 
@@ -517,7 +520,7 @@ footer {
     margin-top: 60px;
     font-size: 16px;
     letter-spacing: 2px;
-    border-top: 3px solid var(--dusty-rose);
+    border-top: 3px solid var(--theme-accent);
     background-color: rgba(232, 163, 23, 0.05);
 }
 
@@ -530,7 +533,7 @@ footer a {
 }
 
 footer a:hover {
-    color: var(--dusty-rose);
+    color: var(--theme-accent);
 }
 
 /* ===== BOOKING MODAL STYLES - ANCIENT MOROCCO AESTHETIC ===== */
@@ -572,7 +575,7 @@ footer a:hover {
     visibility: hidden;
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    border-left: 4px solid var(--dusty-rose);
+    border-left: 4px solid var(--theme-accent);
 }
 
 .form-notification.visible {
@@ -653,7 +656,7 @@ footer a:hover {
 
 .modal-title {
     font-size: 32px;
-    color: var(--dusty-rose);
+    color: var(--theme-accent);
     text-align: center;
     margin-bottom: 35px;
     font-weight: 700;
@@ -669,7 +672,7 @@ footer a:hover {
 
 .form-label {
     display: block;
-    color: var(--dusty-rose);
+    color: var(--theme-accent);
     font-weight: 600;
     margin-bottom: 10px;
     font-size: 18px;
@@ -681,7 +684,7 @@ footer a:hover {
 .form-textarea {
     width: 100%;
     padding: 18px;
-    border: 3px solid var(--dusty-rose);
+    border: 3px solid var(--theme-accent);
     background-color: var(--input-bg);
     font-family: 'Satoshi', serif;
     font-size: 16px;
@@ -733,7 +736,7 @@ footer a:hover {
     right: 8px;
     bottom: 8px;
     left: 8px;
-    border: 1px solid var(--dusty-rose);
+    border: 1px solid var(--theme-accent);
     opacity: 0.3;
 }
 
@@ -756,7 +759,7 @@ footer a:hover {
     width: 100%;
     background-color: var(--olive-bronze);
     color: var(--cream-parchment);
-    border: 3px solid var(--dusty-rose);
+    border: 3px solid var(--theme-accent);
     padding: 20px;
     font-size: 18px;
     font-weight: 600;
@@ -975,7 +978,7 @@ footer a:hover {
     align-items: center;
     padding: 20px;
     background: var(--card-bg);
-    border: 3px solid var(--dusty-rose);
+    border: 3px solid var(--theme-accent);
 }
 
 .drink-detail-illustration .drink-svg {
@@ -1090,7 +1093,7 @@ footer a:hover {
     max-width: 400px;
     height: 8px;
     background: var(--card-bg);
-    border: 2px solid var(--dusty-rose);
+    border: 2px solid var(--theme-accent);
     border-radius: 0;
     outline: none;
     cursor: pointer;
@@ -1138,7 +1141,7 @@ footer a:hover {
 /* Slider track - Firefox */
 .menu-slider::-moz-range-track {
     background: var(--card-bg);
-    border: 2px solid var(--dusty-rose);
+    border: 2px solid var(--theme-accent);
     height: 8px;
 }
 
@@ -1149,7 +1152,7 @@ footer a:hover {
     -webkit-user-select: none;
     min-width: 180px;
     background-color: var(--card-bg);
-    border: 3px solid var(--dusty-rose);
+    border: 3px solid var(--theme-accent);
     padding: 25px 20px;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1164,7 +1167,7 @@ footer a:hover {
     right: 8px;
     bottom: 8px;
     left: 8px;
-    border: 1px solid var(--dusty-rose);
+    border: 1px solid var(--theme-accent);
     opacity: 0.3;
     pointer-events: none;
     transition: opacity 0.4s ease;
@@ -1401,7 +1404,7 @@ footer a:hover {
     width: 50px;
     height: 70px;
     background-color: var(--ticker-bg);
-    border: 3px solid var(--dusty-rose);
+    border: 3px solid var(--theme-accent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1467,7 +1470,7 @@ footer a:hover {
     width: 100%;
     height: 400px;
     margin-bottom: 20px;
-    border: 3px solid var(--dusty-rose);
+    border: 3px solid var(--theme-accent);
     overflow: hidden;
 }
 
@@ -1505,7 +1508,7 @@ footer a:hover {
     width: 12px;
     height: 12px;
     background-color: var(--dot-bg);
-    border: 2px solid var(--dusty-rose);
+    border: 2px solid var(--theme-accent);
     transform: rotate(45deg);
     cursor: pointer;
     transition: all 0.4s ease;
@@ -1523,7 +1526,7 @@ footer a:hover {
     right: 20px;
     width: 50px;
     height: 50px;
-    border: 3px solid var(--dusty-rose);
+    border: 3px solid var(--theme-accent);
     background-color: var(--card-bg);
     cursor: pointer;
     z-index: 1000;
@@ -1595,7 +1598,7 @@ footer a:hover {
     z-index: 9999;
     padding: 10px 16px;
     background-color: var(--card-bg);
-    border: 2px solid var(--dusty-rose);
+    border: 2px solid var(--theme-accent);
     color: var(--charcoal-ink);
     font-family: 'Satoshi', sans-serif;
     font-size: 13px;
@@ -1627,7 +1630,7 @@ footer a:hover {
     left: 0;
     right: 0;
     background-color: var(--modal-bg);
-    border-top: 3px solid var(--dusty-rose);
+    border-top: 3px solid var(--theme-accent);
     padding: 8px 0;
     padding-bottom: calc(8px + env(safe-area-inset-bottom));
     z-index: 999;
@@ -1696,7 +1699,7 @@ footer a:hover {
     z-index: 1000;
     background-color: var(--section-bg);
     padding: 8px 16px;
-    border: 2px solid var(--dusty-rose);
+    border: 2px solid var(--theme-accent);
 }
 
 @media (max-width: 768px) {
@@ -1944,7 +1947,7 @@ body {
     letter-spacing: 2px;
     cursor: pointer;
     transition: all 0.4s ease;
-    border: 3px solid var(--dusty-rose);
+    border: 3px solid var(--theme-accent);
     text-transform: lowercase;
 }
 
@@ -2023,7 +2026,7 @@ body {
 
 .subscription-card {
     background-color: var(--card-bg);
-    border: 3px solid var(--dusty-rose);
+    border: 3px solid var(--theme-accent);
     padding: 35px 30px;
     text-align: center;
     position: relative;
@@ -2037,7 +2040,7 @@ body {
     right: 10px;
     bottom: 10px;
     left: 10px;
-    border: 1px solid var(--dusty-rose);
+    border: 1px solid var(--theme-accent);
     opacity: 0.3;
     pointer-events: none;
 }
@@ -2114,7 +2117,7 @@ body {
     width: 100%;
     padding: 14px;
     background-color: transparent;
-    border: 2px solid var(--dusty-rose);
+    border: 2px solid var(--theme-accent);
     color: var(--dusty-rose);
     font-family: 'Satoshi', sans-serif;
     font-size: 14px;
@@ -2194,7 +2197,7 @@ body {
 /* Form container */
 .partnership-form-container {
     background-color: var(--card-bg);
-    border: 3px solid var(--dusty-rose);
+    border: 3px solid var(--theme-accent);
     padding: 35px 30px;
     position: relative;
     z-index: 2;
@@ -2488,7 +2491,7 @@ body {
     width: 150px;
     height: 80px;
     padding: 15px;
-    border: 2px solid var(--dusty-rose);
+    border: 2px solid var(--theme-accent);
     background-color: var(--card-bg);
     transition: all 0.3s ease;
     text-decoration: none;

@@ -620,6 +620,13 @@
         const elements = getThemedElements();
         const color = drinkId === 'default' ? '' : window.getLogoColor(drinkId);
 
+        // Set global theme accent color
+        if (color) {
+            document.documentElement.style.setProperty('--theme-accent', color);
+        } else {
+            document.documentElement.style.removeProperty('--theme-accent');
+        }
+
         elements.logos.forEach(logo => {
             logo.style.color = color;
         });
