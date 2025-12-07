@@ -2,7 +2,7 @@
 // Loads collab logos from partners/partners.json
 
 async function loadCollabLogos() {
-    const container = document.getElementById('collabsLogos');
+    const container = document.getElementById('partnersLogos');
     if (!container) return;
 
     try {
@@ -23,7 +23,7 @@ async function loadCollabLogos() {
         // Add each collab logo
         collabs.forEach(collab => {
             const logoWrapper = document.createElement('a');
-            logoWrapper.className = 'collab-logo';
+            logoWrapper.className = 'partner-logo';
             logoWrapper.title = collab.name;
 
             if (collab.url) {
