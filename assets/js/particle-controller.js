@@ -82,12 +82,13 @@
     function createControllerPanel() {
         const panel = document.createElement('div');
         panel.id = 'particle-controller';
+        panel.classList.add('minimized');
         panel.innerHTML = `
             <div class="pc-header">
                 <span class="pc-title">Particle Controller</span>
-                <button class="pc-minimize" id="pcMinimize">−</button>
+                <button class="pc-minimize" id="pcMinimize">+</button>
             </div>
-            <div class="pc-body" id="pcBody">
+            <div class="pc-body" id="pcBody" style="display: none;">
                 <div class="pc-tabs">
                     <button class="pc-tab active" data-tab="global">Global</button>
                     <button class="pc-tab" data-tab="dots">Dots</button>

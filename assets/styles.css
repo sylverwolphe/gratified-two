@@ -1830,19 +1830,64 @@ body {
 
 .cup-outline,
 .cup-handle,
-.cup-rim {
+.cup-rim,
+.cup-rim-back {
     stroke-dasharray: 300;
     stroke-dashoffset: 300;
     animation: drawCup 1.5s ease 0.8s forwards;
+}
+
+.cup-handle-shadow {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: drawCup 1.5s ease 0.9s forwards;
+}
+
+.cup-body-fill,
+.cup-highlight {
+    opacity: 0;
+    animation: fadeIn 0.8s ease 1.2s forwards;
+}
+
+.glass-shine {
+    opacity: 0;
+    animation: shineIn 0.6s ease 1.5s forwards;
+}
+
+.glass-shine-small {
+    opacity: 0;
+    animation: shineIn 0.6s ease 1.7s forwards;
+}
+
+@keyframes shineIn {
+    to {
+        opacity: 0.4;
+    }
+}
+
+.cup-shadow {
+    opacity: 0;
+    animation: fadeIn 1s ease 0.5s forwards;
+}
+
+.cup-rim-inner {
+    opacity: 0;
+    animation: fadeIn 0.5s ease 2s forwards;
 }
 
 .coffee-fill {
     animation: coffeeFill 2s ease 1.8s forwards;
 }
 
-.cup-shine {
+.coffee-surface {
     opacity: 0;
-    animation: cupShine 3s ease-in-out 4s infinite;
+    animation: fadeIn 0.5s ease 3.5s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
 }
 
 .steam {
@@ -1870,27 +1915,10 @@ body {
 
 @keyframes coffeeFill {
     from {
-        transform: translateY(0);
+        transform: translateY(70px);
     }
     to {
-        transform: translateY(-75px);
-    }
-}
-
-@keyframes cupShine {
-    0% {
-        opacity: 0;
-        transform: translateX(0);
-    }
-    10% {
-        opacity: 1;
-    }
-    90% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(120px);
+        transform: translateY(0);
     }
 }
 
