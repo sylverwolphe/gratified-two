@@ -2107,7 +2107,7 @@ body {
 /* Side-by-side layout */
 .partnership-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.4fr 1fr;
     gap: 40px;
     margin-top: 30px;
     align-items: start;
@@ -2122,6 +2122,10 @@ body {
 
 .partnership-form .form-group {
     margin-bottom: 20px;
+}
+
+.partnership-form .form-textarea {
+    min-height: 150px;
 }
 
 /* Category-specific fields (hidden by default) */
