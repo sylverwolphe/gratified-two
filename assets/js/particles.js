@@ -10,7 +10,7 @@
     let particles = [];
 
     // Current particle mode - can be toggled
-    let particleMode = 'steam'; // 'dots', 'diamonds', 'steam', 'dust', 'grounds'
+    let particleMode = 'diamonds'; // 'dots', 'diamonds', 'steam', 'dust', 'grounds'
 
     // Get particle count from config or use defaults
     function getParticleCount(mode) {

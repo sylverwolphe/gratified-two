@@ -2104,10 +2104,16 @@ body {
 
 /* ========== PARTNERSHIPS PAGE ========== */
 
+/* Content box needs relative positioning and overflow visible for info card */
+#page-partnerships .content {
+    position: relative;
+    overflow: visible;
+}
+
 /* Layout container */
 .partnership-layout {
-    position: relative;
-    margin-top: 30px;
+    display: flex;
+    justify-content: center;
 }
 
 /* Form container */
@@ -2117,7 +2123,8 @@ body {
     padding: 35px 30px;
     position: relative;
     z-index: 2;
-    max-width: 600px;
+    width: 100%;
+    max-width: 550px;
 }
 
 .partnership-form .form-group {
@@ -2128,11 +2135,11 @@ body {
     min-height: 150px;
 }
 
-/* Diamond toggle button */
+/* Diamond toggle button - on right edge of content box */
 .info-card-toggle {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    top: 120px;
+    right: 35px;
     width: 36px;
     height: 36px;
     background-color: var(--olive-bronze);
@@ -2140,7 +2147,7 @@ body {
     cursor: pointer;
     transform: rotate(45deg);
     transition: all 0.3s ease;
-    z-index: 3;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2172,22 +2179,22 @@ body {
     display: block;
 }
 
-/* Info card container - slides out from behind */
+/* Info card - slides out from underneath content box */
 .partnership-info-container {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 320px;
-    z-index: 1;
-    transform: translateX(0);
+    top: 60px;
+    right: -20px;
+    width: 280px;
+    z-index: -1;
     opacity: 0;
+    transform: translateX(0);
     pointer-events: none;
-    transition: transform 0.4s ease, opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.4s ease;
 }
 
 .partnership-info-container.visible {
-    transform: translateX(calc(600px + 30px));
     opacity: 1;
+    transform: translateX(calc(100% + 10px));
     pointer-events: auto;
 }
 
@@ -2302,33 +2309,54 @@ body {
     letter-spacing: 1px;
 }
 
-/* Mobile responsive */
-@media (max-width: 1000px) {
+/* Tablet/Mobile - info card below form */
+@media (max-width: 1100px) {
     .partnership-form-container {
         max-width: 100%;
     }
 
     .partnership-info-container {
-        position: fixed;
-        top: auto;
-        bottom: 80px;
-        left: 20px;
-        right: 20px;
-        width: auto;
-        transform: translateY(100%);
+        position: static;
+        width: 100%;
+        margin: 0;
+        margin-top: 20px;
+        max-height: 0;
+        overflow: hidden;
         opacity: 0;
+        transform: none;
+        transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
     }
 
     .partnership-info-container.visible {
-        transform: translateY(0);
+        max-height: 600px;
         opacity: 1;
+        margin-top: 20px;
+        transform: none;
+    }
+
+    .partnership-layout {
+        flex-direction: column;
+        align-items: center;
     }
 
     .info-card-toggle {
-        position: fixed;
-        bottom: 100px;
-        right: 20px;
-        z-index: 100;
+        position: static;
+        transform: rotate(45deg);
+        margin: 20px auto 0;
+        display: block;
+    }
+
+    .info-card-toggle:hover {
+        transform: rotate(45deg) scale(1.1);
+    }
+
+    .info-card-toggle.active::after {
+        content: '↓';
+        transform: rotate(-45deg) scaleY(-1);
+    }
+
+    .info-card-toggle::after {
+        content: '↓';
     }
 }
 
@@ -2349,7 +2377,6 @@ body {
     .info-card-toggle {
         width: 32px;
         height: 32px;
-        bottom: 95px;
     }
 }
 
