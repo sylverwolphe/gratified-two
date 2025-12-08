@@ -13,7 +13,7 @@ const drinkConfigs = {
     },
     'pour-over': {
         baseColor: [0.76, 0.55, 0.35],      // Light amber
-        secondaryColor: [0.85, 0.70, 0.50], // Golden highlight
+        secondaryColor: [0.45, 0.30, 0.15], // Dark roast accent
         viscosity: 0.3,                      // Thin, watery
         flowSpeed: 1.2,
         fillLevel: 0.85,                     // How full the cup is
@@ -40,7 +40,7 @@ const drinkConfigs = {
     },
     'mocha': {
         baseColor: [0.28, 0.15, 0.10],      // Dark chocolate coffee
-        secondaryColor: [0.45, 0.25, 0.15], // Chocolate ribbon
+        secondaryColor: [0.85, 0.75, 0.65], // Cream accent
         viscosity: 0.7,
         flowSpeed: 0.6,
         fillLevel: 0.85,
@@ -67,7 +67,7 @@ const drinkConfigs = {
     },
     'moroccan-mint': {
         baseColor: [0.35, 0.50, 0.35],      // Mint tea green
-        secondaryColor: [0.80, 0.85, 0.70], // Light tea
+        secondaryColor: [0.95, 0.98, 0.90], // Bright mint highlight
         viscosity: 0.25,                     // Very thin
         flowSpeed: 1.3,
         fillLevel: 0.8,
@@ -179,36 +179,9 @@ const defaultDrink = 'none';
             // === LIQUID RENDERING ===
             vec3 liquidColor = u_baseColor;
 
-            // Swirl patterns (if enabled)
-            if (u_hasSwirl > 0.5) {
-                // Create distributed swirl pattern without center glow
-                vec2 center = vec2(0.5, u_fillLevel * 0.5);
-                vec2 toCenter = uv - center;
-                float dist = length(toCenter);
-                float angle = atan(toCenter.y, toCenter.x);
-
-                // Spiral ribbons that don't concentrate at center
-                float spiral = sin(angle * 4.0 + dist * 15.0 - time * 1.2) * 0.5 + 0.5;
-                // Ring-shaped mask instead of center-focused
-                float swirlMask = smoothstep(0.05, 0.15, dist) * smoothstep(0.5, 0.2, dist) * spiral;
-
-                // Cream swirl mixing into coffee
-                float creamSwirl = fbm(vec2(angle * 2.0 + time * 0.5, dist * 5.0 - time * 0.3)) * swirlMask;
-                liquidColor = mix(liquidColor, u_secondaryColor, creamSwirl * 0.5);
-            }
-
             // Depth gradient - darker at bottom
             float depthGradient = smoothstep(0.0, liquidSurface, uv.y);
             liquidColor *= 0.85 + depthGradient * 0.15;
-
-            // Subtle surface shimmer near the top
-            float shimmerZone = smoothstep(liquidSurface - 0.15, liquidSurface, uv.y);
-            float shimmer = noise(vec2(uv.x * 20.0 + time, uv.y * 10.0)) * 0.15 * shimmerZone;
-            liquidColor += shimmer;
-
-            // Gentle movement within liquid
-            float movement = fbm(uv * 3.0 + time * 0.2);
-            liquidColor = mix(liquidColor, liquidColor * 1.1, movement * 0.2);
 
             // === COMBINE ===
             vec3 finalColor = vec3(0.0);
@@ -310,8 +283,33 @@ const defaultDrink = 'none';
         return a + (b - a) * t;
     }
 
-    function lerpColor(a, b, t) {
-        return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)];
+    // Mutates arr in place to avoid GC pressure
+    function lerpColorInPlace(arr, target, t) {
+        arr[0] = lerp(arr[0], target[0], t);
+        arr[1] = lerp(arr[1], target[1], t);
+        arr[2] = lerp(arr[2], target[2], t);
+    }
+
+    // Check if two values are approximately equal
+    const EPSILON = 0.001;
+    function approxEqual(a, b) {
+        return Math.abs(a - b) < EPSILON;
+    }
+
+    function colorsApproxEqual(a, b) {
+        return approxEqual(a[0], b[0]) && approxEqual(a[1], b[1]) && approxEqual(a[2], b[2]);
+    }
+
+    // Check if transition is complete
+    let isTransitioning = false;
+    function checkTransitionComplete() {
+        return colorsApproxEqual(current.baseColor, target.baseColor) &&
+               colorsApproxEqual(current.secondaryColor, target.secondaryColor) &&
+               approxEqual(current.viscosity, target.viscosity) &&
+               approxEqual(current.flowSpeed, target.flowSpeed) &&
+               approxEqual(current.fillLevel, target.fillLevel) &&
+               approxEqual(current.foamHeight, target.foamHeight) &&
+               approxEqual(current.hasSwirl, target.hasSwirl ? 1.0 : 0.0);
     }
 
     // Resize handler
@@ -327,35 +325,63 @@ const defaultDrink = 'none';
     window.setLiquidDrink = function(drinkId) {
         if (drinkConfigs[drinkId]) {
             target = { ...drinkConfigs[drinkId] };
+            isTransitioning = true;
         }
     };
 
     // Animation loop
-    let startTime = Date.now();
+    let lastFrameTime = 0;
+    const TARGET_FRAME_MS = 16.67; // 60fps baseline
 
-    function animate() {
+    function animate(timestamp) {
         // Only animate when visible
         if (!isVisible) {
             animationId = null;
             return;
         }
 
+        // Calculate delta time normalized to 60fps
+        const deltaTime = lastFrameTime ? timestamp - lastFrameTime : TARGET_FRAME_MS;
+        lastFrameTime = timestamp;
+        const dt = deltaTime / TARGET_FRAME_MS;
+
+        // Frame-rate independent lerp factor
+        const frameAdjustedSpeed = 1 - Math.pow(1 - transitionSpeed, dt);
+
         // Clear with transparent
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT);
 
-        // Smooth transition to target
-        current.baseColor = lerpColor(current.baseColor, target.baseColor, transitionSpeed);
-        current.secondaryColor = lerpColor(current.secondaryColor, target.secondaryColor, transitionSpeed);
-        current.viscosity = lerp(current.viscosity, target.viscosity, transitionSpeed);
-        current.flowSpeed = lerp(current.flowSpeed, target.flowSpeed, transitionSpeed);
-        current.fillLevel = lerp(current.fillLevel, target.fillLevel, transitionSpeed);
-        current.foamHeight = lerp(current.foamHeight, target.foamHeight, transitionSpeed);
-        current.hasSwirl = lerp(current.hasSwirl, target.hasSwirl ? 1.0 : 0.0, transitionSpeed);
+        // Only lerp when transitioning between drinks
+        if (isTransitioning) {
+            lerpColorInPlace(current.baseColor, target.baseColor, frameAdjustedSpeed);
+            lerpColorInPlace(current.secondaryColor, target.secondaryColor, frameAdjustedSpeed);
+            current.viscosity = lerp(current.viscosity, target.viscosity, frameAdjustedSpeed);
+            current.flowSpeed = lerp(current.flowSpeed, target.flowSpeed, frameAdjustedSpeed);
+            current.fillLevel = lerp(current.fillLevel, target.fillLevel, frameAdjustedSpeed);
+            current.foamHeight = lerp(current.foamHeight, target.foamHeight, frameAdjustedSpeed);
+            current.hasSwirl = lerp(current.hasSwirl, target.hasSwirl ? 1.0 : 0.0, frameAdjustedSpeed);
+
+            // Check if transition is complete, snap to target values
+            if (checkTransitionComplete()) {
+                current.baseColor[0] = target.baseColor[0];
+                current.baseColor[1] = target.baseColor[1];
+                current.baseColor[2] = target.baseColor[2];
+                current.secondaryColor[0] = target.secondaryColor[0];
+                current.secondaryColor[1] = target.secondaryColor[1];
+                current.secondaryColor[2] = target.secondaryColor[2];
+                current.viscosity = target.viscosity;
+                current.flowSpeed = target.flowSpeed;
+                current.fillLevel = target.fillLevel;
+                current.foamHeight = target.foamHeight;
+                current.hasSwirl = target.hasSwirl ? 1.0 : 0.0;
+                isTransitioning = false;
+            }
+        }
 
         // Set uniforms
         gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);
-        gl.uniform1f(uniforms.time, (Date.now() - startTime) / 1000);
+        gl.uniform1f(uniforms.time, timestamp / 1000);
         gl.uniform3fv(uniforms.baseColor, current.baseColor);
         gl.uniform3fv(uniforms.secondaryColor, current.secondaryColor);
         gl.uniform1f(uniforms.viscosity, current.viscosity);
@@ -373,6 +399,7 @@ const defaultDrink = 'none';
     // Start animation only when visible
     function startAnimation() {
         if (!animationId && isVisible) {
+            lastFrameTime = 0; // Reset to avoid delta spike after pause
             animationId = requestAnimationFrame(animate);
         }
     }
