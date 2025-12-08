@@ -43,17 +43,14 @@ gradient.addColorStop(1, `rgba(...)`);
 
 **Fix:** Replaced with 3 concentric filled circles (outer at 25% opacity, middle at 50%, inner at 100%) that simulate the radial gradient effect without any gradient object creation.
 
-**4. shadowBlur causes expensive compositing**
+**4. ~~shadowBlur causes expensive compositing~~ (FIXED)**
 ```javascript
 // Lines 405, 439
 ctx.shadowBlur = p.size * shadowBlur;
 ```
-Any non-zero `shadowBlur` triggers expensive Gaussian blur compositing for every draw call. With 200+ particles, this is extremely costly.
+~~Any non-zero `shadowBlur` triggers expensive Gaussian blur compositing for every draw call. With 200+ particles, this is extremely costly.~~
 
-**Fix:** Either:
-- Disable shadows entirely (set `shadowBlur: 0` in config)
-- Pre-render glowing particles to a sprite sheet
-- Use additive blending (`globalCompositeOperation: 'lighter'`) for a glow-like effect
+**Fix:** Removed all `shadowBlur` and `shadowColor` operations from dots and diamonds modes. Shadow effects were subtle and the performance cost was not justified.
 
 **5. ctx.save()/restore() overhead**
 ```javascript

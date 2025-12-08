@@ -416,14 +416,10 @@
 
                 const depthFactor = (p.size / 6) * getParallaxStrength();
                 const parallaxOffsetY = scrollY * depthFactor;
-                const shadowBlur = getConfig('dots', 'shadowBlur', 2);
 
-                const colorStr = p.rgbPrefix + p.opacity + ')';
                 ctx.beginPath();
                 ctx.arc(p.x, p.y - parallaxOffsetY, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = colorStr;
-                ctx.shadowColor = colorStr;
-                ctx.shadowBlur = p.size * shadowBlur;
+                ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
                 ctx.fill();
 
             } else if (particleMode === 'diamonds') {
@@ -445,19 +441,14 @@
                 const x = p.x;
                 const y = p.y - parallaxOffsetY;
                 const size = p.size * 1.5;
-                const shadowBlur = getConfig('diamonds', 'shadowBlur', 2);
                 const rotationEffect = getConfig('diamonds', 'rotationEffect', 0.1);
-
-                const colorStr = p.rgbPrefix + p.opacity + ')';
 
                 ctx.save();
                 ctx.translate(x, y);
                 ctx.rotate(Math.PI / 4 + p.wobble * rotationEffect);
                 ctx.beginPath();
                 ctx.rect(-size / 2, -size / 2, size, size);
-                ctx.fillStyle = colorStr;
-                ctx.shadowColor = colorStr;
-                ctx.shadowBlur = p.size * shadowBlur;
+                ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
                 ctx.fill();
                 ctx.restore();
 
@@ -591,10 +582,6 @@
                 ctx.restore();
             }
         });
-
-        if (particleMode === 'dots' || particleMode === 'diamonds') {
-            ctx.shadowBlur = 0;
-        }
 
         requestAnimationFrame(animate);
     }
