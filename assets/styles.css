@@ -177,8 +177,8 @@ footer {
 
 .header {
     text-align: center;
-    margin-bottom: 80px;
-    padding: 40px 0;
+    margin-bottom: clamp(40px, 8vw, 80px);
+    padding: clamp(20px, 4vw, 40px) 0;
     position: relative;
 }
 
@@ -274,25 +274,25 @@ body {
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 60px 40px;
+    padding: clamp(30px, 5vw, 60px) clamp(20px, 4vw, 40px);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 .logo {
-    font-size: 72px;
+    font-size: clamp(42px, 8vw, 72px);
     font-weight: 700;
-    letter-spacing: 8px;
+    letter-spacing: clamp(3px, 0.8vw, 8px);
     color: var(--theme-accent);
-    margin-bottom: 15px;
+    margin-bottom: clamp(8px, 1.5vw, 15px);
 }
 
 .tagline {
-    font-size: 28px;
+    font-size: clamp(16px, 3vw, 28px);
     color: var(--olive-bronze);
     font-weight: 400;
-    letter-spacing: 4px;
+    letter-spacing: clamp(2px, 0.4vw, 4px);
 }
 
 .content {
@@ -341,8 +341,8 @@ body {
 .section {
     --drink-accent: var(--theme-accent);
     background-color: var(--section-bg);
-    padding: 45px;
-    margin-bottom: 35px;
+    padding: clamp(20px, 4vw, 45px);
+    margin-bottom: clamp(20px, 4vw, 35px);
     position: relative;
     box-shadow: inset 0 0 20px rgba(114, 47, 55, 0.05);
 }
@@ -387,11 +387,11 @@ body {
 }
 
 .section-title {
-    font-size: 32px;
-    margin-bottom: 25px;
+    font-size: clamp(22px, 4vw, 32px);
+    margin-bottom: clamp(15px, 3vw, 25px);
     color: var(--theme-accent);
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: clamp(1px, 0.2vw, 2px);
     text-align: center;
     position: relative;
     padding-bottom: 15px;
@@ -828,36 +828,13 @@ footer a:hover {
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .container {
-        padding: 30px 20px;
         padding-bottom: 100px; /* Space for mobile navbar */
     }
 
-    .header {
-        margin-bottom: 40px;
-        padding: 20px 0;
-    }
-
-    .logo {
-        font-size: 42px;
-        letter-spacing: 3px;
-        margin-bottom: 8px;
-    }
-
-    .tagline {
-        font-size: 16px;
-        letter-spacing: 2px;
-    }
+    /* Typography uses clamp() for fluid scaling - no overrides needed */
 
     .navigation {
         padding: 0 15px;
-    }
-
-    .section {
-        padding: 25px;
-    }
-
-    .section-title {
-        font-size: 22px;
     }
 
     .team-grid, .location-grid {
@@ -1899,6 +1876,22 @@ body {
     opacity: 1;
 }
 
+/* On mobile, let pages size to content (except landing) */
+@media (max-width: 768px) {
+    .page {
+        min-height: auto;
+    }
+
+    .page .container {
+        min-height: auto;
+    }
+
+    /* Landing stays full height */
+    #page-landing {
+        min-height: 100vh;
+    }
+}
+
 /* ========== LANDING PAGE ========== */
 #page-landing {
     overflow: hidden;
@@ -2075,23 +2068,23 @@ body {
 .section-intro {
     text-align: center;
     color: var(--olive-bronze);
-    font-size: 18px;
+    font-size: clamp(15px, 2.5vw, 18px);
     max-width: 600px;
-    margin: 0 auto 40px;
+    margin: 0 auto clamp(20px, 4vw, 40px);
     line-height: 1.7;
 }
 
 .subscription-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: clamp(15px, 3vw, 30px);
+    margin-top: clamp(15px, 3vw, 30px);
 }
 
 .subscription-card {
     background-color: var(--card-bg);
     border: 3px solid var(--theme-accent);
-    padding: 35px 30px;
+    padding: clamp(20px, 4vw, 35px) clamp(18px, 3vw, 30px);
     text-align: center;
     position: relative;
     transition: all 0.4s ease;
@@ -2134,16 +2127,16 @@ body {
 
 .sub-tier {
     font-family: 'BluuNext', serif;
-    font-size: 28px;
+    font-size: clamp(22px, 4vw, 28px);
     color: var(--theme-accent);
-    margin-bottom: 15px;
+    margin-bottom: clamp(8px, 1.5vw, 15px);
 }
 
 .sub-price {
-    font-size: 48px;
+    font-size: clamp(36px, 6vw, 48px);
     font-weight: 700;
     color: var(--charcoal-ink);
-    margin-bottom: 25px;
+    margin-bottom: clamp(15px, 3vw, 25px);
 }
 
 .sub-price span {
@@ -2155,14 +2148,14 @@ body {
 .sub-perks {
     list-style: none;
     text-align: left;
-    margin-bottom: 30px;
+    margin-bottom: clamp(15px, 3vw, 30px);
 }
 
 .sub-perks li {
-    padding: 10px 0;
+    padding: clamp(6px, 1vw, 10px) 0;
     border-bottom: 1px solid var(--theme-accent);
     color: var(--charcoal-ink);
-    font-size: 14px;
+    font-size: clamp(13px, 2vw, 14px);
 }
 
 .sub-perks li:last-child {
@@ -2572,6 +2565,7 @@ body {
     }
 
     .partnership-info-card {
+        background-color: var(--cream-parchment);
         border: 3px solid var(--olive-bronze);
         border-bottom: none;
         padding: 25px 25px 40px;
