@@ -206,15 +206,36 @@
         }
     }
 
+    // Update cached RGB string if color changed (avoids string allocation every frame)
+    function updateColorCache(p) {
+        const r = Math.round(p.color.r);
+        const g = Math.round(p.color.g);
+        const b = Math.round(p.color.b);
+        if (r !== p.cachedR || g !== p.cachedG || b !== p.cachedB) {
+            p.cachedR = r;
+            p.cachedG = g;
+            p.cachedB = b;
+            p.rgbPrefix = `rgba(${r},${g},${b},`;
+        }
+    }
+
     function createParticle(randomizeLife = true) {
         const color = currentColors[Math.floor(Math.random() * currentColors.length)];
+        const r = Math.round(color.r);
+        const g = Math.round(color.g);
+        const b = Math.round(color.b);
 
         const particle = {
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
             color: { ...color },
             targetColor: { ...color },
-            colorIndex: Math.floor(Math.random() * currentColors.length)
+            colorIndex: Math.floor(Math.random() * currentColors.length),
+            // Cached color string components
+            cachedR: r,
+            cachedG: g,
+            cachedB: b,
+            rgbPrefix: `rgba(${r},${g},${b},`
         };
 
         if (particleMode === 'dots') {
@@ -357,12 +378,11 @@
         }
     }
 
-    function lerpColor(current, target, t) {
-        return {
-            r: current.r + (target.r - current.r) * t,
-            g: current.g + (target.g - current.g) * t,
-            b: current.b + (target.b - current.b) * t
-        };
+    // Mutates color in place to avoid GC pressure
+    function lerpColorInPlace(color, target, t) {
+        color.r += (target.r - color.r) * t;
+        color.g += (target.g - color.g) * t;
+        color.b += (target.b - color.b) * t;
     }
 
     function animate(currentTime) {
@@ -377,7 +397,8 @@
         scrollY += (targetScrollY - scrollY) * 0.1;
 
         particles.forEach((p) => {
-            p.color = lerpColor(p.color, p.targetColor, getColorTransitionSpeed());
+            lerpColorInPlace(p.color, p.targetColor, getColorTransitionSpeed());
+            updateColorCache(p);
 
             if (particleMode === 'dots') {
                 p.wobble += p.wobbleSpeed;
@@ -397,7 +418,7 @@
                 const parallaxOffsetY = scrollY * depthFactor;
                 const shadowBlur = getConfig('dots', 'shadowBlur', 2);
 
-                const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${p.opacity})`;
+                const colorStr = p.rgbPrefix + p.opacity + ')';
                 ctx.beginPath();
                 ctx.arc(p.x, p.y - parallaxOffsetY, p.size, 0, Math.PI * 2);
                 ctx.fillStyle = colorStr;
@@ -427,7 +448,7 @@
                 const shadowBlur = getConfig('diamonds', 'shadowBlur', 2);
                 const rotationEffect = getConfig('diamonds', 'rotationEffect', 0.1);
 
-                const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${p.opacity})`;
+                const colorStr = p.rgbPrefix + p.opacity + ')';
 
                 ctx.save();
                 ctx.translate(x, y);
@@ -477,11 +498,10 @@
                 const x = p.x + curlX;
                 const y = p.y - parallaxOffsetY;
 
-                const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${opacity})`;
                 const gradient = ctx.createRadialGradient(x, y, 0, x, y, p.size);
-                gradient.addColorStop(0, colorStr);
-                gradient.addColorStop(0.5, `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${opacity * 0.5})`);
-                gradient.addColorStop(1, `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, 0)`);
+                gradient.addColorStop(0, p.rgbPrefix + opacity + ')');
+                gradient.addColorStop(0.5, p.rgbPrefix + (opacity * 0.5) + ')');
+                gradient.addColorStop(1, p.rgbPrefix + '0)');
 
                 ctx.beginPath();
                 ctx.arc(x, y, p.size, 0, Math.PI * 2);
@@ -522,10 +542,9 @@
                 const depthFactor = (p.size / 4) * getParallaxStrength();
                 const parallaxOffsetY = scrollY * depthFactor;
 
-                const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${p.opacity})`;
                 ctx.beginPath();
                 ctx.arc(p.x, p.y - parallaxOffsetY, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = colorStr;
+                ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
                 ctx.fill();
 
             } else if (particleMode === 'grounds') {
@@ -554,15 +573,13 @@
                 const x = p.x;
                 const y = p.y - parallaxOffsetY;
 
-                const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Math.round(p.color.b)}, ${p.opacity})`;
-
                 ctx.save();
                 ctx.translate(x, y);
                 ctx.rotate(p.rotation);
                 ctx.scale(1, p.stretch);
                 ctx.beginPath();
                 ctx.arc(0, 0, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = colorStr;
+                ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
                 ctx.fill();
                 ctx.restore();
             }
