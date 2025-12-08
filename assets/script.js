@@ -758,18 +758,13 @@ document.addEventListener('DOMContentLoaded', loadPartnerLogos);
             elements.themeToggle.style.borderColor = color || '';
         }
 
-        // Desktop navigation
-        if (elements.mainNav) {
-            elements.mainNav.style.borderColor = color || '';
-        }
+        // Desktop navigation active link styling
         elements.navLinks.forEach(link => {
             // Only style active links with the drink color
             if (link.classList.contains('active')) {
                 link.style.color = color || '';
-                link.style.borderColor = color || '';
             } else {
                 link.style.color = '';
-                link.style.borderColor = '';
             }
         });
 
@@ -785,6 +780,7 @@ document.addEventListener('DOMContentLoaded', loadPartnerLogos);
                 elements.mobileNavbar.style.borderImage = `linear-gradient(to right, ${navColors[0]}, ${navColors[1]}, ${navColors[2]}, ${navColors[3]}, ${navColors[4]}) 1`;
             }
         }
+
 
         // Update mobile nav icon colors based on drink palette
         document.documentElement.style.setProperty('--drink-nav-color-1', navColors[0]);

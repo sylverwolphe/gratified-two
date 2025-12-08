@@ -63,6 +63,9 @@ body, p, .blog-excerpt, .project-subtitle, .team-title {
 
     /* Theme accent (changes with drink selection) */
     --theme-accent: var(--dusty-rose);
+
+    /* Button text - light text for filled buttons */
+    --btn-text: #F7F3E9;
 }
 
 [data-theme="dark"] {
@@ -77,6 +80,9 @@ body, p, .blog-excerpt, .project-subtitle, .team-title {
     --olive-bronze: #C9B090;            /* Much lighter for readability */
     --cream-parchment: #2A2622;
     --charcoal-ink: #F7F3E9;
+
+    /* Button text - stays light in dark mode for filled buttons */
+    --btn-text: #F7F3E9;
 
     /* Theme-specific backgrounds */
     --section-bg: rgba(50, 46, 42, 0.8);
@@ -1695,11 +1701,14 @@ footer a:hover {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 8px;
+    gap: 0;
     z-index: 1000;
-    background-color: var(--section-bg);
-    padding: 8px 16px;
-    border: 2px solid var(--theme-accent);
+    background-color: var(--modal-bg);
+    padding: 8px 0;
+    border-top: 3px solid var(--theme-accent);
+    border-bottom: 3px solid var(--theme-accent);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
 @media (max-width: 768px) {
@@ -1709,24 +1718,98 @@ footer a:hover {
 }
 
 .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     color: var(--charcoal-ink);
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 8px 16px;
+    padding: 8px 20px;
     transition: all 0.3s ease;
-    letter-spacing: 1px;
-    border: 2px solid transparent;
+    min-width: 70px;
 }
 
 .nav-link:hover {
-    color: var(--dusty-rose);
+    background-color: var(--card-bg-hover);
+}
+
+.nav-link:active {
+    transform: scale(0.95);
 }
 
 .nav-link.active {
-    color: var(--dusty-rose);
-    border-color: var(--dusty-rose);
     background-color: var(--card-bg);
+}
+
+.nav-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--charcoal-ink);
+    font-family: 'Satoshi', sans-serif;
+    margin-top: 4px;
+    transition: color 0.3s ease;
+}
+
+/* Desktop nav icons - mirrors mobile */
+.nav-icon {
+    font-size: 32px;
+    transition: color 0.3s ease;
+}
+
+.nav-icon.icon-dash,
+.nav-icon.icon-equal {
+    font-size: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+}
+
+.nav-icon.icon-dash::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 3px;
+    background-color: var(--drink-nav-color-1);
+    border-radius: 1px;
+    transition: background-color 0.4s ease;
+}
+
+.nav-icon.icon-equal::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 3px;
+    background-color: var(--drink-nav-color-2);
+    border-radius: 1px;
+    box-shadow: 0 6px 0 var(--drink-nav-color-2);
+    transform: translateY(-3px);
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.nav-icon.icon-diamond {
+    color: var(--drink-nav-color-3);
+    width: 24px;
+    height: 24px;
+    transform: rotate(45deg) scale(0.7);
+    transition: color 0.4s ease;
+}
+
+.nav-icon.icon-bronze {
+    color: var(--drink-nav-color-4);
+    width: 24px;
+    height: 24px;
+    transform: scale(0.7);
+    transition: color 0.4s ease;
+}
+
+.nav-icon.icon-yellow {
+    color: var(--drink-nav-color-5);
+    width: 24px;
+    height: 24px;
+    transform: scale(0.7);
+    transition: color 0.4s ease;
 }
 
 /* ========== PAGES CONTAINER & SCROLL SNAP ========== */
@@ -2003,8 +2086,8 @@ body {
 }
 
 .cta-btn.primary {
-    background-color: var(--dusty-rose);
-    color: var(--cream-parchment);
+    background-color: var(--theme-accent);
+    color: var(--btn-text);
 }
 
 .cta-btn.primary:hover {
@@ -2014,12 +2097,12 @@ body {
 
 .cta-btn.secondary {
     background-color: transparent;
-    color: var(--dusty-rose);
+    color: var(--theme-accent);
 }
 
 .cta-btn.secondary:hover {
-    background-color: var(--dusty-rose);
-    color: var(--cream-parchment);
+    background-color: var(--theme-accent);
+    color: var(--btn-text);
 }
 
 .landing-scroll-hint {
@@ -2164,12 +2247,15 @@ body {
 }
 
 .sub-btn {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    min-height: 48px;
     padding: 14px;
     background-color: transparent;
     border: 2px solid var(--theme-accent);
-    color: var(--dusty-rose);
+    color: var(--theme-accent);
     font-family: 'Satoshi', sans-serif;
     font-size: 14px;
     font-weight: 600;
@@ -2183,8 +2269,8 @@ body {
 
 .sub-btn:hover,
 .sub-btn.primary {
-    background-color: var(--dusty-rose);
-    color: var(--cream-parchment);
+    background-color: var(--theme-accent);
+    color: var(--btn-text);
 }
 
 .sub-btn.primary:hover {
@@ -2194,11 +2280,15 @@ body {
 
 .sub-btn-group {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .sub-btn-group .sub-btn {
-    flex: 1;
+    width: 100%;
+    min-height: 38px;
+    padding: 10px 14px;
+    font-size: 13px;
 }
 
 .perks-showcase {

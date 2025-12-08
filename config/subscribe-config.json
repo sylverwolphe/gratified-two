@@ -1,0 +1,78 @@
+{
+  "page": {
+    "title": "Subscribe",
+    "tagline": "join the journey"
+  },
+  "joinSection": {
+    "title": "Join Us",
+    "intro": "Stay connected or become a member for unlimited coffee."
+  },
+  "tiers": [
+    {
+      "id": "follow",
+      "name": "Follow",
+      "price": "Free",
+      "priceSubtext": "",
+      "featured": false,
+      "perks": [
+        "Event invitations and popups",
+        "Investment opportunities",
+        "Updates on new locations",
+        "Community announcements"
+      ],
+      "buttons": [
+        {
+          "text": "Substack",
+          "url": "https://substack.com/@gratifiedwegrow",
+          "type": "link",
+          "primary": false
+        },
+        {
+          "text": "Partiful",
+          "url": "https://partiful.com/u/FYZcDQXvTPeptryuZgJ7",
+          "type": "link",
+          "primary": false
+        }
+      ]
+    },
+    {
+      "id": "subscribe",
+      "name": "Subscribe",
+      "price": "$108",
+      "priceSubtext": "/month",
+      "featured": true,
+      "perks": [
+        "Unlimited drinks at all locations",
+        "Discounts on pastries"
+      ],
+      "buttons": [
+        {
+          "text": "Subscribe",
+          "modalId": "unlimitedModal",
+          "type": "modal",
+          "primary": true
+        }
+      ]
+    }
+  ],
+  "perksSection": {
+    "title": "What You Get",
+    "items": [
+      {
+        "icon": "◆",
+        "title": "Community",
+        "description": "Join a Discord of coffee lovers, artists, and dreamers. Share your creations, get feedback, and connect."
+      },
+      {
+        "icon": "◆",
+        "title": "Exclusive Content",
+        "description": "Behind-the-scenes looks at art projects, coffee sourcing journeys, and event planning."
+      },
+      {
+        "icon": "◆",
+        "title": "Real Perks",
+        "description": "Free drinks, merch discounts, and priority access to limited events and collaborations."
+      }
+    ]
+  }
+}

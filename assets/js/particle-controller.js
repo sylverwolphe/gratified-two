@@ -6,7 +6,7 @@
     // Default configurations for each mode
     const defaultConfig = {
         global: {
-            particleCount: { dots: 200, diamonds: 200, steam: 120, dust: 150, grounds: 100 },
+            particleCount: { dots: 200, diamonds: 300, steam: 120, dust: 150, grounds: 100 },
             parallaxStrength: 0.15,
             colorTransitionSpeed: 0.02
         },
@@ -22,15 +22,15 @@
             shadowBlur: 2
         },
         diamonds: {
-            sizeMin: 2,
+            sizeMin: 4.5,
             sizeMax: 6,
-            speedX: 0.3,
+            speedX: 1.2,
             speedYMin: 0.05,
             speedYMax: 0.25,
-            opacityMin: 0.08,
+            opacityMin: 0.1,
             opacityMax: 0.33,
-            wobbleSpeed: 0.02,
-            rotationEffect: 0.1,
+            wobbleSpeed: 0,
+            rotationEffect: 0,
             shadowBlur: 2
         },
         steam: {
@@ -667,14 +667,14 @@ const PARTICLE_CONFIG = ${JSON.stringify(config, null, 2)};
         });
     }
 
-    // Initialize
-    addStyles();
-    createControllerPanel();
-    makeDraggable();
+    // Initialize - DISABLED (uncomment to enable controller UI)
+    // addStyles();
+    // createControllerPanel();
+    // makeDraggable();
 
     // Remove the old particle toggle button since we have a better UI now
-    const oldToggle = document.getElementById('particleToggle');
-    if (oldToggle) {
-        oldToggle.style.display = 'none';
-    }
+    // const oldToggle = document.getElementById('particleToggle');
+    // if (oldToggle) {
+    //     oldToggle.style.display = 'none';
+    // }
 })();

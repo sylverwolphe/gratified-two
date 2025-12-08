@@ -18,7 +18,7 @@
     <div class="grain-overlay"></div>
     <div class="ancient-pattern"></div>
 
-    <!-- Temporary Particle Toggle Button -->
+    <!-- Temporary Particle Toggle Button - DISABLED (uncomment to re-enable)
     <button class="particle-toggle" id="particleToggle" onclick="cycleParticleMode()">Particles: Steam</button>
     <script>
         function cycleParticleMode() {
@@ -28,14 +28,30 @@
             if (window.setParticleMode) window.setParticleMode(modes[nextIndex]);
         }
     </script>
+    -->
 
     <!-- Main Navigation -->
     <nav class="main-nav" id="mainNav">
-        <a href="#landing" class="nav-link active" data-page="landing">Home</a>
-        <a href="#menu" class="nav-link" data-page="menu">Menu</a>
-        <a href="#subscribe" class="nav-link" data-page="subscribe">Subscribe</a>
-        <a href="#partnerships" class="nav-link" data-page="partnerships">Partner</a>
-        <a href="#buttercup" class="nav-link" data-page="buttercup">Buttercup</a>
+        <a href="#landing" class="nav-link active" data-page="landing">
+            <span class="nav-icon icon-dash"></span>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="#menu" class="nav-link" data-page="menu">
+            <span class="nav-icon icon-equal"></span>
+            <span class="nav-label">Menu</span>
+        </a>
+        <a href="#subscribe" class="nav-link" data-page="subscribe">
+            <svg class="nav-icon icon-diamond" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
+            <span class="nav-label">Subscribe</span>
+        </a>
+        <a href="#partnerships" class="nav-link" data-page="partnerships">
+            <svg class="nav-icon icon-bronze" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
+            <span class="nav-label">Partner</span>
+        </a>
+        <a href="#buttercup" class="nav-link" data-page="buttercup">
+            <svg class="nav-icon icon-yellow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 511.995 511.995" fill="currentColor" aria-hidden="true"><path d="M507.807,200.272L262.474,12.859c-3.819-2.923-9.109-2.923-12.949,0L4.191,200.272c-3.627,2.773-5.077,7.509-3.648,11.84l93.717,281.92c1.451,4.352,5.547,7.296,10.133,7.296h303.253c4.608,0,8.683-2.944,10.091-7.296l93.717-281.92C512.885,207.803,511.413,203.046,507.807,200.272z"/></svg>
+            <span class="nav-label">Buttercup</span>
+        </a>
     </nav>
 
     <!-- Theme Toggle Button -->
@@ -214,67 +230,24 @@
         </div>
 
         <!-- ========== SUBSCRIPTION PAGE ========== -->
+        <!-- Subscribe page content loaded from config/subscribe-config.json -->
         <div class="page" id="page-subscribe" data-page="subscribe">
             <div class="container">
                 <div class="header">
-                    <h2 class="logo">Subscribe</h2>
-                    <div class="tagline">join the journey</div>
+                    <h2 class="logo"></h2>
+                    <div class="tagline"></div>
                 </div>
 
                 <div class="content">
                     <div class="section">
-                        <h3 class="section-title">Join Us</h3>
-                        <p class="section-intro">Stay connected or become a member for unlimited coffee.</p>
-
-                        <div class="subscription-grid">
-                            <div class="subscription-card">
-                                <div class="sub-tier">Follow</div>
-                                <div class="sub-price">Free</div>
-                                <ul class="sub-perks">
-                                    <li>Event invitations and popups</li>
-                                    <li>Investment opportunities</li>
-                                    <li>Updates on new locations</li>
-                                    <li>Community announcements</li>
-                                </ul>
-                                <div class="sub-btn-group">
-                                    <a href="https://substack.com/@gratifiedwegrow" target="_blank" class="sub-btn">Substack</a>
-                                    <a href="https://partiful.com/u/FYZcDQXvTPeptryuZgJ7" target="_blank" class="sub-btn">Partiful</a>
-                                </div>
-                            </div>
-
-                            <div class="subscription-card featured">
-                                <div class="sub-tier">Subscribe</div>
-                                <div class="sub-price">$108<span>/month</span></div>
-                                <ul class="sub-perks">
-                                    <li>Unlimited drinks at all locations</li>
-                                    <li>Discounts on pastries</li>
-                                    <li>Priority at busy times</li>
-                                    <li>Member-only events</li>
-                                </ul>
-                                <button class="sub-btn primary" onclick="openModal('unlimitedModal')">Subscribe</button>
-                            </div>
-                        </div>
+                        <h3 class="section-title"></h3>
+                        <p class="section-intro"></p>
+                        <div class="subscription-grid"></div>
                     </div>
 
                     <div class="section">
-                        <h3 class="section-title">What You Get</h3>
-                        <div class="perks-showcase">
-                            <div class="perk-item">
-                                <div class="perk-icon">◆</div>
-                                <h3>Community</h3>
-                                <p>Join a Discord of coffee lovers, artists, and dreamers. Share your creations, get feedback, and connect.</p>
-                            </div>
-                            <div class="perk-item">
-                                <div class="perk-icon">◆</div>
-                                <h3>Exclusive Content</h3>
-                                <p>Behind-the-scenes looks at art projects, coffee sourcing journeys, and event planning.</p>
-                            </div>
-                            <div class="perk-item">
-                                <div class="perk-icon">◆</div>
-                                <h3>Real Perks</h3>
-                                <p>Free drinks, merch discounts, and priority access to limited events and collaborations.</p>
-                            </div>
-                        </div>
+                        <h3 class="section-title"></h3>
+                        <div class="perks-showcase"></div>
                     </div>
                 </div>
             </div>
@@ -642,6 +615,7 @@
     <script src="assets/js/particles.js"></script>
     <script src="assets/js/liquid-shader.js"></script>
     <script src="assets/js/menu-loader.js"></script>
+    <script src="assets/js/subscribe-loader.js"></script>
     <script src="assets/js/drink-detail.js"></script>
     <script src="assets/js/modals.js"></script>
     <script src="assets/js/partners-loader.js"></script>
