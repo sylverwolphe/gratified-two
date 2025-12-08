@@ -498,14 +498,21 @@
                 const x = p.x + curlX;
                 const y = p.y - parallaxOffsetY;
 
-                const gradient = ctx.createRadialGradient(x, y, 0, x, y, p.size);
-                gradient.addColorStop(0, p.rgbPrefix + opacity + ')');
-                gradient.addColorStop(0.5, p.rgbPrefix + (opacity * 0.5) + ')');
-                gradient.addColorStop(1, p.rgbPrefix + '0)');
-
+                // Draw concentric circles to simulate radial gradient (avoids createRadialGradient)
+                // Outer ring (25% opacity)
                 ctx.beginPath();
                 ctx.arc(x, y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = gradient;
+                ctx.fillStyle = p.rgbPrefix + (opacity * 0.25) + ')';
+                ctx.fill();
+                // Middle ring (50% opacity)
+                ctx.beginPath();
+                ctx.arc(x, y, p.size * 0.65, 0, Math.PI * 2);
+                ctx.fillStyle = p.rgbPrefix + (opacity * 0.5) + ')';
+                ctx.fill();
+                // Inner core (full opacity)
+                ctx.beginPath();
+                ctx.arc(x, y, p.size * 0.3, 0, Math.PI * 2);
+                ctx.fillStyle = p.rgbPrefix + opacity + ')';
                 ctx.fill();
 
             } else if (particleMode === 'dust') {

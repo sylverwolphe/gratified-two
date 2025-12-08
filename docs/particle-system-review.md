@@ -31,7 +31,7 @@ const colorStr = `rgba(${Math.round(p.color.r)}, ${Math.round(p.color.g)}, ${Mat
 
 **Fix:** Added `updateColorCache(p)` function that caches `rgbPrefix` string (e.g., `"rgba(128,64,32,"`) on each particle, only rebuilding when rounded RGB values change. All render code now uses `p.rgbPrefix + opacity + ')'` for minimal string concatenation.
 
-**3. RadialGradient creation every frame (steam mode)**
+**3. ~~RadialGradient creation every frame (steam mode)~~ (FIXED)**
 ```javascript
 // Lines 481-484
 const gradient = ctx.createRadialGradient(x, y, 0, x, y, p.size);
@@ -39,9 +39,9 @@ gradient.addColorStop(0, colorStr);
 gradient.addColorStop(0.5, `rgba(...)`);
 gradient.addColorStop(1, `rgba(...)`);
 ```
-`createRadialGradient()` is expensive. For 120 steam particles at 60fps = 7,200 gradient objects/second. This is one of the most expensive operations in 2D Canvas.
+~~`createRadialGradient()` is expensive. For 120 steam particles at 60fps = 7,200 gradient objects/second. This is one of the most expensive operations in 2D Canvas.~~
 
-**Fix:** Use pre-rendered gradient sprites on an OffscreenCanvas, or use simple radial falloff with globalAlpha instead of gradients.
+**Fix:** Replaced with 3 concentric filled circles (outer at 25% opacity, middle at 50%, inner at 100%) that simulate the radial gradient effect without any gradient object creation.
 
 **4. shadowBlur causes expensive compositing**
 ```javascript
