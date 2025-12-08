@@ -65,22 +65,15 @@ ctx.restore();
 
 **Fix:** Replaced with `setTransform()` to directly set the transformation matrix. Diamonds mode uses rotation matrix; grounds mode uses combined rotation + scale(1, stretch) matrix. Reset with `setTransform(1, 0, 0, 1, 0, 0)` after each particle.
 
-**6. No draw call batching**
-Each particle calls `beginPath()`, draws a shape, then `fill()`. For simple circles, this creates 200+ separate draw calls per frame.
+**6. ~~No draw call batching~~ (FIXED)**
+~~Each particle calls `beginPath()`, draws a shape, then `fill()`. For simple circles, this creates 200+ separate draw calls per frame.~~
 
-**Fix:** Batch particles by color/opacity into single paths:
-```javascript
-// Group particles by similar color
-colorGroups.forEach(group => {
-    ctx.beginPath();
-    ctx.fillStyle = group.color;
-    group.particles.forEach(p => {
-        ctx.moveTo(p.x + p.size, p.y);
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    });
-    ctx.fill(); // Single fill for all particles of same color
-});
-```
+**Fix:** Implemented batching for `dots` and `dust` modes:
+- Particles are grouped by quantized color+opacity (50 opacity buckets)
+- Each group is drawn with a single `beginPath()` / `fill()` cycle
+- Uses `moveTo()` before each `arc()` to create disconnected circles in one path
+- Reduces draw calls from 200+ to ~10-30 depending on color variety
+- `diamonds`, `steam`, `grounds` modes still draw individually due to per-particle transforms
 
 ### Moderate
 

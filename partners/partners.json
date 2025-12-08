@@ -1,11 +1,6 @@
 {
   "partners": [
     {
-      "name": "AA",
-      "logo": "aa.svg",
-      "url": ""
-    },
-    {
       "name": "TimeCube",
       "logo": "timecube.png",
       "url": ""

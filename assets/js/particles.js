@@ -385,6 +385,14 @@
         color.b += (target.b - color.b) * t;
     }
 
+    // Quantize opacity for batching (round to nearest 0.02 for ~50 buckets)
+    function quantizeOpacity(opacity) {
+        return Math.round(opacity * 50) / 50;
+    }
+
+    // Reusable object for batching to avoid allocations
+    const batchGroups = new Map();
+
     function animate(currentTime) {
         const frameInterval = isTabActive ? activeFrameInterval : inactiveFrameInterval;
         if (currentTime - lastFrameTime < frameInterval) {
@@ -396,195 +404,216 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         scrollY += (targetScrollY - scrollY) * 0.1;
 
-        particles.forEach((p) => {
-            lerpColorInPlace(p.color, p.targetColor, getColorTransitionSpeed());
-            updateColorCache(p);
+        const parallaxStrength = getParallaxStrength();
+        const colorTransitionSpeed = getColorTransitionSpeed();
 
-            if (particleMode === 'dots') {
-                p.wobble += p.wobbleSpeed;
-                p.x += p.speedX + Math.sin(p.wobble) * 0.2;
-                p.y += p.speedY;
+        // For batchable modes (dots, dust), collect draw data first
+        if (particleMode === 'dots' || particleMode === 'dust') {
+            batchGroups.clear();
 
-                if (p.y > canvas.height + 10) {
-                    p.y = -10;
-                    p.x = Math.random() * canvas.width;
-                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
-                    p.targetColor = { ...targetColors[p.colorIndex] };
+            particles.forEach((p) => {
+                lerpColorInPlace(p.color, p.targetColor, colorTransitionSpeed);
+                updateColorCache(p);
+
+                if (particleMode === 'dots') {
+                    p.wobble += p.wobbleSpeed;
+                    p.x += p.speedX + Math.sin(p.wobble) * 0.2;
+                    p.y += p.speedY;
+
+                    if (p.y > canvas.height + 10) {
+                        p.y = -10;
+                        p.x = Math.random() * canvas.width;
+                        p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                        p.targetColor = { ...targetColors[p.colorIndex] };
+                    }
+                    if (p.x > canvas.width + 10) p.x = -10;
+                    if (p.x < -10) p.x = canvas.width + 10;
+
+                    const depthFactor = (p.size / 6) * parallaxStrength;
+                    p.drawY = p.y - scrollY * depthFactor;
+
+                } else if (particleMode === 'dust') {
+                    p.swirlPhase += p.swirlSpeed;
+                    p.directionTimer++;
+                    if (p.directionTimer >= p.directionInterval) {
+                        p.directionTimer = 0;
+                        p.directionInterval = Math.floor(Math.random() * 300) + 200;
+                        p.speedX += (Math.random() - 0.5) * 0.2;
+                        p.speedY += (Math.random() - 0.5) * 0.1;
+                        p.speedX = Math.max(-0.5, Math.min(0.5, p.speedX));
+                        p.speedY = Math.max(-0.2, Math.min(0.2, p.speedY));
+                    }
+
+                    const swirlX = Math.sin(p.swirlPhase) * p.swirlRadius * 0.02;
+                    const swirlY = Math.cos(p.swirlPhase * 0.7) * p.swirlRadius * 0.01;
+
+                    p.x += p.speedX + swirlX;
+                    p.y += p.speedY + swirlY;
+
+                    if (p.x > canvas.width + 20) {
+                        p.x = -20;
+                        p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                        p.targetColor = { ...targetColors[p.colorIndex] };
+                    }
+                    if (p.x < -20) {
+                        p.x = canvas.width + 20;
+                        p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                        p.targetColor = { ...targetColors[p.colorIndex] };
+                    }
+                    if (p.y > canvas.height + 20) p.y = -20;
+                    if (p.y < -20) p.y = canvas.height + 20;
+
+                    const depthFactor = (p.size / 4) * parallaxStrength;
+                    p.drawY = p.y - scrollY * depthFactor;
                 }
-                if (p.x > canvas.width + 10) p.x = -10;
-                if (p.x < -10) p.x = canvas.width + 10;
 
-                const depthFactor = (p.size / 6) * getParallaxStrength();
-                const parallaxOffsetY = scrollY * depthFactor;
+                // Group by quantized color+opacity for batching
+                const quantizedOpacity = quantizeOpacity(p.opacity);
+                const batchKey = p.rgbPrefix + quantizedOpacity + ')';
+                if (!batchGroups.has(batchKey)) {
+                    batchGroups.set(batchKey, []);
+                }
+                batchGroups.get(batchKey).push(p);
+            });
 
+            // Draw batched particles - single fill() per color group
+            batchGroups.forEach((group, fillStyle) => {
                 ctx.beginPath();
-                ctx.arc(p.x, p.y - parallaxOffsetY, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
+                ctx.fillStyle = fillStyle;
+                group.forEach(p => {
+                    ctx.moveTo(p.x + p.size, p.drawY);
+                    ctx.arc(p.x, p.drawY, p.size, 0, Math.PI * 2);
+                });
                 ctx.fill();
+            });
 
-            } else if (particleMode === 'diamonds') {
-                p.wobble += p.wobbleSpeed;
-                p.x += p.speedX + Math.sin(p.wobble) * 0.2;
-                p.y += p.speedY;
+        } else {
+            // Non-batchable modes (diamonds, steam, grounds) - draw individually
+            particles.forEach((p) => {
+                lerpColorInPlace(p.color, p.targetColor, colorTransitionSpeed);
+                updateColorCache(p);
 
-                if (p.y > canvas.height + 10) {
-                    p.y = -10;
-                    p.x = Math.random() * canvas.width;
-                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
-                    p.targetColor = { ...targetColors[p.colorIndex] };
+                if (particleMode === 'diamonds') {
+                    p.wobble += p.wobbleSpeed;
+                    p.x += p.speedX + Math.sin(p.wobble) * 0.2;
+                    p.y += p.speedY;
+
+                    if (p.y > canvas.height + 10) {
+                        p.y = -10;
+                        p.x = Math.random() * canvas.width;
+                        p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                        p.targetColor = { ...targetColors[p.colorIndex] };
+                    }
+                    if (p.x > canvas.width + 10) p.x = -10;
+                    if (p.x < -10) p.x = canvas.width + 10;
+
+                    const depthFactor = (p.size / 6) * parallaxStrength;
+                    const parallaxOffsetY = scrollY * depthFactor;
+                    const x = p.x;
+                    const y = p.y - parallaxOffsetY;
+                    const size = p.size * 1.5;
+                    const rotationEffect = getConfig('diamonds', 'rotationEffect', 0.1);
+
+                    const angle = Math.PI / 4 + p.wobble * rotationEffect;
+                    const cos = Math.cos(angle);
+                    const sin = Math.sin(angle);
+                    ctx.setTransform(cos, sin, -sin, cos, x, y);
+                    ctx.beginPath();
+                    ctx.rect(-size / 2, -size / 2, size, size);
+                    ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
+                    ctx.fill();
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+                } else if (particleMode === 'steam') {
+                    p.life++;
+                    p.curlOffset += p.curlSpeed;
+                    const curlX = Math.sin(p.curlOffset) * p.curlAmplitude * (p.life / p.maxLife);
+                    p.y += p.speedY;
+
+                    const lifeRatio = p.life / p.maxLife;
+                    const opacityPeak = getConfig('steam', 'opacityPeak', 0.15);
+                    const growthRate = getConfig('steam', 'growthRate', 0.5);
+                    let opacity;
+                    if (lifeRatio < 0.1) {
+                        opacity = (lifeRatio / 0.1) * opacityPeak;
+                    } else if (lifeRatio > 0.7) {
+                        opacity = ((1 - lifeRatio) / 0.3) * opacityPeak;
+                    } else {
+                        opacity = opacityPeak;
+                    }
+
+                    p.size = p.originalSize * (1 + lifeRatio * growthRate);
+
+                    if (p.life >= p.maxLife || p.y < -50) {
+                        p.x = Math.random() * canvas.width;
+                        p.y = canvas.height + Math.random() * 50;
+                        p.life = 0;
+                        p.maxLife = Math.random() * 400 + 300;
+                        p.curlOffset = Math.random() * Math.PI * 2;
+                        p.curlAmplitude = Math.random() * 40 + 20;
+                        p.size = p.originalSize;
+                        p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                        p.targetColor = { ...targetColors[p.colorIndex] };
+                    }
+
+                    const depthFactor = (p.originalSize / 8) * parallaxStrength;
+                    const parallaxOffsetY = scrollY * depthFactor;
+                    const x = p.x + curlX;
+                    const y = p.y - parallaxOffsetY;
+
+                    // Outer ring (25% opacity)
+                    ctx.beginPath();
+                    ctx.arc(x, y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = p.rgbPrefix + (opacity * 0.25) + ')';
+                    ctx.fill();
+                    // Middle ring (50% opacity)
+                    ctx.beginPath();
+                    ctx.arc(x, y, p.size * 0.65, 0, Math.PI * 2);
+                    ctx.fillStyle = p.rgbPrefix + (opacity * 0.5) + ')';
+                    ctx.fill();
+                    // Inner core (full opacity)
+                    ctx.beginPath();
+                    ctx.arc(x, y, p.size * 0.3, 0, Math.PI * 2);
+                    ctx.fillStyle = p.rgbPrefix + opacity + ')';
+                    ctx.fill();
+
+                } else if (particleMode === 'grounds') {
+                    p.wobble += p.wobbleSpeed;
+                    p.rotation += p.rotationSpeed;
+                    p.x += p.speedX + Math.sin(p.wobble) * p.wobbleAmount;
+                    p.y += p.speedY;
+
+                    if (p.y > canvas.height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * canvas.width;
+                        p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                        p.targetColor = { ...targetColors[p.colorIndex] };
+                    }
+                    if (p.y < -20) {
+                        p.y = canvas.height + 20;
+                        p.x = Math.random() * canvas.width;
+                        p.colorIndex = Math.floor(Math.random() * targetColors.length);
+                        p.targetColor = { ...targetColors[p.colorIndex] };
+                    }
+                    if (p.x > canvas.width + 20) p.x = -20;
+                    if (p.x < -20) p.x = canvas.width + 20;
+
+                    const depthFactor = (p.size / 3) * parallaxStrength;
+                    const parallaxOffsetY = scrollY * depthFactor;
+                    const x = p.x;
+                    const y = p.y - parallaxOffsetY;
+
+                    const cos = Math.cos(p.rotation);
+                    const sin = Math.sin(p.rotation);
+                    ctx.setTransform(cos, sin, -p.stretch * sin, p.stretch * cos, x, y);
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
+                    ctx.fill();
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
                 }
-                if (p.x > canvas.width + 10) p.x = -10;
-                if (p.x < -10) p.x = canvas.width + 10;
-
-                const depthFactor = (p.size / 6) * getParallaxStrength();
-                const parallaxOffsetY = scrollY * depthFactor;
-                const x = p.x;
-                const y = p.y - parallaxOffsetY;
-                const size = p.size * 1.5;
-                const rotationEffect = getConfig('diamonds', 'rotationEffect', 0.1);
-
-                // Use setTransform instead of save/translate/rotate/restore
-                const angle = Math.PI / 4 + p.wobble * rotationEffect;
-                const cos = Math.cos(angle);
-                const sin = Math.sin(angle);
-                ctx.setTransform(cos, sin, -sin, cos, x, y);
-                ctx.beginPath();
-                ctx.rect(-size / 2, -size / 2, size, size);
-                ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
-                ctx.fill();
-                ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset to identity
-
-            } else if (particleMode === 'steam') {
-                p.life++;
-                p.curlOffset += p.curlSpeed;
-                const curlX = Math.sin(p.curlOffset) * p.curlAmplitude * (p.life / p.maxLife);
-                p.y += p.speedY;
-
-                const lifeRatio = p.life / p.maxLife;
-                const opacityPeak = getConfig('steam', 'opacityPeak', 0.15);
-                const growthRate = getConfig('steam', 'growthRate', 0.5);
-                let opacity;
-                if (lifeRatio < 0.1) {
-                    opacity = (lifeRatio / 0.1) * opacityPeak;
-                } else if (lifeRatio > 0.7) {
-                    opacity = ((1 - lifeRatio) / 0.3) * opacityPeak;
-                } else {
-                    opacity = opacityPeak;
-                }
-
-                p.size = p.originalSize * (1 + lifeRatio * growthRate);
-
-                if (p.life >= p.maxLife || p.y < -50) {
-                    p.x = Math.random() * canvas.width;
-                    p.y = canvas.height + Math.random() * 50;
-                    p.life = 0;
-                    p.maxLife = Math.random() * 400 + 300;
-                    p.curlOffset = Math.random() * Math.PI * 2;
-                    p.curlAmplitude = Math.random() * 40 + 20;
-                    p.size = p.originalSize;
-                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
-                    p.targetColor = { ...targetColors[p.colorIndex] };
-                }
-
-                const depthFactor = (p.originalSize / 8) * getParallaxStrength();
-                const parallaxOffsetY = scrollY * depthFactor;
-                const x = p.x + curlX;
-                const y = p.y - parallaxOffsetY;
-
-                // Draw concentric circles to simulate radial gradient (avoids createRadialGradient)
-                // Outer ring (25% opacity)
-                ctx.beginPath();
-                ctx.arc(x, y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = p.rgbPrefix + (opacity * 0.25) + ')';
-                ctx.fill();
-                // Middle ring (50% opacity)
-                ctx.beginPath();
-                ctx.arc(x, y, p.size * 0.65, 0, Math.PI * 2);
-                ctx.fillStyle = p.rgbPrefix + (opacity * 0.5) + ')';
-                ctx.fill();
-                // Inner core (full opacity)
-                ctx.beginPath();
-                ctx.arc(x, y, p.size * 0.3, 0, Math.PI * 2);
-                ctx.fillStyle = p.rgbPrefix + opacity + ')';
-                ctx.fill();
-
-            } else if (particleMode === 'dust') {
-                p.swirlPhase += p.swirlSpeed;
-                p.directionTimer++;
-                if (p.directionTimer >= p.directionInterval) {
-                    p.directionTimer = 0;
-                    p.directionInterval = Math.floor(Math.random() * 300) + 200;
-                    p.speedX += (Math.random() - 0.5) * 0.2;
-                    p.speedY += (Math.random() - 0.5) * 0.1;
-                    p.speedX = Math.max(-0.5, Math.min(0.5, p.speedX));
-                    p.speedY = Math.max(-0.2, Math.min(0.2, p.speedY));
-                }
-
-                const swirlX = Math.sin(p.swirlPhase) * p.swirlRadius * 0.02;
-                const swirlY = Math.cos(p.swirlPhase * 0.7) * p.swirlRadius * 0.01;
-
-                p.x += p.speedX + swirlX;
-                p.y += p.speedY + swirlY;
-
-                if (p.x > canvas.width + 20) {
-                    p.x = -20;
-                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
-                    p.targetColor = { ...targetColors[p.colorIndex] };
-                }
-                if (p.x < -20) {
-                    p.x = canvas.width + 20;
-                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
-                    p.targetColor = { ...targetColors[p.colorIndex] };
-                }
-                if (p.y > canvas.height + 20) p.y = -20;
-                if (p.y < -20) p.y = canvas.height + 20;
-
-                const depthFactor = (p.size / 4) * getParallaxStrength();
-                const parallaxOffsetY = scrollY * depthFactor;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y - parallaxOffsetY, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
-                ctx.fill();
-
-            } else if (particleMode === 'grounds') {
-                p.wobble += p.wobbleSpeed;
-                p.rotation += p.rotationSpeed;
-                p.x += p.speedX + Math.sin(p.wobble) * p.wobbleAmount;
-                p.y += p.speedY;
-
-                if (p.y > canvas.height + 20) {
-                    p.y = -20;
-                    p.x = Math.random() * canvas.width;
-                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
-                    p.targetColor = { ...targetColors[p.colorIndex] };
-                }
-                if (p.y < -20) {
-                    p.y = canvas.height + 20;
-                    p.x = Math.random() * canvas.width;
-                    p.colorIndex = Math.floor(Math.random() * targetColors.length);
-                    p.targetColor = { ...targetColors[p.colorIndex] };
-                }
-                if (p.x > canvas.width + 20) p.x = -20;
-                if (p.x < -20) p.x = canvas.width + 20;
-
-                const depthFactor = (p.size / 3) * getParallaxStrength();
-                const parallaxOffsetY = scrollY * depthFactor;
-                const x = p.x;
-                const y = p.y - parallaxOffsetY;
-
-                // Use setTransform instead of save/translate/rotate/scale/restore
-                // Combined matrix for rotate + scale(1, stretch)
-                const cos = Math.cos(p.rotation);
-                const sin = Math.sin(p.rotation);
-                ctx.setTransform(cos, sin, -p.stretch * sin, p.stretch * cos, x, y);
-                ctx.beginPath();
-                ctx.arc(0, 0, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
-                ctx.fill();
-                ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset to identity
-            }
-        });
+            });
+        }
 
         requestAnimationFrame(animate);
     }
