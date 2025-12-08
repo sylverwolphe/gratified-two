@@ -1904,137 +1904,39 @@ body {
     animation: fadeInUp 1s ease 0.6s both;
 }
 
-.landing-cta {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-    animation: fadeInUp 1s ease 0.8s both;
-}
-
-/* Animated Coffee Cup */
-.landing-cup {
-    width: 120px;
-    height: 140px;
+/* Diamond Logo */
+.landing-diamond {
+    width: 100px;
+    height: 100px;
     margin: 0 auto 40px;
     animation: fadeInUp 1s ease 0.3s both;
 }
 
-.cup-svg {
+.diamond-svg {
     width: 100%;
     height: 100%;
 }
 
-.cup-outline,
-.cup-handle,
-.cup-rim,
-.cup-rim-back {
-    stroke-dasharray: 300;
-    stroke-dashoffset: 300;
-    animation: drawCup 1.5s ease 0.8s forwards;
-}
-
-.cup-handle-shadow {
-    stroke-dasharray: 300;
-    stroke-dashoffset: 300;
-    animation: drawCup 1.5s ease 0.9s forwards;
-}
-
-.cup-body-fill,
-.cup-highlight {
+.diamond-fill {
     opacity: 0;
-    animation: fadeIn 0.8s ease 1.2s forwards;
+    animation: fillDiamond 0.8s ease 1.8s forwards;
 }
 
-.glass-shine {
-    opacity: 0;
-    animation: shineIn 0.6s ease 1.5s forwards;
+.diamond-stroke {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: drawDiamond 1.5s ease 0.5s forwards;
 }
 
-.glass-shine-small {
-    opacity: 0;
-    animation: shineIn 0.6s ease 1.7s forwards;
-}
-
-@keyframes shineIn {
-    to {
-        opacity: 0.4;
-    }
-}
-
-.cup-shadow {
-    opacity: 0;
-    animation: fadeIn 1s ease 0.5s forwards;
-}
-
-.cup-rim-inner {
-    opacity: 0;
-    animation: fadeIn 0.5s ease 2s forwards;
-}
-
-.coffee-fill {
-    transform: translateY(70px);
-    animation: coffeeFill 2s ease 1.8s forwards;
-}
-
-.coffee-surface {
-    opacity: 0;
-    animation: fadeIn 0.5s ease 3.5s forwards;
-}
-
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
-}
-
-.steam {
-    opacity: 0;
-    animation: steamFloat 2.5s ease-in-out 3.5s infinite;
-}
-
-.steam-1 {
-    animation-delay: 3.5s;
-}
-
-.steam-2 {
-    animation-delay: 3.8s;
-}
-
-.steam-3 {
-    animation-delay: 4.1s;
-}
-
-@keyframes drawCup {
+@keyframes drawDiamond {
     to {
         stroke-dashoffset: 0;
     }
 }
 
-@keyframes coffeeFill {
-    from {
-        transform: translateY(70px);
-    }
+@keyframes fillDiamond {
     to {
-        transform: translateY(0);
-    }
-}
-
-@keyframes steamFloat {
-    0% {
-        opacity: 0;
-        transform: translateY(0) scaleX(1);
-    }
-    20% {
-        opacity: 0.6;
-    }
-    50% {
-        opacity: 0.4;
-        transform: translateY(-8px) scaleX(1.1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-15px) scaleX(0.8);
+        opacity: 1;
     }
 }
 
@@ -2085,105 +1987,6 @@ body {
     .scroll-hint {
         bottom: 100px; /* Above mobile navbar */
     }
-}
-
-/* Landing CTA Buttons - Icon-focused vertical design */
-.landing-cta-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding: 20px 30px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.cta-icon-wrapper {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid var(--drink-nav-color-2);
-    transition: all 0.3s ease;
-}
-
-.landing-cta-btn:first-child .cta-icon-wrapper {
-    border-color: var(--drink-nav-color-2);
-}
-
-.landing-cta-btn:last-child .cta-icon-wrapper {
-    border-color: var(--drink-nav-color-3);
-}
-
-/* Menu icon - two bars like navbar */
-.cta-icon-menu {
-    flex-direction: column;
-    gap: 6px;
-}
-
-.cta-icon-bar {
-    width: 24px;
-    height: 3px;
-    background-color: var(--drink-nav-color-2);
-    border-radius: 1px;
-    transition: all 0.3s ease;
-}
-
-/* Diamond icon */
-.cta-icon-diamond {
-    color: var(--drink-nav-color-3);
-}
-
-.cta-icon-diamond svg {
-    width: 24px;
-    height: 24px;
-    transform: scale(0.7);
-    transition: all 0.3s ease;
-}
-
-.cta-label {
-    font-family: 'Satoshi', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: var(--charcoal-ink);
-    text-transform: lowercase;
-    transition: all 0.3s ease;
-}
-
-/* Hover effects */
-.landing-cta-btn:hover .cta-icon-wrapper {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-}
-
-.landing-cta-btn:first-child:hover .cta-icon-wrapper {
-    background-color: var(--drink-nav-color-2);
-}
-
-.landing-cta-btn:first-child:hover .cta-icon-bar {
-    background-color: var(--btn-text);
-}
-
-.landing-cta-btn:last-child:hover .cta-icon-wrapper {
-    background-color: var(--drink-nav-color-3);
-}
-
-.landing-cta-btn:last-child:hover .cta-icon-diamond {
-    color: var(--btn-text);
-}
-
-.landing-cta-btn:hover .cta-label {
-    color: var(--theme-accent);
-}
-
-/* Active state */
-.landing-cta-btn:active .cta-icon-wrapper {
-    transform: translateY(0);
-    box-shadow: none;
 }
 
 .landing-scroll-hint {
@@ -2928,12 +2731,6 @@ body {
         padding: 0 10px;
         margin-bottom: 25px;
         line-height: 1.6;
-    }
-
-    .landing-cta {
-        flex-direction: column;
-        padding: 0 30px;
-        gap: 12px;
     }
 
     .cta-btn {
