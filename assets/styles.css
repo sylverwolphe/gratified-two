@@ -1699,16 +1699,26 @@ footer a:hover {
     position: fixed;
     top: 20px;
     left: 50%;
-    transform: translateX(-50%);
     display: flex;
     gap: 0;
     z-index: 1000;
     background-color: var(--modal-bg);
     padding: 8px 0;
-    border-top: 3px solid var(--theme-accent);
-    border-bottom: 3px solid var(--theme-accent);
+    border: 3px solid var(--theme-accent);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     transition: background-color 0.4s ease, border-color 0.4s ease;
+    animation: navFadeIn 1s ease 0.3s both;
+}
+
+@keyframes navFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
 @media (max-width: 768px) {
@@ -2073,36 +2083,103 @@ body {
     }
 }
 
-.cta-btn {
-    padding: 16px 40px;
-    font-size: 16px;
-    font-family: 'Satoshi', sans-serif;
-    font-weight: 600;
-    letter-spacing: 2px;
+/* Landing CTA Buttons - Icon-focused vertical design */
+.landing-cta-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 30px;
+    background: transparent;
+    border: none;
     cursor: pointer;
-    transition: all 0.4s ease;
-    border: 3px solid var(--theme-accent);
-    text-transform: lowercase;
+    transition: all 0.3s ease;
 }
 
-.cta-btn.primary {
-    background-color: var(--theme-accent);
+.cta-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--drink-nav-color-2);
+    transition: all 0.3s ease;
+}
+
+.landing-cta-btn:first-child .cta-icon-wrapper {
+    border-color: var(--drink-nav-color-2);
+}
+
+.landing-cta-btn:last-child .cta-icon-wrapper {
+    border-color: var(--drink-nav-color-3);
+}
+
+/* Menu icon - two bars like navbar */
+.cta-icon-menu {
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cta-icon-bar {
+    width: 24px;
+    height: 3px;
+    background-color: var(--drink-nav-color-2);
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+/* Diamond icon */
+.cta-icon-diamond {
+    color: var(--drink-nav-color-3);
+}
+
+.cta-icon-diamond svg {
+    width: 24px;
+    height: 24px;
+    transform: scale(0.7);
+    transition: all 0.3s ease;
+}
+
+.cta-label {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--charcoal-ink);
+    text-transform: lowercase;
+    transition: all 0.3s ease;
+}
+
+/* Hover effects */
+.landing-cta-btn:hover .cta-icon-wrapper {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.landing-cta-btn:first-child:hover .cta-icon-wrapper {
+    background-color: var(--drink-nav-color-2);
+}
+
+.landing-cta-btn:first-child:hover .cta-icon-bar {
+    background-color: var(--btn-text);
+}
+
+.landing-cta-btn:last-child:hover .cta-icon-wrapper {
+    background-color: var(--drink-nav-color-3);
+}
+
+.landing-cta-btn:last-child:hover .cta-icon-diamond {
     color: var(--btn-text);
 }
 
-.cta-btn.primary:hover {
-    background-color: var(--rich-saffron);
-    border-color: var(--rich-saffron);
-}
-
-.cta-btn.secondary {
-    background-color: transparent;
+.landing-cta-btn:hover .cta-label {
     color: var(--theme-accent);
 }
 
-.cta-btn.secondary:hover {
-    background-color: var(--theme-accent);
-    color: var(--btn-text);
+/* Active state */
+.landing-cta-btn:active .cta-icon-wrapper {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 .landing-scroll-hint {
