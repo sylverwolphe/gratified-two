@@ -40,19 +40,19 @@ body, p, .blog-excerpt, .project-subtitle, .team-title {
     --golden-sand: #E6C89C;
     --burnt-orange: #CC5500;
     --olive-bronze: #6B5740;            /* Darkened for WCAG AA contrast (5.2:1) */
-    --cream-parchment: #F7F3E9;
+    --cream-parchment: #EDE8E0;         /* Warmer, less bright cream */
     --charcoal-ink: #3C3C3C;
 
     /* Theme-specific backgrounds */
-    --section-bg: rgba(247, 243, 233, 0.8);
+    --section-bg: rgba(237, 232, 224, 0.8);
     --card-bg: rgba(230, 200, 156, 0.3);
     --card-bg-hover: rgba(192, 132, 151, 0.3);
     --team-bg: rgba(192, 132, 151, 0.15);
-    --input-bg: rgba(247, 243, 233, 0.9);
-    --modal-bg: #F7F3E9;
+    --input-bg: rgba(237, 232, 224, 0.9);
+    --modal-bg: #EDE8E0;
     --modal-overlay-bg: rgba(60, 60, 60, 0.8);
     --ticker-bg: #3C3C3C;
-    --dot-bg: rgba(247, 243, 233, 0.6);
+    --dot-bg: rgba(237, 232, 224, 0.6);
 
     /* Mobile nav icon colors (default) */
     --drink-nav-color-1: #6B5740;
@@ -65,7 +65,7 @@ body, p, .blog-excerpt, .project-subtitle, .team-title {
     --theme-accent: var(--dusty-rose);
 
     /* Button text - light text for filled buttons */
-    --btn-text: #F7F3E9;
+    --btn-text: #EDE8E0;
 }
 
 [data-theme="dark"] {
@@ -344,7 +344,9 @@ body {
     padding: clamp(20px, 4vw, 45px);
     margin-bottom: clamp(20px, 4vw, 35px);
     position: relative;
-    box-shadow: inset 0 0 20px rgba(114, 47, 55, 0.05);
+    box-shadow:
+        inset 0 0 20px rgba(114, 47, 55, 0.05),
+        0 2px 8px rgba(60, 60, 60, 0.08);
 }
 
 /* Liquid shader canvas for menu */
@@ -2088,6 +2090,7 @@ body {
     text-align: center;
     position: relative;
     transition: all 0.4s ease;
+    box-shadow: 0 2px 12px rgba(60, 60, 60, 0.06);
 }
 
 .subscription-card::before {
@@ -2290,6 +2293,7 @@ body {
     z-index: 2;
     width: 100%;
     max-width: 550px;
+    box-shadow: 0 2px 12px rgba(60, 60, 60, 0.06);
 }
 
 .partnership-form .form-group {
@@ -2404,6 +2408,7 @@ body {
     border: 3px solid var(--olive-bronze);
     padding: 30px 25px;
     position: relative;
+    box-shadow: 0 2px 12px rgba(60, 60, 60, 0.06);
 }
 
 .partnership-info-card::before {
