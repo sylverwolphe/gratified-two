@@ -1,13 +1,20 @@
 // ===== MENU CONFIG LOADER =====
 // Loads menu items from config/menu-config.json for easy editing
+// Icons loaded separately from config/menu-icons.json
 
 let menuConfig = null;
+let menuIcons = null;
 let drinkDetails = {};
 
 async function loadMenuConfig() {
     try {
-        const response = await fetch('config/menu-config.json');
-        menuConfig = await response.json();
+        // Load menu config and icons in parallel
+        const [configResponse, iconsResponse] = await Promise.all([
+            fetch('config/menu-config.json'),
+            fetch('config/menu-icons.json')
+        ]);
+        menuConfig = await configResponse.json();
+        menuIcons = await iconsResponse.json();
 
         // Build drinkDetails object from config
         menuConfig.drinks.forEach(drink => {
@@ -44,11 +51,18 @@ function renderMenuCards() {
         card.className = 'drink-card';
         card.setAttribute('data-drink', drink.id);
 
-        const iconSvg = menuConfig.icons[drink.icon] || menuConfig.icons['surprise'];
+        // Use image if provided, otherwise fall back to SVG icon
+        let illustrationContent;
+        if (drink.image) {
+            illustrationContent = `<img src="${drink.image}" alt="${drink.name}" class="drink-image" loading="lazy">`;
+        } else {
+            const iconSvg = menuIcons[drink.icon] || menuIcons['surprise'];
+            illustrationContent = iconSvg;
+        }
 
         card.innerHTML = `
             <div class="drink-illustration">
-                ${iconSvg}
+                ${illustrationContent}
             </div>
             <div class="drink-info">
                 <div class="drink-name">${drink.name}</div>

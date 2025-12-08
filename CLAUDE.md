@@ -6,8 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Gratified is a static coffee + art website for a creative coffee experience brand. Part of the Buttercup Destiny parent company. The site features:
 - Interactive drink menu with WebGL liquid shader effects
+- Custom menu images with automatic square cropping
 - Multi-mode canvas particle system (steam, dust, grounds, dots, diamonds)
 - Light/dark theme with drink-specific color palettes
+- Animated diamond logo on landing page
 - Single-page multi-section layout with scroll-snap navigation
 - Partnership inquiry forms with Google Forms integration
 
@@ -29,7 +31,7 @@ The site uses modular JS files in `assets/js/`, loaded in this order:
 2. **page-theme.js** - Page-specific theming
 3. **particles.js** - Multi-mode canvas particle system. Modes: `dots`, `diamonds`, `steam`, `dust`, `grounds`. Global: `setParticleMode()`, `setSpiceColors(drinkId)`
 4. **liquid-shader.js** - WebGL shader for coffee cup filling effect. Global: `setLiquidDrink(drinkId)`. Features frame-rate independent transitions, WebGL context loss recovery
-5. **menu-loader.js** - Loads drinks from `config/menu-config.json`, renders menu cards
+5. **menu-loader.js** - Loads drinks from `config/menu-config.json`, renders menu cards with optional custom images
 6. **subscribe-loader.js** - Loads subscription tiers from config
 7. **drink-detail.js** - Drink detail modal with prev/next navigation
 8. **modals.js** - Modal management with focus trapping, ARIA notifications
@@ -39,8 +41,20 @@ The site uses modular JS files in `assets/js/`, loaded in this order:
 
 ### Configuration Files
 
-- `config/menu-config.json`: Drink menu data (id, name, descriptions, icons as SVG strings)
+- `config/menu-config.json`: Drink menu data (id, name, descriptions, icons, optional images)
+- `config/subscribe-config.json`: Subscription tiers and perks
 - `partners/partners.json`: Partner logos configuration
+
+See `config/README.md` for full schema documentation.
+
+### Menu Images
+
+Menu cards support custom images that are automatically cropped to square:
+1. Place images in `assets/images/menu/`
+2. Add `"image": "assets/images/menu/filename.jpg"` to the drink in `menu-config.json`
+3. Leave `"image": ""` or omit to use SVG icon fallback
+
+See `assets/images/menu/README.md` for image specs.
 
 ### Drink-Theming System
 
@@ -66,6 +80,13 @@ Drink IDs: `pour-over`, `cappuccino`, `latte`, `mocha`, `hot-chocolate`, `matcha
 - `--dusty-rose`, `--deep-burgundy`, `--cream-parchment`, `--charcoal-ink`: Brand colors
 - `[data-theme="dark"]` selector for dark mode overrides
 
+### Landing Page
+
+The landing page features:
+- Animated diamond logo (draws outline, then fills with color)
+- Particle background
+- Tagline "coffee + art"
+
 ### Forms
 
 Partnership/membership forms submit to Google Forms via hidden iframe. See `docs/GOOGLE_FORMS_SETUP.md` for setup instructions.
@@ -73,3 +94,8 @@ Partnership/membership forms submit to Google Forms via hidden iframe. See `docs
 ### Partner Logos
 
 Add logo files to `partners/` folder and configure in `partners/partners.json`. See `partners/README.md`.
+
+### Archive
+
+Deprecated components are stored in `archive/` for reference:
+- `coffee-cup-animation.html` - Original landing page coffee cup with fill animation

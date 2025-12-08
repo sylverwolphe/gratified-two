@@ -1,3 +1,45 @@
+// ===== IMAGE LIGHTBOX =====
+// Full-size image viewer for drink images
+
+(function initImageLightbox() {
+    const lightbox = document.getElementById('imageLightbox');
+    const lightboxImg = document.getElementById('lightboxImage');
+    const closeBtn = lightbox?.querySelector('.lightbox-close');
+
+    if (!lightbox || !lightboxImg) return;
+
+    // Open lightbox with image
+    window.openImageLightbox = function(src, alt) {
+        lightboxImg.src = src;
+        lightboxImg.alt = alt || '';
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+
+    // Close lightbox
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Close button
+    closeBtn?.addEventListener('click', closeLightbox);
+
+    // Click outside image to close
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    // Escape key to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
+    });
+})();
+
 // ===== DRINK DETAIL VIEW =====
 // Handles expanded drink view and menu slider
 
@@ -37,9 +79,21 @@
         drinkCards = Array.from(document.querySelectorAll('.drink-card'));
         currentDrinkIndex = drinkCards.indexOf(cardElement);
 
-        // Copy the SVG from the card
+        // Copy the illustration from the card (image or SVG)
+        const img = cardElement.querySelector('.drink-image');
         const svg = cardElement.querySelector('.drink-svg');
-        if (svg) {
+        if (img) {
+            detailIllustration.innerHTML = img.outerHTML;
+            // Add click handler for lightbox
+            const detailImg = detailIllustration.querySelector('.drink-image');
+            if (detailImg) {
+                detailImg.addEventListener('click', () => {
+                    if (window.openImageLightbox) {
+                        openImageLightbox(detailImg.src, detailImg.alt);
+                    }
+                });
+            }
+        } else if (svg) {
             detailIllustration.innerHTML = svg.outerHTML;
         }
 
@@ -83,9 +137,21 @@
         const details = drinkDetails[drinkId];
         if (!details) return;
 
-        // Copy the SVG from the card
+        // Copy the illustration from the card (image or SVG)
+        const img = card.querySelector('.drink-image');
         const svg = card.querySelector('.drink-svg');
-        if (svg) {
+        if (img) {
+            detailIllustration.innerHTML = img.outerHTML;
+            // Add click handler for lightbox
+            const detailImg = detailIllustration.querySelector('.drink-image');
+            if (detailImg) {
+                detailImg.addEventListener('click', () => {
+                    if (window.openImageLightbox) {
+                        openImageLightbox(detailImg.src, detailImg.alt);
+                    }
+                });
+            }
+        } else if (svg) {
             detailIllustration.innerHTML = svg.outerHTML;
         }
 
