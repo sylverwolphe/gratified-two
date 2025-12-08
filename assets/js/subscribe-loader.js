@@ -40,6 +40,22 @@
         if (perksShowcase) {
             perksShowcase.innerHTML = config.perksSection.items.map(item => renderPerkItem(item)).join('');
         }
+
+        // Social links (after perks section)
+        if (config.socialLinks && config.socialLinks.length > 0) {
+            const linksHtml = renderSocialLinks(config.socialLinks);
+            const perksSection = document.querySelectorAll('#page-subscribe .section')[1];
+            if (perksSection) {
+                perksSection.insertAdjacentHTML('beforeend', linksHtml);
+            }
+        }
+    }
+
+    function renderSocialLinks(links) {
+        const linksHtml = links.map(link =>
+            `<a href="${link.url}" target="_blank">${link.text}</a>`
+        ).join('');
+        return `<div class="subscribe-links">${linksHtml}</div>`;
     }
 
     function renderTierCard(tier) {

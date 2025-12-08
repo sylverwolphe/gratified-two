@@ -62,7 +62,7 @@
 
     // Mobile navbar colors for each drink (5 colors for 5 buttons)
     const drinkNavbarColors = {
-        'default': ['#2D5B69', '#722F37', '#C08497', '#CD7F32', '#E8A317'],
+        'default': ['#6B5740', '#D2691E', '#C08497', '#CD7F32', '#E8A317'],
         'pour-over': ['#8a6035', '#c28c50', '#d4a870', '#b8860b', '#daa520'],
         'cappuccino': ['#4a2a1a', '#6b4423', '#8b5a2b', '#a0522d', '#cd853f'],
         'latte': ['#6b4d35', '#8b7355', '#a08060', '#c4a484', '#d2b48c'],

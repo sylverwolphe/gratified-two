@@ -74,5 +74,19 @@
         "description": "Free drinks, merch discounts, and priority access to limited events and collaborations."
       }
     ]
-  }
+  },
+  "socialLinks": [
+    {
+      "text": "twitter",
+      "url": "https://x.com/gratifiedwegrow"
+    },
+    {
+      "text": "substack",
+      "url": "https://substack.com/@gratifiedwegrow"
+    },
+    {
+      "text": "partiful",
+      "url": "https://partiful.com/u/FYZcDQXvTPeptryuZgJ7"
+    }
+  ]
 }
