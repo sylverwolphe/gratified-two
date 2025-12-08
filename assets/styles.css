@@ -785,38 +785,11 @@ footer a:hover {
     z-index: 2;
 }
 
-.submit-btn::before {
-    content: '◆';
-    position: absolute;
-    left: 25px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--theme-accent);
-    font-size: 14px;
-    transition: all 0.4s ease;
-}
-
-.submit-btn::after {
-    content: '◆';
-    position: absolute;
-    right: 25px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--theme-accent);
-    font-size: 14px;
-    transition: all 0.4s ease;
-}
-
 .submit-btn:hover {
     background-color: var(--theme-accent);
     border-color: var(--theme-accent);
     color: var(--cream-parchment);
     letter-spacing: 3px;
-}
-
-.submit-btn:hover::before,
-.submit-btn:hover::after {
-    color: var(--cream-parchment);
 }
 
 .form-row {
