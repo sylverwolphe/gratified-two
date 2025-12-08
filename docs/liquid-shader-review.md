@@ -35,21 +35,22 @@ function lerpColor(a, b, t) {
 
 **Fix:** Replaced with `lerpColorInPlace(arr, target, t)` that mutates the array in place. Also changed snap logic to use direct index assignment instead of spread operator.
 
-**4. Expensive FBM in fragment shader**
+**4. ~~Expensive FBM in fragment shader~~ (FIXED)**
 ```glsl
 float fbm(vec2 p) {  // Line 1530
     // 4 octaves × 4 hash calls each = 16 sin() + dot() operations per fbm() call
 }
 ```
-Called twice per fragment (swirl + movement). Consider:
-- Reducing to 2-3 octaves
-- Baking to a texture for static patterns
-- Making octave count a uniform for quality levels
+~~Called twice per fragment (swirl + movement).~~
+
+**Fix:** Removed `fbm()`, `noise()`, and `hash()` functions entirely since swirl/movement effects were removed. Shader is now much simpler with just zigzag waves and depth gradient.
 
 ### Moderate
 
-**5. Unused uniforms waste bandwidth**
-`u_viscosity` (line 1507) and `u_foamHeight` (line 1510) are sent every frame but never read in shader.
+**5. ~~Unused uniforms waste bandwidth~~ (FIXED)**
+~~`u_viscosity` (line 1507) and `u_foamHeight` (line 1510) are sent every frame but never read in shader.~~
+
+**Fix:** Removed `u_viscosity`, `u_foamHeight`, and `u_hasSwirl` uniforms from shader and JS. Only active uniforms remain: resolution, time, baseColor, secondaryColor, flowSpeed, fillLevel.
 
 **6. Resize handler not debounced**
 ```javascript

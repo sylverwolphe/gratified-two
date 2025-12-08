@@ -5,83 +5,56 @@ const drinkConfigs = {
     'none': {
         baseColor: [0.98, 0.97, 0.95],      // Empty cup (cream parchment)
         secondaryColor: [0.95, 0.94, 0.92],
-        viscosity: 0.5,
         flowSpeed: 0.5,
-        fillLevel: 0.0,                      // Empty
-        foamHeight: 0.0,
-        hasSwirl: false
+        fillLevel: 0.0                       // Empty
     },
     'pour-over': {
         baseColor: [0.76, 0.55, 0.35],      // Light amber
         secondaryColor: [0.45, 0.30, 0.15], // Dark roast accent
-        viscosity: 0.3,                      // Thin, watery
         flowSpeed: 1.2,
-        fillLevel: 0.85,                     // How full the cup is
-        foamHeight: 0.02,                    // Minimal foam
-        hasSwirl: true
+        fillLevel: 0.85
     },
     'cappuccino': {
         baseColor: [0.35, 0.20, 0.12],      // Dark espresso
         secondaryColor: [0.95, 0.92, 0.88], // White foam
-        viscosity: 0.6,
         flowSpeed: 0.8,
-        fillLevel: 0.9,
-        foamHeight: 0.15,                    // Thick foam layer
-        hasSwirl: true
+        fillLevel: 0.9
     },
     'latte': {
         baseColor: [0.55, 0.38, 0.25],      // Milky coffee
         secondaryColor: [0.90, 0.85, 0.78], // Cream swirl
-        viscosity: 0.5,
         flowSpeed: 0.9,
-        fillLevel: 0.88,
-        foamHeight: 0.08,                    // Light foam
-        hasSwirl: true
+        fillLevel: 0.88
     },
     'mocha': {
         baseColor: [0.28, 0.15, 0.10],      // Dark chocolate coffee
         secondaryColor: [0.85, 0.75, 0.65], // Cream accent
-        viscosity: 0.7,
         flowSpeed: 0.6,
-        fillLevel: 0.85,
-        foamHeight: 0.06,
-        hasSwirl: true
+        fillLevel: 0.85
     },
     'hot-chocolate': {
         baseColor: [0.25, 0.12, 0.08],      // Rich chocolate
         secondaryColor: [0.95, 0.90, 0.85], // Marshmallow cream
-        viscosity: 0.9,                      // Thick
         flowSpeed: 0.4,
-        fillLevel: 0.92,
-        foamHeight: 0.12,                    // Cream/marshmallow top
-        hasSwirl: false
+        fillLevel: 0.92
     },
     'matcha-latte': {
         baseColor: [0.45, 0.55, 0.30],      // Matcha green
         secondaryColor: [0.90, 0.92, 0.85], // Oat milk
-        viscosity: 0.5,
         flowSpeed: 0.85,
-        fillLevel: 0.87,
-        foamHeight: 0.1,
-        hasSwirl: true
+        fillLevel: 0.87
     },
     'moroccan-mint': {
         baseColor: [0.35, 0.50, 0.35],      // Mint tea green
         secondaryColor: [0.95, 0.98, 0.90], // Bright mint highlight
-        viscosity: 0.25,                     // Very thin
         flowSpeed: 1.3,
-        fillLevel: 0.8,
-        foamHeight: 0.0,                     // No foam, it's tea
-        hasSwirl: true
+        fillLevel: 0.8
     },
     'something-different': {
         baseColor: [0.75, 0.45, 0.55],      // Dusty rose (mystery drink)
         secondaryColor: [0.90, 0.75, 0.60], // Golden accent
-        viscosity: 0.5,
         flowSpeed: 1.0,
-        fillLevel: 0.86,
-        foamHeight: 0.05,
-        hasSwirl: true
+        fillLevel: 0.86
     }
 };
 
@@ -114,42 +87,11 @@ const defaultDrink = 'none';
         uniform float u_time;
         uniform vec3 u_baseColor;
         uniform vec3 u_secondaryColor;
-        uniform float u_viscosity;
         uniform float u_flowSpeed;
         uniform float u_fillLevel;
-        uniform float u_foamHeight;
-        uniform float u_hasSwirl;
-
-        // Simple noise for color variation
-        float hash(vec2 p) {
-            return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-        }
-
-        float noise(vec2 p) {
-            vec2 i = floor(p);
-            vec2 f = fract(p);
-            f = f * f * (3.0 - 2.0 * f);
-            float a = hash(i);
-            float b = hash(i + vec2(1.0, 0.0));
-            float c = hash(i + vec2(0.0, 1.0));
-            float d = hash(i + vec2(1.0, 1.0));
-            return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
-        }
-
-        // FBM for more organic noise
-        float fbm(vec2 p) {
-            float f = 0.0;
-            f += 0.5000 * noise(p); p *= 2.02;
-            f += 0.2500 * noise(p); p *= 2.03;
-            f += 0.1250 * noise(p); p *= 2.01;
-            f += 0.0625 * noise(p);
-            return f / 0.9375;
-        }
 
         void main() {
             vec2 uv = gl_FragCoord.xy / u_resolution;
-            float aspect = u_resolution.x / u_resolution.y;
-
             float time = u_time * u_flowSpeed * 0.3;
 
             // Create zigzag/sawtooth diamond-like surface pattern
@@ -259,18 +201,12 @@ const defaultDrink = 'none';
         time: gl.getUniformLocation(program, 'u_time'),
         baseColor: gl.getUniformLocation(program, 'u_baseColor'),
         secondaryColor: gl.getUniformLocation(program, 'u_secondaryColor'),
-        viscosity: gl.getUniformLocation(program, 'u_viscosity'),
         flowSpeed: gl.getUniformLocation(program, 'u_flowSpeed'),
-        fillLevel: gl.getUniformLocation(program, 'u_fillLevel'),
-        foamHeight: gl.getUniformLocation(program, 'u_foamHeight'),
-        hasSwirl: gl.getUniformLocation(program, 'u_hasSwirl')
+        fillLevel: gl.getUniformLocation(program, 'u_fillLevel')
     };
 
     // Current and target values for smooth transitions
-    let current = {
-        ...drinkConfigs[defaultDrink],
-        hasSwirl: drinkConfigs[defaultDrink].hasSwirl ? 1.0 : 0.0
-    };
+    let current = { ...drinkConfigs[defaultDrink] };
     let target = { ...drinkConfigs[defaultDrink] };
     const transitionSpeed = 0.03;
 
@@ -305,11 +241,8 @@ const defaultDrink = 'none';
     function checkTransitionComplete() {
         return colorsApproxEqual(current.baseColor, target.baseColor) &&
                colorsApproxEqual(current.secondaryColor, target.secondaryColor) &&
-               approxEqual(current.viscosity, target.viscosity) &&
                approxEqual(current.flowSpeed, target.flowSpeed) &&
-               approxEqual(current.fillLevel, target.fillLevel) &&
-               approxEqual(current.foamHeight, target.foamHeight) &&
-               approxEqual(current.hasSwirl, target.hasSwirl ? 1.0 : 0.0);
+               approxEqual(current.fillLevel, target.fillLevel);
     }
 
     // Resize handler
@@ -356,11 +289,8 @@ const defaultDrink = 'none';
         if (isTransitioning) {
             lerpColorInPlace(current.baseColor, target.baseColor, frameAdjustedSpeed);
             lerpColorInPlace(current.secondaryColor, target.secondaryColor, frameAdjustedSpeed);
-            current.viscosity = lerp(current.viscosity, target.viscosity, frameAdjustedSpeed);
             current.flowSpeed = lerp(current.flowSpeed, target.flowSpeed, frameAdjustedSpeed);
             current.fillLevel = lerp(current.fillLevel, target.fillLevel, frameAdjustedSpeed);
-            current.foamHeight = lerp(current.foamHeight, target.foamHeight, frameAdjustedSpeed);
-            current.hasSwirl = lerp(current.hasSwirl, target.hasSwirl ? 1.0 : 0.0, frameAdjustedSpeed);
 
             // Check if transition is complete, snap to target values
             if (checkTransitionComplete()) {
@@ -370,11 +300,8 @@ const defaultDrink = 'none';
                 current.secondaryColor[0] = target.secondaryColor[0];
                 current.secondaryColor[1] = target.secondaryColor[1];
                 current.secondaryColor[2] = target.secondaryColor[2];
-                current.viscosity = target.viscosity;
                 current.flowSpeed = target.flowSpeed;
                 current.fillLevel = target.fillLevel;
-                current.foamHeight = target.foamHeight;
-                current.hasSwirl = target.hasSwirl ? 1.0 : 0.0;
                 isTransitioning = false;
             }
         }
@@ -384,11 +311,8 @@ const defaultDrink = 'none';
         gl.uniform1f(uniforms.time, timestamp / 1000);
         gl.uniform3fv(uniforms.baseColor, current.baseColor);
         gl.uniform3fv(uniforms.secondaryColor, current.secondaryColor);
-        gl.uniform1f(uniforms.viscosity, current.viscosity);
         gl.uniform1f(uniforms.flowSpeed, current.flowSpeed);
         gl.uniform1f(uniforms.fillLevel, current.fillLevel);
-        gl.uniform1f(uniforms.foamHeight, current.foamHeight);
-        gl.uniform1f(uniforms.hasSwirl, current.hasSwirl);
 
         // Draw
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
