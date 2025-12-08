@@ -32,12 +32,13 @@ The site uses modular JS files in `assets/js/`, loaded in this order:
 3. **particles.js** - Multi-mode canvas particle system. Modes: `dots`, `diamonds`, `steam`, `dust`, `grounds`. Global: `setParticleMode()`, `setSpiceColors(drinkId)`
 4. **liquid-shader.js** - WebGL shader for coffee cup filling effect. Global: `setLiquidDrink(drinkId)`. Features frame-rate independent transitions, WebGL context loss recovery
 5. **menu-loader.js** - Loads drinks from `config/menu-config.json`, renders menu cards with optional custom images
-6. **subscribe-loader.js** - Loads subscription tiers from config
-7. **drink-detail.js** - Drink detail modal with prev/next navigation
-8. **modals.js** - Modal management with focus trapping, ARIA notifications
-9. **partners-loader.js** - Loads partner logos from `partners/partners.json`
-10. **navigation.js** - Hash-based navigation with IntersectionObserver
-11. **particle-controller.js** - Coordinates particle system with page/drink changes
+6. **subscribe-loader.js** - Loads subscription tiers from `config/subscribe-config.json`
+7. **partnership-loader.js** - Loads info card content from `config/partnership-config.json`
+8. **drink-detail.js** - Drink detail modal with prev/next navigation
+9. **modals.js** - Modal management with focus trapping, ARIA notifications
+10. **partners-loader.js** - Loads partner logos from `partners/partners.json`
+11. **navigation.js** - Hash-based navigation with IntersectionObserver
+12. **particle-controller.js** - Coordinates particle system with page/drink changes
 
 ### Configuration Files
 

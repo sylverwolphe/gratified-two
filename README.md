@@ -63,13 +63,14 @@ Open `http://localhost:8000`
 ## Project Structure
 
 ```
-config/              # JSON configs and menu images
-  menu-config.json   # Drink data
-  menu-icons.json    # SVG icons for drinks
-  menu-images/       # Drink photos
-  subscribe-config.json
-assets/js/           # Modular JavaScript files
-partners/            # Partner logos and config
-archive/             # Archived components (e.g., coffee cup animation)
-docs/                # Documentation and code reviews
+config/                    # JSON configs and menu images
+  menu-config.json         # Drink data
+  menu-icons.json          # SVG icons for drinks
+  menu-images/             # Drink photos
+  subscribe-config.json    # Subscription tiers
+  partnership-config.json  # Partnership info cards
+assets/js/                 # Modular JavaScript files
+partners/                  # Partner logos and config
+archive/                   # Archived components
+docs/                      # Documentation and code reviews
 ```
