@@ -1707,7 +1707,7 @@ footer a:hover {
     gap: 0;
     z-index: 1000;
     background-color: var(--modal-bg);
-    padding: 8px 0;
+    padding: 0;
     border: 3px solid var(--theme-accent);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     transition: background-color 0.4s ease, border-color 0.4s ease;
@@ -1738,7 +1738,7 @@ footer a:hover {
     justify-content: center;
     color: var(--charcoal-ink);
     text-decoration: none;
-    padding: 8px 20px;
+    padding: 16px 20px;
     transition: all 0.3s ease;
     min-width: 70px;
 }

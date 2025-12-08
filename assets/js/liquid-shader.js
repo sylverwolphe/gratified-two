@@ -71,7 +71,7 @@ const defaultDrink = 'none';
         return;
     }
 
-    // Vertex shader
+    // Shader sources
     const vertexShaderSource = `
         attribute vec2 a_position;
         void main() {
@@ -79,7 +79,6 @@ const defaultDrink = 'none';
         }
     `;
 
-    // Fragment shader - Coffee cup filling effect
     const fragmentShaderSource = `
         precision mediump float;
 
@@ -145,7 +144,12 @@ const defaultDrink = 'none';
         }
     `;
 
-    // Compile shader
+    // WebGL resources (reassignable for context restore)
+    let program = null;
+    let uniforms = null;
+    let contextLost = false;
+
+    // Compile shader helper
     function compileShader(source, type) {
         const shader = gl.createShader(type);
         gl.shaderSource(shader, source);
@@ -157,57 +161,92 @@ const defaultDrink = 'none';
         return shader;
     }
 
-    const vertexShader = compileShader(vertexShaderSource, gl.VERTEX_SHADER);
-    const fragmentShader = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER);
+    // Setup WebGL resources (called on init and context restore)
+    function setupWebGLResources() {
+        const vertexShader = compileShader(vertexShaderSource, gl.VERTEX_SHADER);
+        const fragmentShader = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER);
 
-    if (!vertexShader || !fragmentShader) return;
+        if (!vertexShader || !fragmentShader) return false;
 
-    // Create program
-    const program = gl.createProgram();
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
-    gl.linkProgram(program);
+        program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.linkProgram(program);
 
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-        console.error('Program link error:', gl.getProgramInfoLog(program));
-        return;
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            console.error('Program link error:', gl.getProgramInfoLog(program));
+            return false;
+        }
+
+        gl.useProgram(program);
+
+        // Enable blending for transparency
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+        // Create fullscreen quad
+        const positions = new Float32Array([
+            -1, -1,
+             1, -1,
+            -1,  1,
+             1,  1,
+        ]);
+
+        const buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+
+        const positionLoc = gl.getAttribLocation(program, 'a_position');
+        gl.enableVertexAttribArray(positionLoc);
+        gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
+
+        // Get uniform locations
+        uniforms = {
+            resolution: gl.getUniformLocation(program, 'u_resolution'),
+            time: gl.getUniformLocation(program, 'u_time'),
+            baseColor: gl.getUniformLocation(program, 'u_baseColor'),
+            secondaryColor: gl.getUniformLocation(program, 'u_secondaryColor'),
+            flowSpeed: gl.getUniformLocation(program, 'u_flowSpeed'),
+            fillLevel: gl.getUniformLocation(program, 'u_fillLevel')
+        };
+
+        return true;
     }
 
-    gl.useProgram(program);
+    // Initial setup
+    if (!setupWebGLResources()) return;
 
-    // Enable blending for transparency
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    // Handle WebGL context loss/restore
+    canvas.addEventListener('webglcontextlost', (e) => {
+        e.preventDefault();
+        contextLost = true;
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+    });
 
-    // Create fullscreen quad
-    const positions = new Float32Array([
-        -1, -1,
-         1, -1,
-        -1,  1,
-         1,  1,
-    ]);
+    canvas.addEventListener('webglcontextrestored', () => {
+        contextLost = false;
+        if (setupWebGLResources()) {
+            resize();
+            startAnimation();
+        }
+    });
 
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
-
-    const positionLoc = gl.getAttribLocation(program, 'a_position');
-    gl.enableVertexAttribArray(positionLoc);
-    gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
-
-    // Get uniform locations
-    const uniforms = {
-        resolution: gl.getUniformLocation(program, 'u_resolution'),
-        time: gl.getUniformLocation(program, 'u_time'),
-        baseColor: gl.getUniformLocation(program, 'u_baseColor'),
-        secondaryColor: gl.getUniformLocation(program, 'u_secondaryColor'),
-        flowSpeed: gl.getUniformLocation(program, 'u_flowSpeed'),
-        fillLevel: gl.getUniformLocation(program, 'u_fillLevel')
-    };
+    // Deep clone drink config to avoid mutating original arrays
+    function cloneDrinkConfig(config) {
+        return {
+            baseColor: [...config.baseColor],
+            secondaryColor: [...config.secondaryColor],
+            flowSpeed: config.flowSpeed,
+            fillLevel: config.fillLevel
+        };
+    }
 
     // Current and target values for smooth transitions
-    let current = { ...drinkConfigs[defaultDrink] };
-    let target = { ...drinkConfigs[defaultDrink] };
+    let current = cloneDrinkConfig(drinkConfigs[defaultDrink]);
+    let target = cloneDrinkConfig(drinkConfigs[defaultDrink]);
     const transitionSpeed = 0.03;
 
     // Visibility tracking for performance
@@ -257,7 +296,7 @@ const defaultDrink = 'none';
     // Set drink
     window.setLiquidDrink = function(drinkId) {
         if (drinkConfigs[drinkId]) {
-            target = { ...drinkConfigs[drinkId] };
+            target = cloneDrinkConfig(drinkConfigs[drinkId]);
             isTransitioning = true;
         }
     };
@@ -320,9 +359,9 @@ const defaultDrink = 'none';
         animationId = requestAnimationFrame(animate);
     }
 
-    // Start animation only when visible
+    // Start animation only when visible and context is valid
     function startAnimation() {
-        if (!animationId && isVisible) {
+        if (!animationId && isVisible && !contextLost) {
             lastFrameTime = 0; // Reset to avoid delta spike after pause
             animationId = requestAnimationFrame(animate);
         }

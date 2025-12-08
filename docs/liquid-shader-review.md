@@ -81,24 +81,21 @@ gl.uniform1f(uniforms.time, (Date.now() - startTime) / 1000); // Line 1748
 
 ## Robustness Issues
 
-**9. No WebGL context loss handling**
+**9. ~~No WebGL context loss handling~~ (FIXED)**
 ```javascript
 const gl = canvas.getContext('webgl'); // Line 1485
 ```
-Mobile browsers frequently lose WebGL context. Add:
-```javascript
-canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); });
-canvas.addEventListener('webglcontextrestored', reinitialize);
-```
+~~Mobile browsers frequently lose WebGL context.~~
 
-**10. Shallow copy mutates shared arrays**
+**Fix:** Added `contextLost` flag and event listeners. On `webglcontextlost`: prevents default, sets flag, cancels animation. On `webglcontextrestored`: calls `setupWebGLResources()` to reinitialize shaders/program/buffers/uniforms, then restarts animation. Extracted WebGL setup into reusable `setupWebGLResources()` function.
+
+**10. ~~Shallow copy mutates shared arrays~~ (FIXED)**
 ```javascript
 let current = { ...drinkConfigs[defaultDrink] }; // Line 1687-1688
 ```
-`baseColor` and `secondaryColor` are array references. If mutated, original config is corrupted. Deep clone:
-```javascript
-baseColor: [...drinkConfigs[defaultDrink].baseColor]
-```
+~~`baseColor` and `secondaryColor` are array references. If mutated, original config is corrupted.~~
+
+**Fix:** Added `cloneDrinkConfig()` helper that deep clones arrays. Used for `current`, `target` initialization and in `setLiquidDrink()`.
 
 **11. No DPR change detection**
 ```javascript

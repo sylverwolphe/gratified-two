@@ -7,28 +7,32 @@ Part of **Buttercup Destiny**.
 ## Features
 
 - Interactive drink menu with WebGL liquid shader effects
-- Animated particle system with drink-themed color palettes
-- Light/dark theme toggle
-- Multi-page navigation with smooth transitions
-- Membership subscription tiers (Supporter, Unlimited, Investor)
-- Partnership inquiry forms (Host, Food, Art, Team)
+- Multi-mode particle system (steam, dust, grounds, dots, diamonds)
+- Light/dark theme with drink-specific color palettes
+- Single-page scroll-snap navigation
+- Membership subscription tiers
+- Partnership inquiry forms with Google Forms integration
 - Responsive design with mobile-optimized navigation
 
 ## Tech
 
-- Vanilla JavaScript (modular structure in `assets/js/`)
-- WebGL shaders for liquid effects
-- Canvas particle system
-- CSS animations and custom properties
-- Google Forms integration
+- Vanilla JavaScript (modular files in `assets/js/`)
+- WebGL shader with frame-rate independent animations and context loss recovery
+- Canvas particle system with configurable modes
+- CSS custom properties for theming
+- No build system required
 
 ## Pages
 
-- **Home** - Landing page
-- **Menu** - Drink menu with interactive detail view
+- **Home** - Landing with animated particles
+- **Menu** - Drink selection with live shader preview
 - **Subscribe** - Membership tiers
 - **Partner** - Collaboration opportunities
-- **Buttercup** - Parent company (in development)
+- **Buttercup** - Parent company
+
+## Drinks
+
+`pour-over` · `cappuccino` · `latte` · `mocha` · `hot-chocolate` · `matcha-latte` · `moroccan-mint` · `something-different`
 
 ## Development
 
@@ -36,4 +40,4 @@ Part of **Buttercup Destiny**.
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000`
+Open `http://localhost:8000`
