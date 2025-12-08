@@ -43,13 +43,38 @@
         const pageEl = document.getElementById(`page-${pageName}`);
         if (!pageEl) return;
 
-        // Calculate scroll position (account for nav on desktop)
-        const navHeight = window.innerWidth > 768 ? 70 : 0;
-        const pageTop = pageEl.offsetTop - navHeight;
+        const isMobile = window.innerWidth <= 768;
+        let scrollTop;
+
+        if (isMobile) {
+            // On mobile: account for bottom navbar (80px)
+            // Scroll so content is better centered in visible area
+            const mobileNavbarHeight = 80;
+            const viewportHeight = window.innerHeight;
+            const visibleHeight = viewportHeight - mobileNavbarHeight;
+
+            // Get the page's content height (approximate)
+            const pageHeight = pageEl.offsetHeight;
+
+            // If page content fits in visible area, center it
+            // Otherwise, scroll to top of page with small offset for breathing room
+            if (pageHeight < visibleHeight) {
+                // Center the page in visible area
+                const offset = (visibleHeight - pageHeight) / 2;
+                scrollTop = pageEl.offsetTop - offset;
+            } else {
+                // Page is taller than visible area - scroll to top with small breathing room
+                scrollTop = pageEl.offsetTop - 10;
+            }
+        } else {
+            // Desktop: account for top nav
+            const navHeight = 70;
+            scrollTop = pageEl.offsetTop - navHeight;
+        }
 
         // Scroll to page
         window.scrollTo({
-            top: pageTop,
+            top: Math.max(0, scrollTop),
             behavior: 'smooth'
         });
 

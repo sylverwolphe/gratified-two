@@ -828,16 +828,23 @@ footer a:hover {
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .container {
-        padding: 40px 20px;
+        padding: 30px 20px;
+        padding-bottom: 100px; /* Space for mobile navbar */
+    }
+
+    .header {
+        margin-bottom: 40px;
+        padding: 20px 0;
     }
 
     .logo {
-        font-size: 56px;
-        letter-spacing: 4px;
+        font-size: 42px;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
     }
 
     .tagline {
-        font-size: 22px;
+        font-size: 16px;
         letter-spacing: 2px;
     }
 
@@ -846,11 +853,11 @@ footer a:hover {
     }
 
     .section {
-        padding: 30px;
+        padding: 25px;
     }
 
     .section-title {
-        font-size: 26px;
+        font-size: 22px;
     }
 
     .team-grid, .location-grid {
@@ -1720,7 +1727,11 @@ footer a:hover {
         display: flex;
     }
 
-    /* Add padding to body to prevent content being hidden behind navbar */
+    /* Account for mobile navbar in scroll behavior */
+    html {
+        scroll-padding-bottom: 80px;
+    }
+
     body {
         padding-bottom: 80px;
     }
