@@ -52,7 +52,7 @@ ctx.shadowBlur = p.size * shadowBlur;
 
 **Fix:** Removed all `shadowBlur` and `shadowColor` operations from dots and diamonds modes. Shadow effects were subtle and the performance cost was not justified.
 
-**5. ctx.save()/restore() overhead**
+**5. ~~ctx.save()/restore() overhead~~ (FIXED)**
 ```javascript
 // Lines 432-441, 559-567
 ctx.save();
@@ -61,16 +61,9 @@ ctx.rotate(...);
 // draw
 ctx.restore();
 ```
-Save/restore preserves the entire canvas state including clip regions, transforms, styles. Called per particle in diamonds/grounds modes.
+~~Save/restore preserves the entire canvas state including clip regions, transforms, styles. Called per particle in diamonds/grounds modes.~~
 
-**Fix:** Use `setTransform()` to set absolute transform, avoiding save/restore:
-```javascript
-const cos = Math.cos(angle);
-const sin = Math.sin(angle);
-ctx.setTransform(cos, sin, -sin, cos, x, y);
-// draw at origin
-ctx.setTransform(1, 0, 0, 1, 0, 0); // reset
-```
+**Fix:** Replaced with `setTransform()` to directly set the transformation matrix. Diamonds mode uses rotation matrix; grounds mode uses combined rotation + scale(1, stretch) matrix. Reset with `setTransform(1, 0, 0, 1, 0, 0)` after each particle.
 
 **6. No draw call batching**
 Each particle calls `beginPath()`, draws a shape, then `fill()`. For simple circles, this creates 200+ separate draw calls per frame.

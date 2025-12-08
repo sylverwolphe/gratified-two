@@ -443,14 +443,16 @@
                 const size = p.size * 1.5;
                 const rotationEffect = getConfig('diamonds', 'rotationEffect', 0.1);
 
-                ctx.save();
-                ctx.translate(x, y);
-                ctx.rotate(Math.PI / 4 + p.wobble * rotationEffect);
+                // Use setTransform instead of save/translate/rotate/restore
+                const angle = Math.PI / 4 + p.wobble * rotationEffect;
+                const cos = Math.cos(angle);
+                const sin = Math.sin(angle);
+                ctx.setTransform(cos, sin, -sin, cos, x, y);
                 ctx.beginPath();
                 ctx.rect(-size / 2, -size / 2, size, size);
                 ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
                 ctx.fill();
-                ctx.restore();
+                ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset to identity
 
             } else if (particleMode === 'steam') {
                 p.life++;
@@ -571,15 +573,16 @@
                 const x = p.x;
                 const y = p.y - parallaxOffsetY;
 
-                ctx.save();
-                ctx.translate(x, y);
-                ctx.rotate(p.rotation);
-                ctx.scale(1, p.stretch);
+                // Use setTransform instead of save/translate/rotate/scale/restore
+                // Combined matrix for rotate + scale(1, stretch)
+                const cos = Math.cos(p.rotation);
+                const sin = Math.sin(p.rotation);
+                ctx.setTransform(cos, sin, -p.stretch * sin, p.stretch * cos, x, y);
                 ctx.beginPath();
                 ctx.arc(0, 0, p.size, 0, Math.PI * 2);
                 ctx.fillStyle = p.rgbPrefix + p.opacity + ')';
                 ctx.fill();
-                ctx.restore();
+                ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset to identity
             }
         });
 
