@@ -37,47 +37,106 @@ const partnershipInfoContainer = document.querySelector('.partnership-info-conta
 const infoCardToggle = document.getElementById('infoCardToggle');
 
 const categorySubmitText = {
-    'host': 'Send Hosting Inquiry',
-    'food': 'Send Partnership Inquiry',
-    'art': 'Send Collaboration Inquiry',
-    'team': 'Submit Application',
-    'investor': 'Request Investment Info'
+    'investor': 'Request Investment Info',
+    'business': 'Send Partnership Inquiry',
+    'barista': 'Submit Application'
 };
 
 // Toggle info card visibility
+const bottomSheetBackdrop = document.getElementById('bottomSheetBackdrop');
+
+function isMobileView() {
+    return window.innerWidth <= 1100;
+}
+
 function toggleInfoCard(show) {
     if (!partnershipInfoContainer || !infoCardToggle) return;
 
-    if (show === undefined) {
-        // Toggle
-        partnershipInfoContainer.classList.toggle('visible');
-        infoCardToggle.classList.toggle('active');
-    } else if (show) {
+    const shouldShow = show === undefined
+        ? !partnershipInfoContainer.classList.contains('visible')
+        : show;
+
+    if (shouldShow) {
         partnershipInfoContainer.classList.add('visible');
         infoCardToggle.classList.add('active');
+        // Lock body scroll on mobile
+        if (isMobileView()) {
+            document.body.style.overflow = 'hidden';
+            if (bottomSheetBackdrop) bottomSheetBackdrop.classList.add('visible');
+        }
     } else {
         partnershipInfoContainer.classList.remove('visible');
         infoCardToggle.classList.remove('active');
+        // Restore body scroll
+        if (isMobileView()) {
+            document.body.style.overflow = '';
+            if (bottomSheetBackdrop) bottomSheetBackdrop.classList.remove('visible');
+        }
     }
 }
+
+// Close bottom sheet when clicking backdrop
+if (bottomSheetBackdrop) {
+    bottomSheetBackdrop.addEventListener('click', () => toggleInfoCard(false));
+}
+
+// Close bottom sheet on Escape key (mobile only)
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isMobileView() && partnershipInfoContainer?.classList.contains('visible')) {
+        toggleInfoCard(false);
+    }
+});
+
+// Handle window resize - clean up mobile styles when switching to desktop
+window.addEventListener('resize', () => {
+    if (!isMobileView() && partnershipInfoContainer?.classList.contains('visible')) {
+        document.body.style.overflow = '';
+        if (bottomSheetBackdrop) bottomSheetBackdrop.classList.remove('visible');
+    }
+});
 
 // Info card toggle button
 if (infoCardToggle) {
     infoCardToggle.addEventListener('click', () => toggleInfoCard());
 }
 
-if (partnershipCategorySelect) {
-    partnershipCategorySelect.addEventListener('change', function() {
-        const selectedCategory = this.value;
+// Category button clicks
+const categoryButtons = document.querySelectorAll('.category-btn');
+categoryButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+        const selectedCategory = this.dataset.category;
 
-        // Update category-specific form fields
+        // Update button states and aria-pressed
+        categoryButtons.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+        });
+        this.classList.add('active');
+        this.setAttribute('aria-pressed', 'true');
+
+        // Update hidden input value
+        if (partnershipCategorySelect) {
+            partnershipCategorySelect.value = selectedCategory;
+        }
+
+        // Update category-specific form fields and required attributes
         document.querySelectorAll('.category-fields').forEach(field => {
             field.classList.remove('active');
+            // Remove required from all inputs in hidden category fields
+            field.querySelectorAll('input, textarea').forEach(input => {
+                input.removeAttribute('required');
+            });
         });
         if (selectedCategory) {
             const activeFields = document.querySelector(`.category-fields[data-category="${selectedCategory}"]`);
             if (activeFields) {
                 activeFields.classList.add('active');
+                // Add required to primary inputs in the active category
+                // (first input in each category is typically the most important)
+                const primaryInput = activeFields.querySelector('input:first-of-type');
+                if (primaryInput) {
+                    primaryInput.setAttribute('required', '');
+                }
             }
         }
 
@@ -94,12 +153,8 @@ if (partnershipCategorySelect) {
             }
         }
 
-        // Auto-show info card when category selected, hide when cleared
-        if (selectedCategory) {
-            toggleInfoCard(true);
-        } else {
-            toggleInfoCard(false);
-        }
+        // Auto-show info card when category selected
+        toggleInfoCard(true);
 
         // Update submit button
         if (partnershipSubmitBtn) {
@@ -112,7 +167,7 @@ if (partnershipCategorySelect) {
             }
         }
     });
-}
+});
 
 // Partnership form submission
 const partnershipForm = document.getElementById('partnershipForm');
@@ -137,11 +192,9 @@ if (partnershipForm) {
         try {
             // Map to appropriate Google Form based on category
             const formIdMap = {
-                'host': 'hostForm',
-                'food': 'foodForm',
-                'art': 'artForm',
-                'team': 'teamForm',
-                'investor': 'investorForm'
+                'investor': 'investorForm',
+                'business': 'businessForm',
+                'barista': 'baristaForm'
             };
 
             const targetFormId = formIdMap[category];
@@ -150,11 +203,9 @@ if (partnershipForm) {
             }
 
             const successMessages = {
-                'host': 'hosting inquiry',
-                'food': 'food partnership inquiry',
-                'art': 'art collaboration inquiry',
-                'team': 'application',
-                'investor': 'investor inquiry'
+                'investor': 'investor inquiry',
+                'business': 'partnership inquiry',
+                'barista': 'application'
             };
 
             showNotification(
@@ -164,7 +215,17 @@ if (partnershipForm) {
             this.reset();
 
             // Reset form state
-            document.querySelectorAll('.category-fields').forEach(f => f.classList.remove('active'));
+            document.querySelectorAll('.category-fields').forEach(f => {
+                f.classList.remove('active');
+                // Remove required from category-specific inputs
+                f.querySelectorAll('input, textarea').forEach(input => {
+                    input.removeAttribute('required');
+                });
+            });
+            document.querySelectorAll('.category-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
             if (partnershipInfoCard) {
                 partnershipInfoCard.querySelectorAll('.info-card-content').forEach(c => c.style.display = 'none');
                 const defaultContent = partnershipInfoCard.querySelector('.info-card-content[data-category="default"]');
@@ -325,50 +386,38 @@ function closeModal(modalId) {
 });
 
 // Google Forms submission configuration
+// Note: investorForm, businessForm, baristaForm are submitted via the unified partnershipForm
+// unlimitedForm is a standalone modal form
 const googleFormsConfig = {
-    'hostForm': {
-        formId: 'YOUR_HOST_FORM_ID',
+    'investorForm': {
+        formId: 'YOUR_INVESTOR_FORM_ID',
         fields: {
             'name': 'entry.XXXXXXXXX',
             'email': 'entry.XXXXXXXXX',
-            'spaceType': 'entry.XXXXXXXXX',
-            'location': 'entry.XXXXXXXXX',
+            'phone': 'entry.XXXXXXXXX',
+            'linkedin': 'entry.XXXXXXXXX',
             'details': 'entry.XXXXXXXXX'
-        },
-        successMessage: 'hosting inquiry'
+        }
     },
-    'foodForm': {
-        formId: 'YOUR_FOOD_FORM_ID',
+    'businessForm': {
+        formId: 'YOUR_BUSINESS_FORM_ID',
         fields: {
             'name': 'entry.XXXXXXXXX',
             'email': 'entry.XXXXXXXXX',
             'business': 'entry.XXXXXXXXX',
-            'foodType': 'entry.XXXXXXXXX',
+            'website': 'entry.XXXXXXXXX',
             'details': 'entry.XXXXXXXXX'
-        },
-        successMessage: 'food partnership inquiry'
+        }
     },
-    'artForm': {
-        formId: 'YOUR_ART_FORM_ID',
+    'baristaForm': {
+        formId: 'YOUR_BARISTA_FORM_ID',
         fields: {
             'name': 'entry.XXXXXXXXX',
             'email': 'entry.XXXXXXXXX',
-            'artType': 'entry.XXXXXXXXX',
-            'portfolio': 'entry.XXXXXXXXX',
+            'experience': 'entry.XXXXXXXXX',
+            'availability': 'entry.XXXXXXXXX',
             'details': 'entry.XXXXXXXXX'
-        },
-        successMessage: 'art collaboration inquiry'
-    },
-    'teamForm': {
-        formId: 'YOUR_TEAM_FORM_ID',
-        fields: {
-            'name': 'entry.XXXXXXXXX',
-            'email': 'entry.XXXXXXXXX',
-            'role': 'entry.XXXXXXXXX',
-            'portfolio': 'entry.XXXXXXXXX',
-            'details': 'entry.XXXXXXXXX'
-        },
-        successMessage: 'application'
+        }
     },
     'unlimitedForm': {
         formId: 'YOUR_UNLIMITED_FORM_ID',
@@ -379,17 +428,6 @@ const googleFormsConfig = {
             'source': 'entry.XXXXXXXXX'
         },
         successMessage: 'unlimited membership signup'
-    },
-    'investorForm': {
-        formId: 'YOUR_INVESTOR_FORM_ID',
-        fields: {
-            'name': 'entry.XXXXXXXXX',
-            'email': 'entry.XXXXXXXXX',
-            'phone': 'entry.XXXXXXXXX',
-            'details': 'entry.XXXXXXXXX',
-            'linkedin': 'entry.XXXXXXXXX'
-        },
-        successMessage: 'investor inquiry'
     }
 };
 
@@ -433,38 +471,35 @@ function submitToGoogleForm(formId, formData) {
     });
 }
 
-// Form submission handlers for all modals
-Object.keys(googleFormsConfig).forEach(formId => {
-    const form = document.getElementById(formId);
-    if (form) {
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
+// Unlimited membership form submission handler (standalone modal form)
+const unlimitedForm = document.getElementById('unlimitedForm');
+if (unlimitedForm) {
+    unlimitedForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            const config = googleFormsConfig[formId];
-            const modalId = formId.replace('Form', 'Modal');
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        const config = googleFormsConfig['unlimitedForm'];
 
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
 
-            try {
-                await submitToGoogleForm(formId, data);
-                closeModal(modalId);
-                this.reset();
-                showNotification(`Thanks ${data.name}! We've received your ${config.successMessage}. We'll get back to you within a few days.`, 'success');
-            } catch (error) {
-                console.error('Form submission error:', error);
-                showNotification('There was an error submitting the form. Please try again.', 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalText;
-            }
-        });
-    }
-});
+        try {
+            await submitToGoogleForm('unlimitedForm', data);
+            closeModal('unlimitedModal');
+            this.reset();
+            showNotification(`Thanks ${data.name}! We've received your ${config.successMessage}. We'll get back to you within a few days.`, 'success');
+        } catch (error) {
+            console.error('Form submission error:', error);
+            showNotification('There was an error submitting the form. Please try again.', 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
+    });
+}
 
 // Dollar Ticker Class
 class DollarTicker {

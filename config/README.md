@@ -82,23 +82,63 @@ Subscription page content loaded by `assets/js/subscribe-loader.js`.
         }
       ]
     }
-  ],
-  "perksSection": {
-    "title": "What You Get",
-    "items": [
-      {
-        "icon": "◆",
-        "title": "Community",
-        "description": "..."
-      }
-    ]
-  },
-  "socialLinks": [
-    { "text": "twitter", "url": "https://..." }
   ]
 }
 ```
 
 **Button types:**
 - `"type": "link"` - Opens URL in new tab
-- `"type": "modal"` - Opens modal by `modalId` (modal must exist in HTML)
+- `"type": "modal"` - Opens modal by `modalId` (e.g., `"unlimitedModal"`)
+
+---
+
+### partnership-config.json
+
+Partnership page info cards loaded by `assets/js/partnership-loader.js`.
+
+```json
+{
+  "infoCards": {
+    "default": {
+      "title": "Let's Build Together",
+      "intro": "Tell us who you are..."
+    },
+    "investor": {
+      "title": "Invest in Gratified",
+      "intro": "Join us as a founding investor...",
+      "tier": {
+        "amount": "$25,000",
+        "equity": "0.2% equity stake",
+        "label": "Founding Investor"
+      },
+      "listTitle": "What you get:",
+      "items": ["Equity stake...", "Quarterly updates..."],
+      "note": "We're raising a small friends & family round..."
+    },
+    "business": {
+      "title": "Business Partnerships",
+      "intro": "...",
+      "listTitle": "We work with:",
+      "items": ["Venues & coworking spaces", "..."],
+      "note": "..."
+    },
+    "barista": {
+      "title": "Join as a Barista",
+      "intro": "...",
+      "listTitle": "What we offer:",
+      "items": ["Training provided", "..."],
+      "note": "..."
+    }
+  }
+}
+```
+
+**Info card fields:**
+- `title` - Card heading (required)
+- `intro` - Opening paragraph (required)
+- `tier` - Investment tier display (investor only, optional)
+- `listTitle` - Heading above bullet list (optional)
+- `items` - Array of bullet points (optional)
+- `note` - Footer text, styled subtly (optional)
+
+**Category keys** must match the form category buttons: `default`, `investor`, `business`, `barista`

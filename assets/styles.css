@@ -1930,11 +1930,13 @@ body {
 }
 
 .landing-intro {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--olive-bronze);
     line-height: 1.8;
-    margin-bottom: 50px;
-    animation: fadeInUp 1s ease 0.6s both;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    animation: fadeInUp 1s ease 2.2s both;
 }
 
 /* Diamond Logo */
@@ -2294,17 +2296,48 @@ body {
     min-height: 150px;
 }
 
-/* Diamond toggle button - on right edge of content box */
+/* Category button row */
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category-btn {
+    flex: 1 1 auto;
+    min-width: 70px;
+    padding: 12px 16px;
+    background: transparent;
+    border: 2px solid var(--olive-bronze);
+    color: var(--charcoal-ink);
+    font-family: 'Satoshi', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.category-btn:hover {
+    background: var(--olive-bronze);
+    color: var(--cream-parchment);
+}
+
+.category-btn.active {
+    background: var(--theme-accent);
+    border-color: var(--theme-accent);
+    color: var(--cream-parchment);
+}
+
+/* Diamond toggle button - on right edge of form container */
 .info-card-toggle {
     position: absolute;
-    top: 120px;
-    right: 35px;
+    top: 50%;
+    right: -18px;
+    transform: translateY(-50%) rotate(45deg);
     width: 36px;
     height: 36px;
     background-color: var(--olive-bronze);
     border: none;
     cursor: pointer;
-    transform: rotate(45deg);
     transition: all 0.3s ease;
     z-index: 10;
     display: flex;
@@ -2314,7 +2347,7 @@ body {
 
 .info-card-toggle:hover {
     background-color: var(--theme-accent);
-    transform: rotate(45deg) scale(1.1);
+    transform: translateY(-50%) rotate(45deg) scale(1.1);
 }
 
 .info-card-toggle::after {
@@ -2336,6 +2369,11 @@ body {
 
 .category-fields.active {
     display: block;
+}
+
+/* Bottom sheet backdrop - hidden on desktop */
+.bottom-sheet-backdrop {
+    display: none;
 }
 
 /* Info card - slides out from underneath content box */
@@ -2468,29 +2506,10 @@ body {
     letter-spacing: 1px;
 }
 
-/* Tablet/Mobile - info card below form */
+/* Tablet/Mobile - info card as bottom sheet */
 @media (max-width: 1100px) {
     .partnership-form-container {
         max-width: 100%;
-    }
-
-    .partnership-info-container {
-        position: static;
-        width: 100%;
-        margin: 0;
-        margin-top: 20px;
-        max-height: 0;
-        overflow: hidden;
-        opacity: 0;
-        transform: none;
-        transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
-    }
-
-    .partnership-info-container.visible {
-        max-height: 600px;
-        opacity: 1;
-        margin-top: 20px;
-        transform: none;
     }
 
     .partnership-layout {
@@ -2498,24 +2517,85 @@ body {
         align-items: center;
     }
 
-    .info-card-toggle {
-        position: static;
-        transform: rotate(45deg);
-        margin: 20px auto 0;
+    /* Bottom sheet backdrop */
+    .bottom-sheet-backdrop {
         display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .bottom-sheet-backdrop.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Bottom sheet container */
+    .partnership-info-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: auto;
+        width: 100%;
+        max-width: 100%;
+        max-height: 85vh;
+        z-index: 9999;
+        opacity: 1;
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .partnership-info-container.visible {
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .partnership-info-card {
+        border: 3px solid var(--olive-bronze);
+        border-bottom: none;
+        padding: 25px 25px 40px;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    /* Toggle button - below form */
+    .info-card-toggle {
+        position: relative;
+        top: auto;
+        right: auto;
+        display: block;
+        width: 44px;
+        height: 44px;
+        margin: 25px auto 0;
+        transform: rotate(45deg);
     }
 
     .info-card-toggle:hover {
         transform: rotate(45deg) scale(1.1);
     }
 
-    .info-card-toggle.active::after {
-        content: '↓';
-        transform: rotate(-45deg) scaleY(-1);
+    .info-card-toggle::after {
+        content: 'i';
+        font-style: italic;
+        font-weight: bold;
+        font-size: 18px;
     }
 
-    .info-card-toggle::after {
-        content: '↓';
+    .info-card-toggle.active::after {
+        content: '×';
+        font-style: normal;
+        font-size: 22px;
+        transform: rotate(-45deg);
     }
 }
 

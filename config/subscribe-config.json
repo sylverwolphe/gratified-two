@@ -32,6 +32,12 @@
           "url": "https://partiful.com/u/FYZcDQXvTPeptryuZgJ7",
           "type": "link",
           "primary": false
+        },
+        {
+          "text": "Twitter",
+          "url": "https://x.com/gratifiedwegrow",
+          "type": "link",
+          "primary": false
         }
       ]
     },
@@ -53,40 +59,6 @@
           "primary": true
         }
       ]
-    }
-  ],
-  "perksSection": {
-    "title": "What You Get",
-    "items": [
-      {
-        "icon": "◆",
-        "title": "Community",
-        "description": "Join a Discord of coffee lovers, artists, and dreamers. Share your creations, get feedback, and connect."
-      },
-      {
-        "icon": "◆",
-        "title": "Exclusive Content",
-        "description": "Behind-the-scenes looks at art projects, coffee sourcing journeys, and event planning."
-      },
-      {
-        "icon": "◆",
-        "title": "Real Perks",
-        "description": "Free drinks, merch discounts, and priority access to limited events and collaborations."
-      }
-    ]
-  },
-  "socialLinks": [
-    {
-      "text": "twitter",
-      "url": "https://x.com/gratifiedwegrow"
-    },
-    {
-      "text": "substack",
-      "url": "https://substack.com/@gratifiedwegrow"
-    },
-    {
-      "text": "partiful",
-      "url": "https://partiful.com/u/FYZcDQXvTPeptryuZgJ7"
     }
   ]
 }

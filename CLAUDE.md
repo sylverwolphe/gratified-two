@@ -99,3 +99,4 @@ Add logo files to `partners/` folder and configure in `partners/partners.json`. 
 
 Deprecated components are stored in `archive/` for reference:
 - `coffee-cup-animation.html` - Original landing page coffee cup with fill animation
+- dont use rounded edges ever

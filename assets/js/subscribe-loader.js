@@ -32,16 +32,22 @@
             subscriptionGrid.innerHTML = config.tiers.map(tier => renderTierCard(tier)).join('');
         }
 
-        // Perks section
-        const perksTitle = document.querySelectorAll('#page-subscribe .section-title')[1];
-        if (perksTitle) perksTitle.textContent = config.perksSection.title;
+        // Perks section (optional)
+        if (config.perksSection) {
+            const perksTitle = document.querySelectorAll('#page-subscribe .section-title')[1];
+            if (perksTitle) perksTitle.textContent = config.perksSection.title;
 
-        const perksShowcase = document.querySelector('#page-subscribe .perks-showcase');
-        if (perksShowcase) {
-            perksShowcase.innerHTML = config.perksSection.items.map(item => renderPerkItem(item)).join('');
+            const perksShowcase = document.querySelector('#page-subscribe .perks-showcase');
+            if (perksShowcase) {
+                perksShowcase.innerHTML = config.perksSection.items.map(item => renderPerkItem(item)).join('');
+            }
+        } else {
+            // Hide perks section if not in config
+            const perksSection = document.querySelectorAll('#page-subscribe .section')[1];
+            if (perksSection) perksSection.style.display = 'none';
         }
 
-        // Social links (after perks section)
+        // Social links (optional)
         if (config.socialLinks && config.socialLinks.length > 0) {
             const linksHtml = renderSocialLinks(config.socialLinks);
             const perksSection = document.querySelectorAll('#page-subscribe .section')[1];

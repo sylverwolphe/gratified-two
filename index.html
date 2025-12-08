@@ -77,6 +77,8 @@
                             <rect class="diamond-stroke" x="15" y="15" width="70" height="70" transform="rotate(45 50 50)" fill="none" stroke="var(--theme-accent)" stroke-width="2"/>
                         </svg>
                     </div>
+
+                    <p class="landing-intro">A nourishing, collaborative project in the making. We're building something warm at the intersection of coffee, art, and community.</p>
                 </div>
             </div>
         </div>
@@ -144,11 +146,6 @@
                         <p class="section-intro"></p>
                         <div class="subscription-grid"></div>
                     </div>
-
-                    <div class="section">
-                        <h3 class="section-title"></h3>
-                        <div class="perks-showcase"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -162,8 +159,6 @@
                 </div>
 
                 <div class="content">
-                    <button class="info-card-toggle" id="infoCardToggle" aria-label="Toggle info panel" title="More info"></button>
-
                     <div class="section">
                         <h3 class="section-title">Work With Us</h3>
                         <p class="section-intro">We're always looking for venues, brands, and creatives who share our vision of community through coffee and art.</p>
@@ -173,15 +168,13 @@
                             <div class="partnership-form-container">
                                 <form id="partnershipForm" class="partnership-form">
                                     <div class="form-group">
-                                        <label class="form-label" for="partner-category">What brings you here?</label>
-                                        <select class="form-select" id="partner-category" name="category" required>
-                                            <option value="">Select an option...</option>
-                                            <option value="host">Host Us at Your Space</option>
-                                            <option value="food">Food Partnership</option>
-                                            <option value="art">Art Collaboration</option>
-                                            <option value="team">Join the Team</option>
-                                            <option value="investor">Invest in Gratified</option>
-                                        </select>
+                                        <label class="form-label">Who are you?</label>
+                                        <input type="hidden" id="partner-category" name="category" value="">
+                                        <div class="category-buttons" id="categoryButtons" role="group" aria-label="Select your role">
+                                            <button type="button" class="category-btn" data-category="investor" aria-pressed="false">Investor</button>
+                                            <button type="button" class="category-btn" data-category="business" aria-pressed="false">Business</button>
+                                            <button type="button" class="category-btn" data-category="barista" aria-pressed="false">Barista</button>
+                                        </div>
                                     </div>
 
                                     <div class="form-group">
@@ -192,68 +185,6 @@
                                     <div class="form-group">
                                         <label class="form-label" for="partner-email">Email</label>
                                         <input type="email" class="form-input" id="partner-email" name="email" required>
-                                    </div>
-
-                                    <!-- Host-specific fields -->
-                                    <div class="category-fields" data-category="host">
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-space-type">Type of Space</label>
-                                            <select class="form-select" id="partner-space-type" name="spaceType">
-                                                <option value="">Select type...</option>
-                                                <option value="coworking">Coworking Space</option>
-                                                <option value="studio">Art Studio</option>
-                                                <option value="office">Creative Office</option>
-                                                <option value="community">Community Space</option>
-                                                <option value="other">Other</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-location">Location</label>
-                                            <input type="text" class="form-input" id="partner-location" name="location" placeholder="City, neighborhood...">
-                                        </div>
-                                    </div>
-
-                                    <!-- Food-specific fields -->
-                                    <div class="category-fields" data-category="food">
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-business">Business Name</label>
-                                            <input type="text" class="form-input" id="partner-business" name="business">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-food-type">What do you make?</label>
-                                            <input type="text" class="form-input" id="partner-food-type" name="foodType" placeholder="Pastries, snacks, specialty items...">
-                                        </div>
-                                    </div>
-
-                                    <!-- Art-specific fields -->
-                                    <div class="category-fields" data-category="art">
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-art-type">Your Medium</label>
-                                            <input type="text" class="form-input" id="partner-art-type" name="artType" placeholder="Painting, photography, mixed media...">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-portfolio">Portfolio Link</label>
-                                            <input type="url" class="form-input" id="partner-portfolio" name="portfolio" placeholder="Instagram, website, etc.">
-                                        </div>
-                                    </div>
-
-                                    <!-- Team-specific fields -->
-                                    <div class="category-fields" data-category="team">
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-role">Role Interest</label>
-                                            <select class="form-select" id="partner-role" name="role">
-                                                <option value="">Select role...</option>
-                                                <option value="barista">Barista</option>
-                                                <option value="events">Event Coordinator</option>
-                                                <option value="social">Social Media</option>
-                                                <option value="design">Artist / Designer</option>
-                                                <option value="other">Other</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-experience">Portfolio / Resume Link</label>
-                                            <input type="url" class="form-input" id="partner-experience" name="portfolioLink" placeholder="Optional">
-                                        </div>
                                     </div>
 
                                     <!-- Investor-specific fields -->
@@ -268,6 +199,30 @@
                                         </div>
                                     </div>
 
+                                    <!-- Business-specific fields -->
+                                    <div class="category-fields" data-category="business">
+                                        <div class="form-group">
+                                            <label class="form-label" for="partner-business">Business Name</label>
+                                            <input type="text" class="form-input" id="partner-business" name="business">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="partner-website">Website</label>
+                                            <input type="url" class="form-input" id="partner-website" name="website" placeholder="Optional">
+                                        </div>
+                                    </div>
+
+                                    <!-- Barista-specific fields -->
+                                    <div class="category-fields" data-category="barista">
+                                        <div class="form-group">
+                                            <label class="form-label" for="partner-experience">Experience</label>
+                                            <input type="text" class="form-input" id="partner-experience" name="experience" placeholder="Years, previous roles...">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="partner-availability">Availability</label>
+                                            <input type="text" class="form-input" id="partner-availability" name="availability" placeholder="Weekends, mornings, flexible...">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="form-label" for="partner-details">Tell us more</label>
                                         <textarea class="form-textarea" id="partner-details" name="details" placeholder="What you're looking for, ideas, questions..."></textarea>
@@ -275,112 +230,23 @@
 
                                     <button type="submit" class="submit-btn" id="partnershipSubmit" disabled>Select a category above</button>
                                 </form>
+
+                                <!-- Info toggle button -->
+                                <button class="info-card-toggle" id="infoCardToggle" aria-label="Toggle info panel" title="More info"></button>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Bottom sheet backdrop (mobile only) -->
+                    <div class="bottom-sheet-backdrop" id="bottomSheetBackdrop"></div>
+
                     <!-- Dynamic Info Card - slides out from content box -->
+                    <!-- Info cards loaded from config/partnership-config.json -->
                     <div class="partnership-info-container">
-                                <div class="partnership-info-card" id="partnershipInfoCard">
-                                    <div class="info-card-content" data-category="default">
-                                        <h3 class="info-card-title">Let's Build Something Together</h3>
-                                        <p>Choose a category to learn more about how we can work together.</p>
-                                        <ul>
-                                            <li>Venue partnerships</li>
-                                            <li>Food collaborations</li>
-                                            <li>Art features</li>
-                                            <li>Career opportunities</li>
-                                            <li>Investment</li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="info-card-content" data-category="host" style="display: none;">
-                                        <h3 class="info-card-title">Host Gratified</h3>
-                                        <p>We bring everything—coffee, equipment, baristas, and community. You provide the space.</p>
-                                        <h4>Perfect for:</h4>
-                                        <ul>
-                                            <li>Coworking spaces</li>
-                                            <li>Art studios & galleries</li>
-                                            <li>Creative offices</li>
-                                            <li>Community centers</li>
-                                        </ul>
-                                        <h4>What we provide:</h4>
-                                        <ul>
-                                            <li>Full coffee service</li>
-                                            <li>Professional baristas</li>
-                                            <li>Equipment & supplies</li>
-                                            <li>Event programming</li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="info-card-content" data-category="food" style="display: none;">
-                                        <h3 class="info-card-title">Food Partners</h3>
-                                        <p>We love featuring local food alongside our coffee. Revenue share model.</p>
-                                        <h4>We're looking for:</h4>
-                                        <ul>
-                                            <li>Bakeries & pastry makers</li>
-                                            <li>Local food artisans</li>
-                                            <li>Specialty snack vendors</li>
-                                            <li>Small batch producers</li>
-                                        </ul>
-                                        <h4>Current partners:</h4>
-                                        <p class="info-note">We rotate partners seasonally to keep things fresh and support more local makers.</p>
-                                    </div>
-
-                                    <div class="info-card-content" data-category="art" style="display: none;">
-                                        <h3 class="info-card-title">Art Collaborations</h3>
-                                        <p>Coffee and art go together. We actively feature and collaborate with artists.</p>
-                                        <h4>Opportunities:</h4>
-                                        <ul>
-                                            <li>Gallery shows at our space</li>
-                                            <li>Artist residencies</li>
-                                            <li>Collaborative projects</li>
-                                            <li>Zine and print features</li>
-                                            <li>Merch collaborations</li>
-                                        </ul>
-                                        <h4>Past features:</h4>
-                                        <p class="info-note">Local photographers, illustrators, and mixed media artists from the Bay Area.</p>
-                                    </div>
-
-                                    <div class="info-card-content" data-category="team" style="display: none;">
-                                        <h3 class="info-card-title">Join the Team</h3>
-                                        <p>We're growing and looking for people who care about coffee, art, and community.</p>
-                                        <h4>Open positions:</h4>
-                                        <ul>
-                                            <li>Baristas <span class="info-tag">training provided</span></li>
-                                            <li>Event coordinators</li>
-                                            <li>Social media creators</li>
-                                            <li>Artists & designers</li>
-                                        </ul>
-                                        <h4>What we offer:</h4>
-                                        <ul>
-                                            <li>Flexible schedules</li>
-                                            <li>Free coffee (obviously)</li>
-                                            <li>Creative freedom</li>
-                                            <li>Community-first culture</li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="info-card-content" data-category="investor" style="display: none;">
-                                        <h3 class="info-card-title">Invest in Gratified</h3>
-                                        <p>Join us as a founding investor and help build something meaningful.</p>
-                                        <div class="investor-tier">
-                                            <div class="tier-amount">$25,000</div>
-                                            <div class="tier-equity">0.2% equity stake</div>
-                                            <div class="tier-label">Founding Investor</div>
-                                        </div>
-                                        <h4>What you get:</h4>
-                                        <ul>
-                                            <li>Equity stake in Gratified</li>
-                                            <li>Quarterly investor updates</li>
-                                            <li>Input on key decisions</li>
-                                            <li>Unlimited coffee for life</li>
-                                            <li>Name on the wall</li>
-                                        </ul>
-                                        <p class="info-note">We're raising a small friends & family round. Serious inquiries only.</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="partnership-info-card" id="partnershipInfoCard">
+                            <!-- Content rendered by partnership-loader.js -->
+                        </div>
+                    </div>
 
                     <div class="section">
                         <h3 class="section-title">Our Collaborations</h3>
@@ -522,6 +388,7 @@
     <script src="assets/js/liquid-shader.js"></script>
     <script src="assets/js/menu-loader.js"></script>
     <script src="assets/js/subscribe-loader.js"></script>
+    <script src="assets/js/partnership-loader.js"></script>
     <script src="assets/js/drink-detail.js"></script>
     <script src="assets/js/modals.js"></script>
     <script src="assets/js/partners-loader.js"></script>
