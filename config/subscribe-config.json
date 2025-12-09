@@ -15,10 +15,9 @@
       "priceSubtext": "",
       "featured": false,
       "perks": [
-        "Event invitations and popups",
-        "Investment opportunities",
-        "Updates on new locations",
-        "Community announcements"
+        "Hear about what we're up to",
+        "Tasting and event invites",
+        "yay",
       ],
       "buttons": [
         {
@@ -48,8 +47,9 @@
       "priceSubtext": "/month",
       "featured": true,
       "perks": [
-        "Unlimited drinks at all locations",
-        "Discounts on pastries"
+        "Unlimited drinks",
+        "Substack sub for the spicies",
+        "I may like you more.",
       ],
       "buttons": [
         {
