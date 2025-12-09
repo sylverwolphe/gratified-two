@@ -11,6 +11,8 @@
       ],
       "icon": "pour-over",
       "image": ""
+            "image": "config/menu-images/pour-over.jpg"
+
     },
     {
       "id": "cappuccino",
@@ -22,6 +24,8 @@
         "Extra shot available"
       ],
       "icon": "cappuccino"
+            "image": "config/menu-images/capp.jpg"
+
     },
     {
       "id": "latte",
@@ -33,6 +37,8 @@
         "Vanilla or lavender syrup"
       ],
       "icon": "latte"
+            "image": "config/menu-images/latte.jpg"
+
     },
     {
       "id": "mocha",
@@ -56,6 +62,8 @@
         "Extra marshmallows on request"
       ],
       "icon": "hot-chocolate"
+            "image": "config/menu-images/hot-chocolate.jpg"
+
     },
     {
       "id": "matcha-latte",
