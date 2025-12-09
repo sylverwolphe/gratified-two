@@ -22,7 +22,7 @@
         "Oat, almond, or whole milk",
         "Extra shot available"
       ],
-      "icon": "cappuccino"
+      "icon": "cappuccino",
             "image": "config/menu-images/capp.jpg"
 
     },
@@ -35,7 +35,7 @@
         "Oat, almond, or whole milk",
         "Vanilla or lavender syrup"
       ],
-      "icon": "latte"
+      "icon": "latte",
             "image": "config/menu-images/latte.jpg"
 
     },
@@ -60,7 +60,7 @@
         "Dairy-free option available",
         "Extra marshmallows on request"
       ],
-      "icon": "hot-chocolate"
+      "icon": "hot-chocolate",
             "image": "config/menu-images/hot-chocolate.jpg"
 
     },
