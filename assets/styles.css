@@ -22,7 +22,7 @@
     font-display: swap;
 }
 
-h1, h2, h3, .section-title, .logo {
+h1, h2, h3, .section-title, .logo, .logobot {
     font-family: 'BluuNext', serif;
 }
 
@@ -1902,10 +1902,11 @@ body {
     animation: fadeInUp 1s ease 0.2s both;
 }
 
-.landing-tagline {
+.landing-logobot {
     font-size: 36px;
     margin-bottom: 40px;
     animation: fadeInUp 1s ease 0.4s both;
+    
 }
 
 .landing-intro {
