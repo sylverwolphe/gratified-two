@@ -4,7 +4,7 @@
       "id": "pour-over",
       "name": "Pour Over",
       "shortDesc": "Clean, bright, single origin",
-      "fullDesc": "A slow, meditative brewing process that highlights the unique characteristics of each bean. We rotate our single origins seasonally, sourcing from small farms across Ethiopia, Colombia, and Guatemala.",
+      "fullDesc": "A slow, meditative brewing process that highlights the unique characteristics of each bean. We rotate our single origins weekly and source almost exclusively from East Africa.",
       "extras": [
         "Ask about today's origin",
         "Available hot only"
@@ -33,7 +33,7 @@
       "fullDesc": "Our house espresso blend meets perfectly steamed milk for a smooth, comforting cup. A canvas for latte art and quiet mornings.",
       "extras": [
         "Oat, almond, or whole milk",
-        "Vanilla or lavender syrup"
+        "Maple or honey syrup"
       ],
       "icon": "latte",
             "image": "config/menu-images/latte.jpg"
@@ -43,9 +43,9 @@
       "id": "mocha",
       "name": "Mocha",
       "shortDesc": "Espresso meets rich chocolate",
-      "fullDesc": "House-made chocolate ganache swirled with our espresso and topped with steamed milk. Indulgent but not too sweet—the way chocolate and coffee were meant to meet.",
+      "fullDesc": "Tcho chocolate swirled with our espresso and topped with steamed milk. Indulgent but not too sweet—the way chocolate and coffee were meant to meet.",
       "extras": [
-        "White mocha available",
+        "Get a double shot",
         "Add whipped cream"
       ],
       "icon": "mocha",
@@ -55,10 +55,10 @@
       "id": "hot-chocolate",
       "name": "Hot Chocolate",
       "shortDesc": "Decadent cocoa, marshmallow clouds",
-      "fullDesc": "Made with real Belgian chocolate, steamed milk, and topped with house-made vanilla bean marshmallows. Pure comfort in a cup.",
+      "fullDesc": "Made with Tcho chocolate, chocolate sauce, and melted cacao powder. Liquified in hot milk, and topped with a sprinkle of cinnamon. Pure comfort in a cup.",
       "extras": [
         "Dairy-free option available",
-        "Extra marshmallows on request"
+        "Thinking about weird marshmallow alternatives"
       ],
       "icon": "hot-chocolate",
             "image": "config/menu-images/hot-chocolate.jpg"
@@ -68,10 +68,10 @@
       "id": "matcha-latte",
       "name": "Matcha Latte",
       "shortDesc": "Ceremonial grade, oat milk",
-      "fullDesc": "Premium ceremonial-grade matcha from Uji, Japan, whisked to perfection and combined with your choice of milk. Earthy, smooth, and gently energizing.",
+      "fullDesc": "Premium ceremonial-grade matcha from, whisked and combined with your choice of milk. Earthy, smooth, and gently energizing.",
       "extras": [
         "Iced option available",
-        "Add vanilla or honey"
+        "Add honey syrup and/or vanilla"
       ],
       "icon": "matcha-latte",
       "image": "config/menu-images/matcha.jpeg"
@@ -80,10 +80,10 @@
       "id": "moroccan-mint",
       "name": "Moroccan Mint",
       "shortDesc": "Fresh mint, green tea, honey",
-      "fullDesc": "Traditional Moroccan-style mint tea made with fresh spearmint, gunpowder green tea, and a touch of raw honey. Refreshing and aromatic.",
+      "fullDesc": "Traditional Moroccan-style mint tea made with spearmint, peppermint, gunpowder green - and weird herbs. Refreshing and aromatic.",
       "extras": [
         "Caffeine-free mint available",
-        "Extra honey on request"
+        "Ask for sweetness"
       ],
       "icon": "moroccan-mint",
       "image": "config/menu-images/mint.jpeg"
@@ -95,7 +95,7 @@
       "fullDesc": "Feeling adventurous? Let our barista craft something special based on your mood and preferences. Tell us if you like it sweet, strong, fruity, or cozy—we'll take it from there.",
       "extras": [
         "Just tell us your vibe",
-        "Always a good choice"
+        "muahahaha"
       ],
       "icon": "surprise",
       "image": "config/menu-images/surprise.jpeg"
