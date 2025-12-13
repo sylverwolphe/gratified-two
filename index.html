@@ -258,7 +258,7 @@
 
     <div class="partnership-layout">
         <div class="partnership-form-container">
-            <form class="partnership-form" action="https://formspree.io/f/manrvldp" method="POST">
+            <form id="contactForm" class="partnership-form" action="https://formspree.io/f/manrvldp" method="POST">
                 
                 <div class="form-group">
                     <label class="form-label" for="contact-name">Name</label>
@@ -277,6 +277,9 @@
 
                 <button type="submit" class="submit-btn">Send</button>
             </form>
+            <div id="contactSuccess" style="display: none; padding: 20px; text-align: center; color: var(--theme-accent);">
+                ✓ Message sent! We'll get back to you soon.
+            </div>
         </div>
     </div>
 </div>
