@@ -14,6 +14,7 @@ Thumbs.db
 .env.local
 
 # AI/Coding Agents
+CLAUDE.md
 .claude/
 .cursor/
 .aider*
