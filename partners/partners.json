@@ -24,6 +24,16 @@
       "name": "Mox",
       "logo": "moxlogo.png",
       "url": "https://moxsf.com/"
+    },
+    {
+      "name": "relod",
+      "logo": "relod.png",
+      "url": "https://www.relod.app/"
+    },
+      {
+      "name": "not diamond",
+      "logo": "notdiamondlogo.png",
+      "url": "https://www.notdiamond.ai/"
     }
   ]
 }
