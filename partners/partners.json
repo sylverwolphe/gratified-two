@@ -14,6 +14,16 @@
       "name": "Eating Love",
       "logo": "eatinglovelogo.png",
       "url": "https://eatinglove.com/"
+    },
+     {
+      "name": "Inkhaven",
+      "logo": "favicon.png",
+      "url": "https://www.inkhaven.blog/"
+    },
+    {
+      "name": "Mox",
+      "logo": "moxlogo.png",
+      "url": "https://moxsf.com/"
     }
   ]
 }
