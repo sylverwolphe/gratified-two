@@ -2624,7 +2624,7 @@ body {
     flex-wrap: wrap;
 }
 .partners-logos > *:last-child {
-        opacity: 0.5;
+        opacity: 0.25;
 }
 
 .partner-logo-placeholder {
