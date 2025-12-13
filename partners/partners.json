@@ -15,20 +15,21 @@
       "logo": "eatinglovelogo.png",
       "url": "https://eatinglove.com/"
     },
-     {
-      "name": "Inkhaven",
-      "logo": "favicon.png",
-      "url": "https://www.inkhaven.blog/"
+    {
+      "name": "relod",
+      "logo": "relod.png",
+      "url": "https://www.relod.app/"
     },
+    
     {
       "name": "Mox",
       "logo": "moxlogo.png",
       "url": "https://moxsf.com/"
     },
-    {
-      "name": "relod",
-      "logo": "relod.png",
-      "url": "https://www.relod.app/"
+     {
+      "name": "Inkhaven",
+      "logo": "favicon.png",
+      "url": "https://www.inkhaven.blog/"
     },
       {
       "name": "not diamond",
