@@ -379,6 +379,94 @@
         </div>
     </div>
 
+
+
+
+
+
+    <!-- Solstice Event Popup -->
+<div class="welcome-overlay" id="welcomeOverlay">
+    <div class="welcome-modal solstice-modal">
+        <button class="welcome-close" onclick="closeWelcome()">&times;</button>
+        
+        <div class="welcome-diamond solstice-diamond">
+            <svg viewBox="0 0 100 100" class="diamond-svg">
+                <circle cx="50" cy="50" r="30" fill="none" stroke="var(--rich-saffron)" stroke-width="2" opacity="0.3"/>
+                <rect class="diamond-fill" x="15" y="15" width="70" height="70" transform="rotate(45 50 50)" fill="var(--dusty-rose)"/>
+                <rect class="diamond-stroke" x="15" y="15" width="70" height="70" transform="rotate(45 50 50)" fill="none" stroke="var(--rich-saffron)" stroke-width="2"/>
+            </svg>
+        </div>
+        
+        <h2 class="welcome-title solstice-title">Winter Solstice</h2>
+        <p class="welcome-subtitle">24 hours · art · community</p>
+        
+        <div class="solstice-details">
+            <p class="solstice-date">Dec 20-21 · 7pm to 7pm</p>
+            <p class="solstice-location">Mox SF, 1680 Mission St</p>
+        </div>
+        
+        <p class="welcome-text">
+            Join us for a 24-hour journey through the longest night. Sashimi feast, bedroll stayover, 
+            tea ceremony as the sun rises, release art, create butoh dance. 
+            Only 1 spot left.
+        </p>
+        
+        <div class="solstice-activities">
+            <span>feast</span>
+            <span>sleep</span>
+            <span>tea</span>
+            <span>art</span>
+            <span>dance</span>
+        </div>
+        
+        <div class="welcome-btn-group">
+            <a href="https://partiful.com/e/6bOW1d2pRlo69MYpiowR" target="_blank" class="welcome-btn primary">RSVP ($64)</a>
+            <button class="welcome-btn secondary" onclick="closeWelcome()">Explore Site</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Show solstice popup on first visit
+window.addEventListener('DOMContentLoaded', function() {
+    const hasVisited = localStorage.getItem('gratifiedSolsticeViewed');
+    const eventDate = new Date('2024-12-21T19:00:00');
+    const now = new Date();
+    
+    // Show popup if not viewed and event hasn't passed
+    if (!hasVisited && now < eventDate) {
+        document.getElementById('welcomeOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+});
+
+function closeWelcome() {
+    const overlay = document.getElementById('welcomeOverlay');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    localStorage.setItem('gratifiedSolsticeViewed', 'true');
+}
+
+// Close on escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const overlay = document.getElementById('welcomeOverlay');
+        if (overlay.classList.contains('active')) {
+            closeWelcome();
+        }
+    }
+});
+
+// Close on backdrop click
+document.getElementById('welcomeOverlay').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeWelcome();
+    }
+});
+</script>
+
+    
+
     <!-- Project Details Modal -->
     <div class="modal-overlay" id="projectModal">
         <div class="booking-modal" style="max-width: 550px;">
@@ -418,6 +506,9 @@
         <button class="lightbox-close" aria-label="Close">&times;</button>
         <img class="lightbox-image" id="lightboxImage" src="" alt="">
     </div>
+
+
+    
 
     <script src="assets/js/particles.js"></script>
     <script src="assets/js/liquid-shader.js"></script>
