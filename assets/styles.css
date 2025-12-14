@@ -3203,3 +3203,51 @@ body {
         height: 60px;
     }
 }
+
+/* ===== SOLSTICE TOGGLE BUTTON ===== */
+.solstice-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--dusty-rose);
+    background-color: var(--card-bg);
+    cursor: pointer;
+    z-index: 1000;
+    transform: rotate(45deg);
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0;
+}
+
+.solstice-toggle:hover {
+    background-color: var(--card-bg-hover);
+    border-color: var(--rich-saffron);
+    transform: rotate(45deg) scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.solstice-toggle-diamond {
+    width: 40px;
+    height: 40px;
+    transform: rotate(-45deg);
+    animation: gentleRotate 20s linear infinite;
+}
+
+@media (max-width: 768px) {
+    .solstice-toggle {
+        width: 42px;
+        height: 42px;
+        top: 15px;
+        left: 15px;
+    }
+
+    .solstice-toggle-diamond {
+        width: 32px;
+        height: 32px;
+    }
+}
