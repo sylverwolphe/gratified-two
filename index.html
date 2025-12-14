@@ -60,6 +60,14 @@
         <svg class="theme-toggle-icon dark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
     </button>
 
+    <!-- Solstice Popup Toggle Button -->
+<button class="solstice-toggle" id="solsticeToggle" aria-label="View solstice event">
+    <svg viewBox="0 0 100 100" class="solstice-toggle-diamond">
+        <circle cx="50" cy="50" r="30" fill="none" stroke="var(--rich-saffron)" stroke-width="2" opacity="0.3"/>
+        <rect x="15" y="15" width="70" height="70" transform="rotate(45 50 50)" fill="var(--dusty-rose)"/>
+    </svg>
+</button>
+
     <!-- Page Container -->
     <main class="pages-container" id="main-content">
 
@@ -507,22 +515,13 @@ document.getElementById('contactForm').addEventListener('submit', async function
     <script>
 // Show solstice popup on first visit
 window.addEventListener('DOMContentLoaded', function() {
-    console.log('Popup script loaded'); // Debug
-    
     const hasVisited = localStorage.getItem('gratifiedSolsticeViewed');
-    const eventDate = new Date('2025-12-21T19:00:00'); // Changed to 2025!
+    const eventDate = new Date('2025-12-21T19:00:00');
     const now = new Date();
-    
-    console.log('Has visited:', hasVisited); // Debug
-    console.log('Event date:', eventDate); // Debug
-    console.log('Now:', now); // Debug
-    console.log('Show popup?', !hasVisited && now < eventDate); // Debug
     
     // Show popup if not viewed and event hasn't passed
     if (!hasVisited && now < eventDate) {
-        const overlay = document.getElementById('welcomeOverlay');
-        console.log('Overlay element:', overlay); // Debug
-        overlay.classList.add('active');
+        document.getElementById('welcomeOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 });
@@ -533,6 +532,12 @@ function closeWelcome() {
     document.body.style.overflow = '';
     localStorage.setItem('gratifiedSolsticeViewed', 'true');
 }
+
+// Reopen popup when clicking the diamond button
+document.getElementById('solsticeToggle').addEventListener('click', function() {
+    document.getElementById('welcomeOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
 
 // Close on escape key
 document.addEventListener('keydown', function(e) {
