@@ -17,7 +17,8 @@
         <div class="mb-12 text-center">
             <h1 class="text-5xl font-light tracking-tight">gratified</h1>
             <p class="text-lg text-stone-600 mt-2">daily instapot lunch • served at 1pm</p>
-            <p class="text-sm text-stone-500 mt-1">rice • beans • one veggie</p>
+            <p class="text-sm text-stone-500 mt-1">rice • beans • one veggie (all-you-can-eat)</p>
+            <p class="text-base font-normal text-stone-800 mt-4">$4 per person per day</p>
         </div>
 
         <!-- Name Selection -->
@@ -33,14 +34,14 @@
                 class="w-full p-4 border border-stone-300 bg-white placeholder-stone-400 focus:outline-none focus:border-stone-800"
             />
             <div class="mt-4" id="plusContainer" style="display: none;">
-                <label class="block text-sm text-stone-600 mb-2">+ companions / org seats</label>
+                <label class="block text-sm text-stone-600 mb-2">+ companions / org seats (each $4/day)</label>
                 <input type="number" id="plusOne" min="0" max="5" value="0" class="w-24 p-3 border border-stone-300 bg-white focus:outline-none focus:border-stone-800" />
             </div>
         </div>
 
         <!-- Day Selection + Signups -->
         <div class="mb-12">
-            <h2 class="text-xl font-normal mb-4">Select Days</h2>
+            <h2 class="text-xl font-normal mb-4">Select Days ($4/person/day • all-you-can-eat)</h2>
             <div id="daysList" class="space-y-6"></div>
         </div>
 
@@ -112,7 +113,7 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // Sample daily veggie rotation (you can edit)
+        // Sample daily veggie rotation (edit as needed)
         const menus = {
             Monday: { veggie: 'Broccoli', spice: 'garlic & cumin' },
             Tuesday: { veggie: 'Bell Peppers', spice: 'paprika & oregano' },
@@ -126,7 +127,7 @@
         function generateDays() {
             const days = [];
             const today = new Date();
-            for (let i = 0; i < 14; i++) {  // Next 14 days for more flexibility
+            for (let i = 0; i < 14; i++) {
                 const date = new Date(today);
                 date.setDate(today.getDate() + i);
                 days.push({
@@ -245,13 +246,15 @@
         document.getElementById('submitBtn').addEventListener('click', () => {
             const name = getCurrentName();
             const plus = parseInt(document.getElementById('plusOne').value) || 0;
-            const totalMeals = selectedDays.length * (1 + plus);
-            const amount = totalMeals * 12; // Change price here if needed ($12/meal)
+            const totalPeople = (1 + plus);
+            const totalDays = selectedDays.length;
+            const amount = totalPeople * totalDays * 4;
 
-            document.getElementById('confirmSummary').textContent = `${name}${plus > 0 ? ` +${plus}` : ''}`;
-            document.getElementById('confirmMeals').textContent = `${totalMeals} meal${totalMeals === 1 ? '' : 's'} • $${amount}`;
+            document.getElementById('confirmSummary').textContent = `${name}${plus > 0 ? ` +${plus} companion(s)` : ''}`;
+            document.getElementById('confirmMeals').textContent = 
+                `${totalPeople} person${totalPeople === 1 ? '' : 's'} × ${totalDays} day${totalDays === 1 ? '' : 's'} = $${amount} (all-you-can-eat)`;
 
-            const note = encodeURIComponent(`${name} - ${selectedDays.join(', ')}`);
+            const note = encodeURIComponent(`${name}${plus > 0 ? ` +${plus}` : ''} - ${selectedDays.join(', ')}`);
             document.getElementById('venmoLink').href = `https://venmo.com/gratifiedwegrow?txn=pay&amount=${amount}&note=${note}`;
 
             document.getElementById('confirmModal').style.display = 'flex';
@@ -284,7 +287,7 @@
             updatePlusVisibility();
             renderDays();
             updateSubmitButton();
-            alert('Thanks! You’ve been added — see you at 1pm!');
+            alert('Thanks! You’re signed up — see you at 1pm!');
         });
 
         // Initial render
