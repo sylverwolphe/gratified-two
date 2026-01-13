@@ -205,11 +205,149 @@
             font-style: italic;
         }
         
-        /* Modal styles unchanged - keeping as-is for brevity */
-        .modal { /* ... same as original ... */ }
-        .modal.show { /* ... */ }
-        .modal-content { /* ... */ }
-        /* ... rest of modal styles unchanged ... */
+          .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 50;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 32px;
+            max-width: 448px;
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal h3 {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 24px;
+        }
+        
+        .summary-box {
+            margin-bottom: 24px;
+            padding: 16px;
+            border: 1px solid #e7e5e4;
+            background: #fafaf9;
+        }
+        
+        .summary-name {
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        
+        .summary-meals {
+            font-size: 14px;
+            color: #57534e;
+        }
+        
+        .venmo-section {
+            margin-bottom: 24px;
+        }
+        
+        .venmo-label {
+            font-size: 14px;
+            color: #57534e;
+            margin-bottom: 8px;
+        }
+        
+        .venmo-link {
+            color: #292524;
+            font-weight: 400;
+            font-size: 18px;
+            text-decoration: underline;
+        }
+        
+        .venmo-link:hover {
+            color: #44403c;
+        }
+        
+        .venmo-note {
+            font-size: 12px;
+            color: #78716c;
+            margin-top: 8px;
+        }
+        
+        .checkbox-container {
+            margin-bottom: 24px;
+            padding: 16px;
+            border: 1px solid #e7e5e4;
+            background: #fafaf9;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: start;
+            cursor: pointer;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            margin-top: 4px;
+            margin-right: 12px;
+            width: auto;
+        }
+        
+        .checkbox-text {
+            font-size: 14px;
+            color: #44403c;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .modal-btn {
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn.primary {
+            background: #292524;
+            color: white;
+        }
+        
+        .modal-btn.primary:hover:not(:disabled) {
+            background: #1c1917;
+        }
+        
+        .modal-btn.primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .modal-btn.secondary {
+            background: white;
+            color: #292524;
+            border: 1px solid #d6d3d1;
+        }
+        
+        .modal-btn.secondary:hover {
+            background: #fafaf9;
+        }
+        
+        @media (max-height: 700px) {
+            .modal-content {
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+        }
     </style>
 </head>
 <body>
