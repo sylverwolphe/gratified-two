@@ -1,45 +1,111 @@
-# Gratified Meal Signup - Firebase Realtime Database Setup
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gratified - Meal Signup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 min-h-screen">
+    <div class="max-w-2xl mx-auto px-6 py-12">
+        <!-- Header -->
+        <div class="mb-12">
+            <h1 class="text-4xl font-light text-stone-900 mb-2">gratified</h1>
+            <p class="text-stone-600">daily instapot lunch / served at 1pm</p>
+            <p class="text-sm text-stone-500 mt-1">rice + beans + veggie</p>
+        </div>
 
-## Step 1: Create Firebase Project
+        <!-- Name Selection -->
+        <div class="mb-8">
+            <h2 class="text-lg font-normal text-stone-900 mb-4">Name</h2>
+            
+            <select id="existingName" class="w-full p-3 border border-stone-300 bg-white text-stone-900 focus:outline-none focus:border-stone-900 mb-3">
+                <option value="">Select from list</option>
+            </select>
 
-1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Click "Add project"
-3. Name it "gratified-meals" (or whatever you like)
-4. Disable Google Analytics (not needed)
-5. Create project
+            <input
+                type="text"
+                id="newName"
+                placeholder="Or enter new name"
+                class="w-full p-3 border border-stone-300 bg-white text-stone-900 placeholder-stone-400 focus:outline-none focus:border-stone-900"
+            />
 
-## Step 2: Set Up Realtime Database
+            <div class="mt-3" id="plusOneContainer" style="display: none;">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="plusOne" class="w-4 h-4" />
+                    <span class="text-sm text-stone-600">+1</span>
+                </label>
+            </div>
+        </div>
 
-1. In your Firebase project, click "Realtime Database" in the left menu
-2. Click "Create Database"
-3. Choose your location (us-central1 is closest to SF)
-4. Choose "Start in locked mode" (we'll open it up next)
+        <!-- Day Selection -->
+        <div class="mb-8">
+            <h2 class="text-lg font-normal text-stone-900 mb-4">Days</h2>
+            <div id="daysList" class="space-y-2"></div>
+        </div>
 
-## Step 3: Configure Security Rules
+        <!-- Submit Button -->
+        <button
+            id="submitBtn"
+            style="display: none;"
+            class="w-full bg-stone-900 text-white py-3 px-6 hover:bg-stone-800 transition-colors"
+        >
+            Continue to payment
+        </button>
+    </div>
 
-In Realtime Database → Rules tab, replace with:
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-40 items-center justify-center p-4 z-50" style="display: none;">
+        <div class="bg-white p-8 max-w-md w-full">
+            <h3 class="text-xl font-normal text-stone-900 mb-6">Confirm payment</h3>
+            
+            <div class="mb-6 p-4 border border-stone-300">
+                <div class="font-normal mb-1" id="confirmName"></div>
+                <div class="text-sm text-stone-600" id="confirmDays"></div>
+            </div>
 
-```json
-{
-  "rules": {
-    ".read": true,
-    ".write": true
-  }
-}
-```
+            <div class="mb-6 p-4 border border-stone-300">
+                <div class="text-sm text-stone-600 mb-2">Send payment via Venmo</div>
+                <a 
+                    href="https://venmo.com/YourVenmoHandle"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-stone-900 hover:text-stone-700 font-normal underline"
+                >
+                    @gratifiedwegrow
+                </a>
+                <div class="text-xs text-stone-500 mt-2">Include your name in payment note</div>
+            </div>
 
-Click "Publish"
+            <div class="space-y-3">
+                <button
+                    id="confirmPaid"
+                    class="w-full bg-stone-900 text-white py-3 px-6 hover:bg-stone-800 transition-colors"
+                >
+                    I've paid
+                </button>
+                <button
+                    id="cancelBtn"
+                    class="w-full border border-stone-300 text-stone-900 py-3 px-6 hover:bg-stone-50 transition-colors"
+                >
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
 
-## Step 4: Get Firebase Config
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, onValue, set, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
-1. Click the gear icon next to "Project Overview" → Project settings
-2. Scroll down to "Your apps" section
-3. Click the web icon `</>`
-4. Register app (name it "gratified-web")
-5. Copy the `firebaseConfig` object - it looks like:
-
-```javascript
-const firebaseConfig = {
+        // TODO: Replace with your Firebase config
+        const firebaseConfig = {
   apiKey: "AIzaSyAzNA4a611ePbI6BknQz-mlwOtAVBwSmbc",
   authDomain: "rice-beans.firebaseapp.com",
   databaseURL: "https://rice-beans-default-rtdb.firebaseio.com",
@@ -48,22 +114,212 @@ const firebaseConfig = {
   messagingSenderId: "451578694170",
   appId: "1:451578694170:web:debfefb12780121aa35fa3"
 };
-```
 
-**Important**: Make sure `databaseURL` is included!
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-## Step 5: Ready for the Code
+        // Daily menus
+        const menus = {
+            Monday: { veggie: 'Broccoli', spice: 'garlic & cumin' },
+            Tuesday: { veggie: 'Bell Peppers', spice: 'paprika & oregano' },
+            Wednesday: { veggie: 'Carrots', spice: 'ginger & turmeric' },
+            Thursday: { veggie: 'Eggplant', spice: 'basil & red pepper' },
+            Friday: { veggie: 'Kale', spice: 'lemon & thyme' },
+            Saturday: { veggie: 'Corn', spice: 'lime & chili' },
+            Sunday: { veggie: 'Sweet Potato', spice: 'cinnamon & nutmeg' }
+        };
 
-Once you have your Firebase config, let me know and I'll create the component with Firebase Realtime Database integrated. 
+        // Generate next 7 days
+        function generateDays() {
+            const days = [];
+            const today = new Date();
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() + i);
+                days.push({
+                    date: date.toISOString().split('T')[0],
+                    dayName: date.toLocaleDateString('en-US', { weekday: 'long' }),
+                    dateStr: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                });
+            }
+            return days;
+        }
 
-People will see signups appear instantly as others add themselves - perfect for that immediate community vibe!
+        const days = generateDays();
+        let allSignups = {};
+        let selectedDays = [];
+        let allNames = new Set();
 
----
+        // Listen to signups in real-time
+        const signupsRef = ref(database, 'signups');
+        onValue(signupsRef, (snapshot) => {
+            allSignups = snapshot.val() || {};
+            
+            // Extract all unique names
+            allNames.clear();
+            Object.values(allSignups).forEach(daySignups => {
+                if (daySignups) {
+                    Object.values(daySignups).forEach(signup => {
+                        allNames.add(signup.name);
+                    });
+                }
+            });
 
-## Why Realtime Database?
+            updateNameDropdown();
+            renderDays();
+        });
 
-- **Instant updates**: Changes sync in milliseconds
-- **Simpler setup**: Less complex than Firestore for this use case
-- **Perfect for lists**: Great for displaying live signup data
+        function updateNameDropdown() {
+            const select = document.getElementById('existingName');
+            const currentValue = select.value;
+            
+            select.innerHTML = '<option value="">Select from list</option>';
+            Array.from(allNames).sort().forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                select.appendChild(option);
+            });
+            
+            if (currentValue && allNames.has(currentValue)) {
+                select.value = currentValue;
+            }
+        }
 
-Ready? Share your Firebase config and I'll build the connected component!
+        function renderDays() {
+            const container = document.getElementById('daysList');
+            container.innerHTML = '';
+
+            days.forEach(day => {
+                const menu = menus[day.dayName];
+                const isSelected = selectedDays.includes(day.date);
+                const daySignups = allSignups[day.date] || {};
+                const signupList = Object.values(daySignups);
+                const totalCount = signupList.reduce((sum, s) => sum + (s.plusOne ? 2 : 1), 0);
+
+                const dayDiv = document.createElement('div');
+                dayDiv.className = `p-4 border cursor-pointer transition-colors ${
+                    isSelected 
+                        ? 'border-stone-900 bg-stone-100' 
+                        : 'border-stone-300 hover:border-stone-500 bg-white'
+                }`;
+                
+                dayDiv.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-normal text-stone-900">
+                                ${day.dayName}, ${day.dateStr}
+                            </div>
+                            <div class="text-sm text-stone-600 mt-1">
+                                ${menu.veggie} / ${menu.spice}
+                            </div>
+                        </div>
+                        ${totalCount > 0 ? `<div class="text-sm text-stone-500">${totalCount} signed up</div>` : ''}
+                    </div>
+                    ${signupList.length > 0 ? `
+                        <div class="mt-3 pt-3 border-t border-stone-200">
+                            <div class="text-xs text-stone-500 mb-2">Eating:</div>
+                            <div class="space-y-1">
+                                ${signupList.map(s => `
+                                    <div class="text-sm text-stone-700">${s.name}${s.plusOne ? ' +1' : ''}</div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                `;
+
+                dayDiv.addEventListener('click', () => toggleDay(day.date));
+                container.appendChild(dayDiv);
+            });
+        }
+
+        function toggleDay(date) {
+            const currentName = getCurrentName();
+            if (!currentName) return;
+
+            if (selectedDays.includes(date)) {
+                selectedDays = selectedDays.filter(d => d !== date);
+            } else {
+                selectedDays.push(date);
+            }
+            renderDays();
+            updateSubmitButton();
+        }
+
+        function getCurrentName() {
+            const newName = document.getElementById('newName').value.trim();
+            const existingName = document.getElementById('existingName').value;
+            return newName || existingName;
+        }
+
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submitBtn');
+            const currentName = getCurrentName();
+            submitBtn.style.display = (selectedDays.length > 0 && currentName) ? 'block' : 'none';
+        }
+
+        function updatePlusOneVisibility() {
+            const container = document.getElementById('plusOneContainer');
+            const currentName = getCurrentName();
+            container.style.display = currentName ? 'block' : 'none';
+        }
+
+        // Event listeners
+        document.getElementById('newName').addEventListener('input', (e) => {
+            if (e.target.value.trim()) {
+                document.getElementById('existingName').value = '';
+            }
+            updatePlusOneVisibility();
+            updateSubmitButton();
+        });
+
+        document.getElementById('existingName').addEventListener('change', (e) => {
+            if (e.target.value) {
+                document.getElementById('newName').value = '';
+            }
+            updatePlusOneVisibility();
+            updateSubmitButton();
+        });
+
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            const currentName = getCurrentName();
+            const plusOne = document.getElementById('plusOne').checked;
+            
+            document.getElementById('confirmName').textContent = currentName + (plusOne ? ' +1' : '');
+            document.getElementById('confirmDays').textContent = 
+                `${selectedDays.length} meal${selectedDays.length > 1 ? 's' : ''}`;
+            
+            document.getElementById('confirmModal').style.display = 'flex';
+        });
+
+        document.getElementById('cancelBtn').addEventListener('click', () => {
+            document.getElementById('confirmModal').style.display = 'none';
+        });
+
+        document.getElementById('confirmPaid').addEventListener('click', async () => {
+            const currentName = getCurrentName();
+            const plusOne = document.getElementById('plusOne').checked;
+
+            for (const date of selectedDays) {
+                const dayRef = ref(database, `signups/${date}`);
+                const newSignupRef = push(dayRef);
+                await set(newSignupRef, {
+                    name: currentName,
+                    plusOne: plusOne,
+                    timestamp: Date.now()
+                });
+            }
+
+            // Reset
+            selectedDays = [];
+            document.getElementById('newName').value = '';
+            document.getElementById('existingName').value = '';
+            document.getElementById('plusOne').checked = false;
+            document.getElementById('confirmModal').style.display = 'none';
+            updatePlusOneVisibility();
+            renderDays();
+            updateSubmitButton();
+        });
+    </script>
+</body>
+</html>
