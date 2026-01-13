@@ -4,36 +4,361 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gratified - Rice & Beans Signup</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #fafaf9;
+            color: #1c1917;
+            min-height: 100vh;
         }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: -0.025em;
+        }
+        
+        .header .subtitle {
+            font-size: 18px;
+            color: #57534e;
+            margin-top: 8px;
+        }
+        
+        .header .subtext {
+            font-size: 14px;
+            color: #78716c;
+            margin-top: 4px;
+        }
+        
+        .header .price {
+            font-size: 16px;
+            font-weight: 400;
+            color: #292524;
+            margin-top: 16px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+        
+        select, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #d6d3d1;
+            background: white;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #292524;
+        }
+        
+        select {
+            margin-bottom: 12px;
+        }
+        
+        input::placeholder {
+            color: #a8a29e;
+        }
+        
+        input[type="number"] {
+            width: 96px;
+        }
+        
+        .plus-container {
+            margin-top: 16px;
+            display: none;
+        }
+        
+        .plus-container label {
+            display: block;
+            font-size: 14px;
+            color: #57534e;
+            margin-bottom: 8px;
+        }
+        
+        .days-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
         .day-card {
+            padding: 24px;
+            border: 1px solid #e7e5e4;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
             touch-action: manipulation;
         }
+        
+        .day-card:hover {
+            border-color: #a8a29e;
+        }
+        
+        .day-card.selected {
+            border-color: #292524;
+            background-color: #f5f5f4;
+        }
+        
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+        
+        .day-title {
+            font-size: 18px;
+            font-weight: 400;
+        }
+        
+        .day-menu {
+            font-size: 14px;
+            color: #57534e;
+            margin-top: 4px;
+        }
+        
+        .day-count {
+            font-size: 14px;
+            color: #78716c;
+        }
+        
+        .signups-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e7e5e4;
+        }
+        
+        .signups-label {
+            font-size: 12px;
+            color: #78716c;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        
+        .signups-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 14px;
+            color: #44403c;
+        }
+        
+        .empty-state {
+            font-size: 14px;
+            color: #78716c;
+            font-style: italic;
+            margin-top: 8px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: #292524;
+            color: white;
+            padding: 16px 24px;
+            font-size: 18px;
+            font-weight: 400;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: none;
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            background: #1c1917;
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 50;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 32px;
+            max-width: 448px;
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal h3 {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 24px;
+        }
+        
+        .summary-box {
+            margin-bottom: 24px;
+            padding: 16px;
+            border: 1px solid #e7e5e4;
+            background: #fafaf9;
+        }
+        
+        .summary-name {
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        
+        .summary-meals {
+            font-size: 14px;
+            color: #57534e;
+        }
+        
+        .venmo-section {
+            margin-bottom: 24px;
+        }
+        
+        .venmo-label {
+            font-size: 14px;
+            color: #57534e;
+            margin-bottom: 8px;
+        }
+        
+        .venmo-link {
+            color: #292524;
+            font-weight: 400;
+            font-size: 18px;
+            text-decoration: underline;
+        }
+        
+        .venmo-link:hover {
+            color: #44403c;
+        }
+        
+        .venmo-note {
+            font-size: 12px;
+            color: #78716c;
+            margin-top: 8px;
+        }
+        
+        .checkbox-container {
+            margin-bottom: 24px;
+            padding: 16px;
+            border: 1px solid #e7e5e4;
+            background: #fafaf9;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: start;
+            cursor: pointer;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            margin-top: 4px;
+            margin-right: 12px;
+            width: auto;
+        }
+        
+        .checkbox-text {
+            font-size: 14px;
+            color: #44403c;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .modal-btn {
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn.primary {
+            background: #292524;
+            color: white;
+        }
+        
+        .modal-btn.primary:hover:not(:disabled) {
+            background: #1c1917;
+        }
+        
+        .modal-btn.primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .modal-btn.secondary {
+            background: white;
+            color: #292524;
+            border: 1px solid #d6d3d1;
+        }
+        
+        .modal-btn.secondary:hover {
+            background: #fafaf9;
+        }
+        
         @media (max-height: 700px) {
-            #confirmModal > div {
+            .modal-content {
                 max-height: 90vh;
                 overflow-y: auto;
             }
         }
     </style>
 </head>
-<body class="bg-stone-50 min-h-screen text-stone-900">
-    <div class="max-w-2xl mx-auto px-6 py-12">
+<body>
+    <div class="container">
         <!-- Header -->
-        <div class="mb-12 text-center">
-            <h1 class="text-5xl font-light tracking-tight">gratified</h1>
-            <p class="text-lg text-stone-600 mt-2">daily instapot lunch • served at 1pm</p>
-            <p class="text-sm text-stone-500 mt-1">rice • beans • veg</p>
-            <p class="text-base font-normal text-stone-800 mt-4">$4 bottomless</p>
+        <div class="header">
+            <h1>gratified</h1>
+            <p class="subtitle">daily instapot lunch • served at 1pm</p>
+            <p class="subtext">rice • beans • veg</p>
+            <p class="price">$4 bottomless</p>
         </div>
 
         <!-- Name Selection -->
-        <div class="mb-10">
-            <h2 class="text-xl font-normal mb-4">Your Name</h2>
-            <select id="existingName" aria-label="Select existing name" class="w-full p-4 border border-stone-300 bg-white focus:outline-none focus:border-stone-800 mb-3">
+        <div class="section">
+            <h2>Your Name</h2>
+            <select id="existingName" aria-label="Select existing name">
                 <option value="">Select existing name</option>
             </select>
             <input
@@ -42,75 +367,63 @@
                 placeholder="Or type new name..."
                 aria-label="Enter new name"
                 maxlength="50"
-                class="w-full p-4 border border-stone-300 bg-white placeholder-stone-400 focus:outline-none focus:border-stone-800"
             />
-            <div class="mt-4" id="plusContainer" style="display: none;">
-                <label class="block text-sm text-stone-600 mb-2">+ companions / org seats (each $4/day)</label>
-                <input type="number" id="plusOne" min="0" max="5" value="0" aria-label="Number of additional people" class="w-24 p-3 border border-stone-300 bg-white focus:outline-none focus:border-stone-800" />
+            <div class="plus-container" id="plusContainer">
+                <label>+ companions / org seats (each $4/day)</label>
+                <input type="number" id="plusOne" min="0" max="5" value="0" aria-label="Number of additional people" />
             </div>
         </div>
 
         <!-- Day Selection + Signups -->
-        <div class="mb-12">
-            <h2 class="text-xl font-normal mb-4">Select Days ($4/person/day • all-you-can-eat)</h2>
-            <div id="daysList" class="space-y-6"></div>
+        <div class="section">
+            <h2>Select Days</h2>
+            <div id="daysList" class="days-list"></div>
         </div>
 
         <!-- Submit Button -->
-        <button
-            id="submitBtn"
-            style="display: none;"
-            class="w-full bg-stone-900 text-white py-4 px-6 hover:bg-stone-800 transition-colors text-lg font-normal disabled:opacity-50 disabled:cursor-not-allowed"
-        >
+        <button id="submitBtn" class="submit-btn">
             Continue to Venmo
         </button>
     </div>
 
     <!-- Confirmation Modal -->
-    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" style="display: none;">
-        <div class="bg-white p-8 max-w-md w-full rounded shadow-lg">
-            <h3 class="text-2xl font-normal mb-6">Confirm & Pay</h3>
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h3>Confirm & Pay</h3>
             
-            <div class="mb-6 p-4 border border-stone-200 bg-stone-50">
-                <div id="confirmSummary" class="font-normal mb-2"></div>
-                <div id="confirmMeals" class="text-sm text-stone-600"></div>
+            <div class="summary-box">
+                <div id="confirmSummary" class="summary-name"></div>
+                <div id="confirmMeals" class="summary-meals"></div>
             </div>
 
-            <div class="mb-6">
-                <div class="text-sm text-stone-600 mb-2">Pay via Venmo</div>
+            <div class="venmo-section">
+                <div class="venmo-label">Pay via Venmo</div>
                 <a
                     href="https://venmo.com/gratifiedwegrow?txn=pay&amount=0&note="
                     target="_blank"
                     id="venmoLink"
-                    class="text-stone-900 hover:text-stone-700 font-normal underline text-lg"
+                    class="venmo-link"
                 >
                     @gratifiedwegrow
                 </a>
-                <div class="text-xs text-stone-500 mt-2">Please include your name + date(s) in the note</div>
+                <div class="venmo-note">Please include your name + date(s) in the note</div>
             </div>
 
-            <div class="mb-6 p-4 border border-stone-200 bg-stone-50">
-                <label class="flex items-start cursor-pointer">
-                    <input type="checkbox" id="paymentCheckbox" class="mt-1 mr-3" aria-label="Confirm payment sent">
-                    <span class="text-sm text-stone-700">
+            <div class="checkbox-container">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="paymentCheckbox" aria-label="Confirm payment sent">
+                    <span class="checkbox-text">
                         I confirm I have sent $<span id="totalAmount"></span> to @gratifiedwegrow 
                         with my name and dates in the note
                     </span>
                 </label>
             </div>
 
-            <div class="space-y-3">
-                <button
-                    id="confirmPaid"
-                    disabled
-                    class="w-full bg-stone-900 text-white py-4 px-6 hover:bg-stone-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+            <div class="modal-buttons">
+                <button id="confirmPaid" class="modal-btn primary" disabled>
                     I've Sent the Payment
                 </button>
-                <button
-                    id="cancelBtn"
-                    class="w-full border border-stone-300 text-stone-900 py-4 px-6 hover:bg-stone-50 transition-colors"
-                >
+                <button id="cancelBtn" class="modal-btn secondary">
                     Cancel
                 </button>
             </div>
@@ -149,13 +462,12 @@
         function generateDays() {
             const days = [];
             const today = new Date();
-            today.setHours(0, 0, 0, 0); // Normalize to midnight
+            today.setHours(0, 0, 0, 0);
             
             for (let i = 0; i < 14; i++) {
                 const date = new Date(today);
                 date.setDate(today.getDate() + i);
                 
-                // Format as YYYY-MM-DD in local timezone
                 const year = date.getFullYear();
                 const month = String(date.getMonth() + 1).padStart(2, '0');
                 const day = String(date.getDate()).padStart(2, '0');
@@ -226,29 +538,35 @@
                 const totalPeople = signupList.reduce((sum, s) => sum + 1 + (s.plus || 0), 0);
 
                 const dayDiv = document.createElement('div');
-                dayDiv.className = `day-card p-6 border cursor-pointer transition-all ${isSelected ? 'border-stone-900 bg-stone-100' : 'border-stone-200 hover:border-stone-400 bg-white'}`;
+                dayDiv.className = `day-card ${isSelected ? 'selected' : ''}`;
                 dayDiv.setAttribute('role', 'button');
                 dayDiv.setAttribute('tabindex', '0');
                 dayDiv.setAttribute('aria-label', `Sign up for ${day.dayName}, ${day.dateStr}. ${menu.veggie} with ${menu.spice}. ${totalPeople} people signed up.`);
                 dayDiv.setAttribute('aria-pressed', isSelected);
 
-                dayDiv.innerHTML = `
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <div class="text-lg font-normal">${day.dayName}, ${day.dateStr}</div>
-                            <div class="text-sm text-stone-600 mt-1">${menu.veggie} • ${menu.spice}</div>
-                        </div>
-                        ${totalPeople > 0 ? `<div class="text-sm text-stone-500">${totalPeople} signed up</div>` : ''}
-                    </div>
-
-                    ${signupList.length > 0 ? `
-                        <div class="mt-4 pt-4 border-t border-stone-200">
-                            <div class="text-xs text-stone-500 mb-2 uppercase tracking-wide">Who's eating:</div>
-                            <div class="space-y-1 text-sm text-stone-700">
+                let signupsHTML = '';
+                if (signupList.length > 0) {
+                    signupsHTML = `
+                        <div class="signups-section">
+                            <div class="signups-label">Who's eating:</div>
+                            <div class="signups-list">
                                 ${signupList.map(s => `<div>${s.name}${s.plus > 0 ? ` +${s.plus}` : ''}</div>`).join('')}
                             </div>
                         </div>
-                    ` : '<div class="text-sm text-stone-500 mt-2 italic">Be the first!</div>'}
+                    `;
+                } else {
+                    signupsHTML = '<div class="empty-state">Be the first!</div>';
+                }
+
+                dayDiv.innerHTML = `
+                    <div class="day-header">
+                        <div>
+                            <div class="day-title">${day.dayName}, ${day.dateStr}</div>
+                            <div class="day-menu">${menu.veggie} • ${menu.spice}</div>
+                        </div>
+                        ${totalPeople > 0 ? `<div class="day-count">${totalPeople} signed up</div>` : ''}
+                    </div>
+                    ${signupsHTML}
                 `;
 
                 const handleToggle = () => {
@@ -292,7 +610,6 @@
             document.getElementById('plusContainer').style.display = getCurrentName() ? 'block' : 'none';
         }
 
-        // Events
         ['newName', 'existingName'].forEach(id => {
             document.getElementById(id).addEventListener(id === 'newName' ? 'input' : 'change', () => {
                 if (id === 'newName') document.getElementById('existingName').value = '';
@@ -324,21 +641,19 @@
 
             document.getElementById('paymentCheckbox').checked = false;
             document.getElementById('confirmPaid').disabled = true;
-            document.getElementById('confirmModal').style.display = 'flex';
+            document.getElementById('confirmModal').classList.add('show');
         });
 
-        // Close modal on backdrop click
         document.getElementById('confirmModal').addEventListener('click', (e) => {
             if (e.target.id === 'confirmModal') {
-                document.getElementById('confirmModal').style.display = 'none';
+                document.getElementById('confirmModal').classList.remove('show');
             }
         });
 
         document.getElementById('cancelBtn').addEventListener('click', () => {
-            document.getElementById('confirmModal').style.display = 'none';
+            document.getElementById('confirmModal').classList.remove('show');
         });
 
-        // Enable confirm button only when checkbox is checked
         document.getElementById('paymentCheckbox').addEventListener('change', (e) => {
             document.getElementById('confirmPaid').disabled = !e.target.checked;
         });
@@ -366,12 +681,11 @@
                     });
                 }
 
-                // Reset form
                 selectedDays = [];
                 document.getElementById('newName').value = '';
                 document.getElementById('existingName').value = '';
                 document.getElementById('plusOne').value = 0;
-                document.getElementById('confirmModal').style.display = 'none';
+                document.getElementById('confirmModal').classList.remove('show');
                 document.getElementById('paymentCheckbox').checked = false;
                 updatePlusVisibility();
                 renderDays();
@@ -387,7 +701,6 @@
             }
         });
 
-        // Initial render
         renderDays();
         updateNameDropdown();
     </script>
