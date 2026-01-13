@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gratified - Meal Signup</title>
+    <title>Gratified - Rice & Beans Signup</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -11,87 +11,82 @@
         }
     </style>
 </head>
-<body class="bg-stone-50 min-h-screen">
+<body class="bg-stone-50 min-h-screen text-stone-900">
     <div class="max-w-2xl mx-auto px-6 py-12">
         <!-- Header -->
-        <div class="mb-12">
-            <h1 class="text-4xl font-light text-stone-900 mb-2">gratified</h1>
-            <p class="text-stone-600">daily instapot lunch / served at 1pm</p>
-            <p class="text-sm text-stone-500 mt-1">rice + beans + veggie</p>
+        <div class="mb-12 text-center">
+            <h1 class="text-5xl font-light tracking-tight">gratified</h1>
+            <p class="text-lg text-stone-600 mt-2">daily instapot lunch • served at 1pm</p>
+            <p class="text-sm text-stone-500 mt-1">rice • beans • one veggie</p>
         </div>
 
         <!-- Name Selection -->
-        <div class="mb-8">
-            <h2 class="text-lg font-normal text-stone-900 mb-4">Name</h2>
-            
-            <select id="existingName" class="w-full p-3 border border-stone-300 bg-white text-stone-900 focus:outline-none focus:border-stone-900 mb-3">
-                <option value="">Select from list</option>
+        <div class="mb-10">
+            <h2 class="text-xl font-normal mb-4">Your Name</h2>
+            <select id="existingName" class="w-full p-4 border border-stone-300 bg-white focus:outline-none focus:border-stone-800 mb-3">
+                <option value="">Select existing name</option>
             </select>
-
             <input
                 type="text"
                 id="newName"
-                placeholder="Or enter new name"
-                class="w-full p-3 border border-stone-300 bg-white text-stone-900 placeholder-stone-400 focus:outline-none focus:border-stone-900"
+                placeholder="Or type new name..."
+                class="w-full p-4 border border-stone-300 bg-white placeholder-stone-400 focus:outline-none focus:border-stone-800"
             />
-
-            <div class="mt-3" id="plusOneContainer" style="display: none;">
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" id="plusOne" class="w-4 h-4" />
-                    <span class="text-sm text-stone-600">+1</span>
-                </label>
+            <div class="mt-4" id="plusContainer" style="display: none;">
+                <label class="block text-sm text-stone-600 mb-2">+ companions / org seats</label>
+                <input type="number" id="plusOne" min="0" max="5" value="0" class="w-24 p-3 border border-stone-300 bg-white focus:outline-none focus:border-stone-800" />
             </div>
         </div>
 
-        <!-- Day Selection -->
-        <div class="mb-8">
-            <h2 class="text-lg font-normal text-stone-900 mb-4">Days</h2>
-            <div id="daysList" class="space-y-2"></div>
+        <!-- Day Selection + Signups -->
+        <div class="mb-12">
+            <h2 class="text-xl font-normal mb-4">Select Days</h2>
+            <div id="daysList" class="space-y-6"></div>
         </div>
 
         <!-- Submit Button -->
         <button
             id="submitBtn"
             style="display: none;"
-            class="w-full bg-stone-900 text-white py-3 px-6 hover:bg-stone-800 transition-colors"
+            class="w-full bg-stone-900 text-white py-4 px-6 hover:bg-stone-800 transition-colors text-lg font-normal"
         >
-            Continue to payment
+            Continue to Venmo
         </button>
     </div>
 
     <!-- Confirmation Modal -->
-    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-40 items-center justify-center p-4 z-50" style="display: none;">
-        <div class="bg-white p-8 max-w-md w-full">
-            <h3 class="text-xl font-normal text-stone-900 mb-6">Confirm payment</h3>
+    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" style="display: none;">
+        <div class="bg-white p-8 max-w-md w-full rounded shadow-lg">
+            <h3 class="text-2xl font-normal mb-6">Confirm & Pay</h3>
             
-            <div class="mb-6 p-4 border border-stone-300">
-                <div class="font-normal mb-1" id="confirmName"></div>
-                <div class="text-sm text-stone-600" id="confirmDays"></div>
+            <div class="mb-6 p-4 border border-stone-200 bg-stone-50">
+                <div id="confirmSummary" class="font-normal mb-2"></div>
+                <div id="confirmMeals" class="text-sm text-stone-600"></div>
             </div>
 
-            <div class="mb-6 p-4 border border-stone-300">
-                <div class="text-sm text-stone-600 mb-2">Send payment via Venmo</div>
-                <a 
-                    href="https://venmo.com/YourVenmoHandle"
+            <div class="mb-8">
+                <div class="text-sm text-stone-600 mb-2">Pay via Venmo</div>
+                <a
+                    href="https://venmo.com/gratifiedwegrow?txn=pay&amount=0&note="
                     target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-stone-900 hover:text-stone-700 font-normal underline"
+                    id="venmoLink"
+                    class="text-stone-900 hover:text-stone-700 font-normal underline text-lg"
                 >
                     @gratifiedwegrow
                 </a>
-                <div class="text-xs text-stone-500 mt-2">Include your name in payment note</div>
+                <div class="text-xs text-stone-500 mt-2">Please include your name + date(s) in the note</div>
             </div>
 
             <div class="space-y-3">
                 <button
                     id="confirmPaid"
-                    class="w-full bg-stone-900 text-white py-3 px-6 hover:bg-stone-800 transition-colors"
+                    class="w-full bg-stone-900 text-white py-4 px-6 hover:bg-stone-800 transition-colors"
                 >
-                    I've paid
+                    I've Sent the Payment
                 </button>
                 <button
                     id="cancelBtn"
-                    class="w-full border border-stone-300 text-stone-900 py-3 px-6 hover:bg-stone-50 transition-colors"
+                    class="w-full border border-stone-300 text-stone-900 py-4 px-6 hover:bg-stone-50 transition-colors"
                 >
                     Cancel
                 </button>
@@ -99,26 +94,25 @@
         </div>
     </div>
 
-    <!-- Firebase -->
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getDatabase, ref, onValue, set, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
-        // TODO: Replace with your Firebase config
         const firebaseConfig = {
-  apiKey: "AIzaSyAzNA4a611ePbI6BknQz-mlwOtAVBwSmbc",
-  authDomain: "rice-beans.firebaseapp.com",
-  databaseURL: "https://rice-beans-default-rtdb.firebaseio.com",
-  projectId: "rice-beans",
-  storageBucket: "rice-beans.firebasestorage.app",
-  messagingSenderId: "451578694170",
-  appId: "1:451578694170:web:debfefb12780121aa35fa3"
-};
+            apiKey: "AIzaSyAzNA4a611ePbI6BknQz-mlwOtAVBwSmbc",
+            authDomain: "rice-beans.firebaseapp.com",
+            databaseURL: "https://rice-beans-default-rtdb.firebaseio.com",
+            projectId: "rice-beans",
+            storageBucket: "rice-beans.firebasestorage.app",
+            messagingSenderId: "451578694170",
+            appId: "1:451578694170:web:debfefb12780121aa35fa3"
+        };
 
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // Daily menus
+        // Sample daily veggie rotation (you can edit)
         const menus = {
             Monday: { veggie: 'Broccoli', spice: 'garlic & cumin' },
             Tuesday: { veggie: 'Bell Peppers', spice: 'paprika & oregano' },
@@ -129,11 +123,10 @@
             Sunday: { veggie: 'Sweet Potato', spice: 'cinnamon & nutmeg' }
         };
 
-        // Generate next 7 days
         function generateDays() {
             const days = [];
             const today = new Date();
-            for (let i = 0; i < 7; i++) {
+            for (let i = 0; i < 14; i++) {  // Next 14 days for more flexibility
                 const date = new Date(today);
                 date.setDate(today.getDate() + i);
                 days.push({
@@ -150,145 +143,117 @@
         let selectedDays = [];
         let allNames = new Set();
 
-        // Listen to signups in real-time
         const signupsRef = ref(database, 'signups');
         onValue(signupsRef, (snapshot) => {
             allSignups = snapshot.val() || {};
-            
-            // Extract all unique names
             allNames.clear();
-            Object.values(allSignups).forEach(daySignups => {
-                if (daySignups) {
-                    Object.values(daySignups).forEach(signup => {
-                        allNames.add(signup.name);
-                    });
-                }
+            Object.values(allSignups).forEach(day => {
+                if (day) Object.values(day).forEach(s => allNames.add(s.name));
             });
-
             updateNameDropdown();
             renderDays();
         });
 
         function updateNameDropdown() {
             const select = document.getElementById('existingName');
-            const currentValue = select.value;
-            
-            select.innerHTML = '<option value="">Select from list</option>';
-            Array.from(allNames).sort().forEach(name => {
-                const option = document.createElement('option');
-                option.value = name;
-                option.textContent = name;
-                select.appendChild(option);
+            const val = select.value;
+            select.innerHTML = '<option value="">Select existing name</option>';
+            [...allNames].sort().forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                select.appendChild(opt);
             });
-            
-            if (currentValue && allNames.has(currentValue)) {
-                select.value = currentValue;
-            }
+            if (val && allNames.has(val)) select.value = val;
         }
 
         function renderDays() {
             const container = document.getElementById('daysList');
             container.innerHTML = '';
-
             days.forEach(day => {
-                const menu = menus[day.dayName];
+                const menu = menus[day.dayName] || { veggie: 'Surprise veggie', spice: 'house spices' };
                 const isSelected = selectedDays.includes(day.date);
                 const daySignups = allSignups[day.date] || {};
                 const signupList = Object.values(daySignups);
-                const totalCount = signupList.reduce((sum, s) => sum + (s.plusOne ? 2 : 1), 0);
+                const totalPeople = signupList.reduce((sum, s) => sum + 1 + (s.plus || 0), 0);
 
                 const dayDiv = document.createElement('div');
-                dayDiv.className = `p-4 border cursor-pointer transition-colors ${
-                    isSelected 
-                        ? 'border-stone-900 bg-stone-100' 
-                        : 'border-stone-300 hover:border-stone-500 bg-white'
-                }`;
-                
+                dayDiv.className = `p-6 border cursor-pointer transition-all ${isSelected ? 'border-stone-900 bg-stone-100' : 'border-stone-200 hover:border-stone-400 bg-white'}`;
+
                 dayDiv.innerHTML = `
-                    <div class="flex justify-between items-start">
+                    <div class="flex justify-between items-start mb-3">
                         <div>
-                            <div class="font-normal text-stone-900">
-                                ${day.dayName}, ${day.dateStr}
-                            </div>
-                            <div class="text-sm text-stone-600 mt-1">
-                                ${menu.veggie} / ${menu.spice}
-                            </div>
+                            <div class="text-lg font-normal">${day.dayName}, ${day.dateStr}</div>
+                            <div class="text-sm text-stone-600 mt-1">${menu.veggie} • ${menu.spice}</div>
                         </div>
-                        ${totalCount > 0 ? `<div class="text-sm text-stone-500">${totalCount} signed up</div>` : ''}
+                        ${totalPeople > 0 ? `<div class="text-sm text-stone-500">${totalPeople} signed up</div>` : ''}
                     </div>
+
                     ${signupList.length > 0 ? `
-                        <div class="mt-3 pt-3 border-t border-stone-200">
-                            <div class="text-xs text-stone-500 mb-2">Eating:</div>
-                            <div class="space-y-1">
-                                ${signupList.map(s => `
-                                    <div class="text-sm text-stone-700">${s.name}${s.plusOne ? ' +1' : ''}</div>
-                                `).join('')}
+                        <div class="mt-4 pt-4 border-t border-stone-200">
+                            <div class="text-xs text-stone-500 mb-2 uppercase tracking-wide">Who's eating:</div>
+                            <div class="space-y-1 text-sm text-stone-700">
+                                ${signupList.map(s => `<div>${s.name}${s.plus > 0 ? ` +${s.plus}` : ''}</div>`).join('')}
                             </div>
                         </div>
-                    ` : ''}
+                    ` : '<div class="text-sm text-stone-500 mt-2 italic">Be the first!</div>'}
                 `;
 
-                dayDiv.addEventListener('click', () => toggleDay(day.date));
+                dayDiv.addEventListener('click', () => {
+                    const name = getCurrentName();
+                    if (!name) {
+                        alert('Please enter or select a name first');
+                        return;
+                    }
+                    if (isSelected) {
+                        selectedDays = selectedDays.filter(d => d !== day.date);
+                    } else {
+                        selectedDays.push(day.date);
+                    }
+                    renderDays();
+                    updateSubmitButton();
+                });
+
                 container.appendChild(dayDiv);
             });
         }
 
-        function toggleDay(date) {
-            const currentName = getCurrentName();
-            if (!currentName) return;
-
-            if (selectedDays.includes(date)) {
-                selectedDays = selectedDays.filter(d => d !== date);
-            } else {
-                selectedDays.push(date);
-            }
-            renderDays();
-            updateSubmitButton();
-        }
-
         function getCurrentName() {
-            const newName = document.getElementById('newName').value.trim();
-            const existingName = document.getElementById('existingName').value;
-            return newName || existingName;
+            return document.getElementById('newName').value.trim() || document.getElementById('existingName').value;
         }
 
         function updateSubmitButton() {
-            const submitBtn = document.getElementById('submitBtn');
-            const currentName = getCurrentName();
-            submitBtn.style.display = (selectedDays.length > 0 && currentName) ? 'block' : 'none';
+            const btn = document.getElementById('submitBtn');
+            const name = getCurrentName();
+            btn.style.display = (selectedDays.length > 0 && name) ? 'block' : 'none';
         }
 
-        function updatePlusOneVisibility() {
-            const container = document.getElementById('plusOneContainer');
-            const currentName = getCurrentName();
-            container.style.display = currentName ? 'block' : 'none';
+        function updatePlusVisibility() {
+            document.getElementById('plusContainer').style.display = getCurrentName() ? 'block' : 'none';
         }
 
-        // Event listeners
-        document.getElementById('newName').addEventListener('input', (e) => {
-            if (e.target.value.trim()) {
-                document.getElementById('existingName').value = '';
-            }
-            updatePlusOneVisibility();
-            updateSubmitButton();
-        });
-
-        document.getElementById('existingName').addEventListener('change', (e) => {
-            if (e.target.value) {
-                document.getElementById('newName').value = '';
-            }
-            updatePlusOneVisibility();
-            updateSubmitButton();
+        // Events
+        ['newName', 'existingName'].forEach(id => {
+            document.getElementById(id).addEventListener(id === 'newName' ? 'input' : 'change', () => {
+                if (id === 'newName') document.getElementById('existingName').value = '';
+                if (id === 'existingName') document.getElementById('newName').value = '';
+                updatePlusVisibility();
+                updateSubmitButton();
+            });
         });
 
         document.getElementById('submitBtn').addEventListener('click', () => {
-            const currentName = getCurrentName();
-            const plusOne = document.getElementById('plusOne').checked;
-            
-            document.getElementById('confirmName').textContent = currentName + (plusOne ? ' +1' : '');
-            document.getElementById('confirmDays').textContent = 
-                `${selectedDays.length} meal${selectedDays.length > 1 ? 's' : ''}`;
-            
+            const name = getCurrentName();
+            const plus = parseInt(document.getElementById('plusOne').value) || 0;
+            const totalMeals = selectedDays.length * (1 + plus);
+            const amount = totalMeals * 12; // Change price here if needed ($12/meal)
+
+            document.getElementById('confirmSummary').textContent = `${name}${plus > 0 ? ` +${plus}` : ''}`;
+            document.getElementById('confirmMeals').textContent = `${totalMeals} meal${totalMeals === 1 ? '' : 's'} • $${amount}`;
+
+            const note = encodeURIComponent(`${name} - ${selectedDays.join(', ')}`);
+            document.getElementById('venmoLink').href = `https://venmo.com/gratifiedwegrow?txn=pay&amount=${amount}&note=${note}`;
+
             document.getElementById('confirmModal').style.display = 'flex';
         });
 
@@ -297,29 +262,34 @@
         });
 
         document.getElementById('confirmPaid').addEventListener('click', async () => {
-            const currentName = getCurrentName();
-            const plusOne = document.getElementById('plusOne').checked;
+            const name = getCurrentName();
+            const plus = parseInt(document.getElementById('plusOne').value) || 0;
 
             for (const date of selectedDays) {
                 const dayRef = ref(database, `signups/${date}`);
-                const newSignupRef = push(dayRef);
-                await set(newSignupRef, {
-                    name: currentName,
-                    plusOne: plusOne,
+                const newRef = push(dayRef);
+                await set(newRef, {
+                    name,
+                    plus,
                     timestamp: Date.now()
                 });
             }
 
-            // Reset
+            // Reset form
             selectedDays = [];
             document.getElementById('newName').value = '';
             document.getElementById('existingName').value = '';
-            document.getElementById('plusOne').checked = false;
+            document.getElementById('plusOne').value = 0;
             document.getElementById('confirmModal').style.display = 'none';
-            updatePlusOneVisibility();
+            updatePlusVisibility();
             renderDays();
             updateSubmitButton();
+            alert('Thanks! You’ve been added — see you at 1pm!');
         });
+
+        // Initial render
+        renderDays();
+        updateNameDropdown();
     </script>
 </body>
 </html>
