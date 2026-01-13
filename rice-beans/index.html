@@ -1,0 +1,69 @@
+# Gratified Meal Signup - Firebase Realtime Database Setup
+
+## Step 1: Create Firebase Project
+
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Click "Add project"
+3. Name it "gratified-meals" (or whatever you like)
+4. Disable Google Analytics (not needed)
+5. Create project
+
+## Step 2: Set Up Realtime Database
+
+1. In your Firebase project, click "Realtime Database" in the left menu
+2. Click "Create Database"
+3. Choose your location (us-central1 is closest to SF)
+4. Choose "Start in locked mode" (we'll open it up next)
+
+## Step 3: Configure Security Rules
+
+In Realtime Database → Rules tab, replace with:
+
+```json
+{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
+```
+
+Click "Publish"
+
+## Step 4: Get Firebase Config
+
+1. Click the gear icon next to "Project Overview" → Project settings
+2. Scroll down to "Your apps" section
+3. Click the web icon `</>`
+4. Register app (name it "gratified-web")
+5. Copy the `firebaseConfig` object - it looks like:
+
+```javascript
+const firebaseConfig = {
+  apiKey: "AIzaSyAzNA4a611ePbI6BknQz-mlwOtAVBwSmbc",
+  authDomain: "rice-beans.firebaseapp.com",
+  databaseURL: "https://rice-beans-default-rtdb.firebaseio.com",
+  projectId: "rice-beans",
+  storageBucket: "rice-beans.firebasestorage.app",
+  messagingSenderId: "451578694170",
+  appId: "1:451578694170:web:debfefb12780121aa35fa3"
+};
+```
+
+**Important**: Make sure `databaseURL` is included!
+
+## Step 5: Ready for the Code
+
+Once you have your Firebase config, let me know and I'll create the component with Firebase Realtime Database integrated. 
+
+People will see signups appear instantly as others add themselves - perfect for that immediate community vibe!
+
+---
+
+## Why Realtime Database?
+
+- **Instant updates**: Changes sync in milliseconds
+- **Simpler setup**: Less complex than Firestore for this use case
+- **Perfect for lists**: Great for displaying live signup data
+
+Ready? Share your Firebase config and I'll build the connected component!
