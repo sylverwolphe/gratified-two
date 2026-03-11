@@ -2252,6 +2252,192 @@ body {
     color: var(--theme-accent);
 }
 
+/* ========== MOROCCAN CATERING SECTION ========== */
+
+#catering {
+    margin-top: clamp(40px, 8vw, 80px);
+    padding-top: clamp(30px, 6vw, 60px);
+    border-top: 1px solid var(--theme-accent);
+}
+
+.catering-category {
+    margin-bottom: clamp(30px, 6vw, 50px);
+}
+
+.catering-category-title {
+    font-family: 'BluuNext', serif;
+    font-size: clamp(18px, 3vw, 24px);
+    color: var(--theme-accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.catering-pricing {
+    font-size: clamp(13px, 2vw, 15px);
+    color: var(--olive-bronze);
+    letter-spacing: 1px;
+    margin-bottom: clamp(15px, 3vw, 25px);
+}
+
+.catering-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: clamp(15px, 3vw, 25px);
+}
+
+.catering-card {
+    background-color: var(--card-bg);
+    border: 3px solid var(--theme-accent);
+    padding: clamp(18px, 3vw, 28px);
+    position: relative;
+    transition: all 0.4s ease;
+    box-shadow: 0 2px 12px rgba(60, 60, 60, 0.06);
+}
+
+.catering-card::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    border: 1px solid var(--theme-accent);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.catering-card-name {
+    font-family: 'BluuNext', serif;
+    font-size: clamp(18px, 3vw, 22px);
+    color: var(--charcoal-ink);
+    margin-bottom: 4px;
+}
+
+.catering-card-subtitle {
+    font-size: clamp(12px, 1.8vw, 13px);
+    color: var(--theme-accent);
+    font-style: italic;
+    letter-spacing: 0.5px;
+    margin-bottom: clamp(8px, 1.5vw, 12px);
+}
+
+.catering-card-desc {
+    font-size: clamp(13px, 2vw, 14px);
+    color: var(--olive-bronze);
+    line-height: 1.7;
+    margin-bottom: clamp(10px, 2vw, 16px);
+}
+
+.catering-dishes {
+    list-style: none;
+    margin-bottom: clamp(10px, 2vw, 16px);
+    padding-left: 0;
+}
+
+.catering-dishes li {
+    padding: 4px 0;
+    font-size: clamp(12px, 1.8vw, 13px);
+    color: var(--charcoal-ink);
+    line-height: 1.6;
+}
+
+.catering-dishes li::before {
+    content: '◆ ';
+    color: var(--theme-accent);
+    font-size: 7px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.catering-ingredients {
+    font-size: clamp(11px, 1.6vw, 12px);
+    color: var(--olive-bronze);
+    line-height: 1.6;
+    margin-bottom: clamp(10px, 2vw, 14px);
+}
+
+.catering-ingredients-label {
+    font-weight: 600;
+    color: var(--charcoal-ink);
+}
+
+.catering-recipe-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0;
+    background: none;
+    border: none;
+    border-top: 1px solid var(--theme-accent);
+    color: var(--theme-accent);
+    font-family: 'Satoshi', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.catering-recipe-toggle:hover {
+    color: var(--rich-saffron);
+}
+
+.catering-recipe-toggle-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.catering-recipe {
+    animation: cateringFadeIn 0.3s ease;
+}
+
+@keyframes cateringFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.catering-recipe-steps {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.catering-recipe-steps li {
+    font-size: clamp(12px, 1.8vw, 13px);
+    color: var(--olive-bronze);
+    line-height: 1.7;
+    padding: 4px 0;
+}
+
+.catering-teaser {
+    border: 2px dashed var(--theme-accent);
+    padding: clamp(24px, 4vw, 40px);
+    text-align: center;
+    position: relative;
+    opacity: 0.85;
+}
+
+.catering-teaser-badge {
+    display: inline-block;
+    background-color: var(--rich-saffron);
+    color: var(--cream-parchment);
+    padding: 4px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.catering-teaser-text {
+    font-size: clamp(13px, 2vw, 15px);
+    color: var(--olive-bronze);
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
 /* ========== PARTNERSHIPS PAGE ========== */
 
 /* Content box needs relative positioning and overflow visible for info card */
