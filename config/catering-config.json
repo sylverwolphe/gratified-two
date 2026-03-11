@@ -50,8 +50,8 @@
       "minimum": "40 person minimum",
       "items": [
         {
-          "name": "Harira",
-          "subtitle": "Bean-heavy Moroccan soup",
+          "name": "Harira (with fish)",
+          "subtitle": "Thick Moroccan chili",
           "ingredients": ["navy beans", "green lentils", "crushed tomatoes", "tomato paste", "yellow onions", "celery", "garlic", "cumin", "coriander", "ginger", "turmeric", "paprika", "cinnamon", "cilantro", "parsley", "lemon juice", "olive oil"],
           "recipe": {
             "steps": [
@@ -134,29 +134,28 @@
           }
         },
         {
-          "name": "Shiba Herbal Infusion",
+          "name": "Shiba Herbal Syrup",
           "subtitle": "Pre-colonial Amazigh tea ritual",
-          "ingredients": ["dried shiba wormwood", "dried verbena louiza", "dried thyme", "boiling water"],
+          "ingredients": ["dried shiba wormwood", "dried verbena louiza", "dried thyme", "boiling water", "agave"],
           "recipe": {
             "steps": [
               "Combine dried shiba wormwood, dried verbena louiza, and dried thyme in a teapot.",
               "Pour boiling water over herbs. Steep 7 minutes — taste at 5 for gentle and floral, longer for more bitter and complex.",
-              "Strain into a serving vessel. Pour into small glasses from as high as you can manage. Slow and deliberate.",
-              "Serve immediately while hot. Small glasses — this is about ceremony and sipping."
+              "Strain into a serving vessel. Mix 1:1 with agave and add 2 tbs to freshly brewed mint tea.",
             ]
           }
         },
         {
           "name": "Sellou",
           "subtitle": "Ancient Amazigh no-cook dessert",
-          "ingredients": ["all-purpose flour", "almond flour", "brown sesame seeds", "honey or agave", "argan oil", "olive oil", "cinnamon", "ground anise seed", "powdered sugar"],
+          "ingredients": ["all-purpose flour", "almond flour", "brown sesame seeds", "agave", "argan oil", "olive oil", "cinnamon", "ground anise seed", "powdered sugar"],
           "recipe": {
             "steps": [
               "Toast flour in a large dry heavy pan over medium heat, stirring constantly 20 minutes until golden brown and nutty. Do not stop stirring.",
               "Toast almond flour over medium-low heat, stirring constantly 7 minutes until golden. It burns faster — watch carefully.",
               "Toast sesame seeds in a dry pan, stirring 4 minutes until golden and fragrant. They will pop when ready.",
               "Combine all toasted ingredients with cinnamon, ground anise, salt, and powdered sugar.",
-              "Warm honey so it flows. Pour honey, argan oil, and olive oil over the dry mixture. Mix with your hands — crumbly but holds its shape when pressed.",
+              "Warm honey so it flows. Pour argan oil and olive oil over the dry mixture. Mix with your hands — crumbly but holds its shape when pressed.",
               "Taste and adjust. Pack into a sealed container. At service, mound in small bowls with a dusting of powdered sugar and cinnamon."
             ]
           }
