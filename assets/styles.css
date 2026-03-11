@@ -2260,8 +2260,14 @@ body {
     border-top: 1px solid var(--theme-accent);
 }
 
+#catering .section-title,
+#catering .section-intro {
+    text-align: center;
+}
+
 .catering-category {
     margin-bottom: clamp(30px, 6vw, 50px);
+    text-align: center;
 }
 
 .catering-category-title {
@@ -2280,10 +2286,13 @@ body {
     margin-bottom: clamp(15px, 3vw, 25px);
 }
 
+/* --- Feast cards (3 across) --- */
+
 .catering-items-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: clamp(15px, 3vw, 25px);
+    text-align: left;
 }
 
 .catering-card {
@@ -2312,6 +2321,7 @@ body {
     font-size: clamp(18px, 3vw, 22px);
     color: var(--charcoal-ink);
     margin-bottom: 4px;
+    text-align: center;
 }
 
 .catering-card-subtitle {
@@ -2319,19 +2329,13 @@ body {
     color: var(--theme-accent);
     font-style: italic;
     letter-spacing: 0.5px;
-    margin-bottom: clamp(8px, 1.5vw, 12px);
-}
-
-.catering-card-desc {
-    font-size: clamp(13px, 2vw, 14px);
-    color: var(--olive-bronze);
-    line-height: 1.7;
-    margin-bottom: clamp(10px, 2vw, 16px);
+    margin-bottom: clamp(10px, 1.5vw, 16px);
+    text-align: center;
 }
 
 .catering-dishes {
     list-style: none;
-    margin-bottom: clamp(10px, 2vw, 16px);
+    margin-bottom: 0;
     padding-left: 0;
 }
 
@@ -2350,11 +2354,64 @@ body {
     vertical-align: middle;
 }
 
+/* --- Moroccan-American meal box (single card, all dishes inside) --- */
+
+.catering-meal-box {
+    background-color: var(--card-bg);
+    border: 3px solid var(--theme-accent);
+    padding: clamp(24px, 4vw, 40px);
+    position: relative;
+    box-shadow: 0 2px 12px rgba(60, 60, 60, 0.06);
+    text-align: left;
+}
+
+.catering-meal-box::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    border: 1px solid var(--theme-accent);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.catering-meal-dish {
+    padding: clamp(14px, 2.5vw, 20px) 0;
+    border-bottom: 1px solid var(--theme-accent);
+    position: relative;
+}
+
+.catering-meal-dish:first-child {
+    padding-top: 0;
+}
+
+.catering-meal-dish:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.catering-dish-name {
+    font-family: 'BluuNext', serif;
+    font-size: clamp(16px, 2.5vw, 20px);
+    color: var(--charcoal-ink);
+    margin-bottom: 2px;
+}
+
+.catering-dish-subtitle {
+    font-size: clamp(12px, 1.8vw, 13px);
+    color: var(--theme-accent);
+    font-style: italic;
+    letter-spacing: 0.5px;
+    margin-bottom: clamp(6px, 1vw, 10px);
+}
+
 .catering-ingredients {
     font-size: clamp(11px, 1.6vw, 12px);
     color: var(--olive-bronze);
     line-height: 1.6;
-    margin-bottom: clamp(10px, 2vw, 14px);
+    margin-bottom: clamp(6px, 1vw, 10px);
 }
 
 .catering-ingredients-label {
@@ -2367,10 +2424,9 @@ body {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 10px 0;
+    padding: 8px 0;
     background: none;
     border: none;
-    border-top: 1px solid var(--theme-accent);
     color: var(--theme-accent);
     font-family: 'Satoshi', sans-serif;
     font-size: 13px;
@@ -2400,7 +2456,7 @@ body {
 
 .catering-recipe-steps {
     padding-left: 20px;
-    margin: 10px 0;
+    margin: 6px 0 0;
 }
 
 .catering-recipe-steps li {
@@ -2409,6 +2465,8 @@ body {
     line-height: 1.7;
     padding: 4px 0;
 }
+
+/* --- Coming soon teaser --- */
 
 .catering-teaser {
     border: 2px dashed var(--theme-accent);
@@ -2436,6 +2494,14 @@ body {
     line-height: 1.7;
     max-width: 500px;
     margin: 0 auto;
+}
+
+/* --- Responsive: stack feast cards on mobile --- */
+
+@media (max-width: 768px) {
+    .catering-items-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ========== PARTNERSHIPS PAGE ========== */

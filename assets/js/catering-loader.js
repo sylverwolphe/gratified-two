@@ -24,63 +24,87 @@
         config.categories.forEach(category => {
             if (category.type === 'coming-soon') {
                 html += renderComingSoon(category);
+            } else if (category.id === 'moroccan-american') {
+                html += renderMealBox(category);
             } else {
-                html += renderCategory(category);
+                html += renderFeastCategory(category);
             }
         });
 
         container.innerHTML = html;
     }
 
-    function renderCategory(category) {
+    function renderFeastCategory(category) {
         const pricingHtml = category.pricing
             ? `<div class="catering-pricing">${category.pricing} · ${category.minimum}</div>`
             : '';
 
-        const itemsHtml = category.items.map(item => renderCard(item, category.id)).join('');
+        const cardsHtml = category.items.map(item => {
+            const dishesHtml = item.dishes
+                ? `<ul class="catering-dishes">${item.dishes.map(d => `<li>${d}</li>`).join('')}</ul>`
+                : '';
+
+            return `
+                <div class="catering-card">
+                    <h5 class="catering-card-name">${item.name}</h5>
+                    <p class="catering-card-subtitle">${item.subtitle}</p>
+                    ${dishesHtml}
+                </div>
+            `;
+        }).join('');
 
         return `
             <div class="catering-category" data-category="${category.id}">
                 <h4 class="catering-category-title">${category.name}</h4>
                 ${pricingHtml}
                 <div class="catering-items-grid">
-                    ${itemsHtml}
+                    ${cardsHtml}
                 </div>
             </div>
         `;
     }
 
-    function renderCard(item, categoryId) {
-        const dishesHtml = item.dishes
-            ? `<ul class="catering-dishes">${item.dishes.map(d => `<li>${d}</li>`).join('')}</ul>`
+    function renderMealBox(category) {
+        const pricingHtml = category.pricing
+            ? `<div class="catering-pricing">${category.pricing} · ${category.minimum}</div>`
             : '';
 
-        const ingredientsHtml = item.ingredients
-            ? `<p class="catering-ingredients"><span class="catering-ingredients-label">Ingredients:</span> ${item.ingredients.join(', ')}</p>`
-            : '';
+        const dishesHtml = category.items.map(item => {
+            const ingredientsHtml = item.ingredients
+                ? `<p class="catering-ingredients"><span class="catering-ingredients-label">Ingredients:</span> ${item.ingredients.join(', ')}</p>`
+                : '';
 
-        const recipeHtml = item.recipe
-            ? `
-                <button class="catering-recipe-toggle" aria-expanded="false">
-                    <span class="catering-recipe-toggle-text">Recipe</span>
-                    <span class="catering-recipe-toggle-icon">+</span>
-                </button>
-                <div class="catering-recipe" hidden>
-                    <ol class="catering-recipe-steps">
-                        ${item.recipe.steps.map(s => `<li>${s}</li>`).join('')}
-                    </ol>
+            const recipeHtml = item.recipe
+                ? `
+                    <button class="catering-recipe-toggle" aria-expanded="false">
+                        <span class="catering-recipe-toggle-text">Recipe</span>
+                        <span class="catering-recipe-toggle-icon">+</span>
+                    </button>
+                    <div class="catering-recipe" hidden>
+                        <ol class="catering-recipe-steps">
+                            ${item.recipe.steps.map(s => `<li>${s}</li>`).join('')}
+                        </ol>
+                    </div>
+                `
+                : '';
+
+            return `
+                <div class="catering-meal-dish">
+                    <h5 class="catering-dish-name">${item.name}</h5>
+                    <p class="catering-dish-subtitle">${item.subtitle}</p>
+                    ${ingredientsHtml}
+                    ${recipeHtml}
                 </div>
-            `
-            : '';
+            `;
+        }).join('');
 
         return `
-            <div class="catering-card">
-                <h5 class="catering-card-name">${item.name}</h5>
-                <p class="catering-card-subtitle">${item.subtitle}</p>
-                <p class="catering-card-desc">${item.description}</p>
-                ${dishesHtml}
-                ${ingredientsHtml}
-                ${recipeHtml}
+            <div class="catering-category" data-category="${category.id}">
+                <h4 class="catering-category-title">${category.name}</h4>
+                ${pricingHtml}
+                <div class="catering-meal-box">
+                    ${dishesHtml}
+                </div>
             </div>
         `;
     }

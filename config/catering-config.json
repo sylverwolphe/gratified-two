@@ -7,84 +7,39 @@
       "name": "Traditional Moroccan Feasts",
       "pricing": "$16/person",
       "minimum": "40 person minimum",
-      "prepTime": "40 min",
       "items": [
         {
           "name": "Tagine Feast",
           "subtitle": "Ras el hanout clay pot tradition",
-          "description": "A communal tagine feast built around four ras el hanout tagines — two chickpea, one salmon, one chicken — all heavy on seasonal vegetables. Served family-style with sweet potatoes, cinnamon oranges, and mint tea.",
           "dishes": [
             "Ras el hanout tagines (2 chickpea, 1 salmon, 1 chicken)",
             "Sweet potatoes with smoked paprika yogurt/cashew sauce",
             "Cinnamon spiced orange slices with pomegranate",
             "Moroccan mint tea"
-          ],
-          "ingredients": ["chickpeas", "salmon", "chicken", "ras el hanout", "sweet potatoes", "smoked paprika", "yogurt", "cashews", "oranges", "cinnamon", "pomegranate", "gunpowder green tea", "fresh mint", "seasonal vegetables"],
-          "recipe": {
-            "steps": [
-              "Season proteins and chickpeas with ras el hanout, garlic, ginger, saffron, and olive oil.",
-              "Layer onions and seasonal vegetables in tagine pots, nestle proteins on top.",
-              "Cover and slow-cook tagines until everything is tender and fragrant.",
-              "Roast sweet potatoes, serve with smoked paprika yogurt or cashew sauce.",
-              "Slice oranges, dust with cinnamon, scatter pomegranate seeds over the top.",
-              "Brew mint tea with gunpowder green tea, fresh spearmint, and sugar. Pour from height."
-            ]
-          }
+          ]
         },
         {
           "name": "Couscous Feast",
           "subtitle": "Build-your-own couscous bowls",
-          "description": "A choose-your-own couscous bowl bar with two bases, three proteins, and a spread of toppings and sauces — plus a dessert table and fresh-pressed juices.",
           "dishes": [
             "Bases: plain couscous · herbed couscous",
             "Proteins: chicken · chickpeas (V) · lentil + sweet potato (V)",
             "Toppings: cauliflower + carrot (V) · chermoula (V) · harissa (V) · yogurt · pickled radish + onion (V) · fresh herbs (V)",
             "Dessert table: semolina cake · stuffed dates (V)",
             "Drinks: pomegranate-mint-apple juice · ginger mint maple tea"
-          ],
-          "ingredients": ["couscous", "chicken", "chickpeas", "lentils", "sweet potato", "cauliflower", "carrots", "chermoula", "harissa", "yogurt", "radish", "onion", "semolina", "dates", "pomegranate", "apple", "ginger", "maple", "fresh herbs"],
-          "recipe": {
-            "steps": [
-              "Steam couscous in a couscoussier — plain batch and herbed batch with parsley, cilantro, and olive oil.",
-              "Prepare proteins: roast chicken with ras el hanout, simmer chickpeas, cook lentil + sweet potato stew.",
-              "Roast cauliflower and carrots with cumin and turmeric.",
-              "Make chermoula and harissa sauces. Prepare pickled radish and onion quick-pickle.",
-              "Bake semolina cake with orange blossom water. Stuff dates with almond paste.",
-              "Press pomegranate-mint-apple juice. Brew ginger-mint-maple tea.",
-              "Set up bowl bar: bases first, then proteins, then toppings and sauces."
-            ]
-          }
+          ]
         },
         {
           "name": "Kofta Feast",
           "subtitle": "Vegan kofta with eight sides",
-          "description": "Vegan kofta and msemen flatbread anchoring a generous spread of eight Moroccan sides — from smoky zaalouk to crispy baked makouda — finished with orange blossom ice cream or sorbet.",
           "dishes": [
             "Vegan kofta",
             "Msemen flatbread",
-            "Zaalouk (smoky eggplant dip)",
-            "Taktouka (roasted pepper & tomato salad)",
-            "Beet salad",
-            "Khizou mcharmel (braised spiced carrots)",
-            "Makouda (baked potato cakes)",
-            "Roasted cauliflower with chermoula",
-            "Bessara (fava bean dip)",
-            "Loubia (white bean stew)",
+            "Zaalouk · Taktouka · Beet salad",
+            "Khizou mcharmel · Makouda · Roasted cauliflower with chermoula",
+            "Bessara · Loubia",
             "Orange blossom ice cream · orange cream sorbet (V)"
-          ],
-          "ingredients": ["plant-based ground", "msemen dough", "eggplant", "bell peppers", "tomatoes", "beets", "carrots", "potatoes", "cauliflower", "fava beans", "white beans", "chermoula", "orange blossom water", "honey", "cumin", "paprika", "harissa"],
-          "recipe": {
-            "steps": [
-              "Shape vegan kofta with spices, pan-sear or bake until browned.",
-              "Fold and griddle msemen flatbreads until golden and flaky.",
-              "Roast eggplant for zaalouk, char peppers for taktouka, roast beets.",
-              "Braise carrots with honey, cumin, and spices for khizou mcharmel.",
-              "Shape makouda patties, brush with oil, bake at 220°C until golden on both sides.",
-              "Roast cauliflower with cumin, paprika, and turmeric. Serve with chermoula.",
-              "Simmer bessara and loubia on the stovetop until thick and creamy.",
-              "Serve dessert: orange blossom ice cream (vegetarian) and orange cream sorbet (vegan)."
-            ]
-          }
+          ]
         }
       ]
     },
@@ -93,12 +48,10 @@
       "name": "Moroccan-American Meal",
       "pricing": "$8/person",
       "minimum": "40 person minimum",
-      "prepTime": "40 min",
       "items": [
         {
           "name": "Harira",
           "subtitle": "Bean-heavy Moroccan soup",
-          "description": "Thick, hearty, bean-forward Moroccan soup. Navy beans, lentils, crushed tomatoes, and a deep bloom of cumin, coriander, ginger, and cinnamon. Gets significantly better overnight. Optional salmon poached in broth at service.",
           "ingredients": ["navy beans", "green lentils", "crushed tomatoes", "tomato paste", "yellow onions", "celery", "garlic", "cumin", "coriander", "ginger", "turmeric", "paprika", "cinnamon", "cilantro", "parsley", "lemon juice", "olive oil"],
           "recipe": {
             "steps": [
@@ -115,7 +68,6 @@
         {
           "name": "Zaalouk",
           "subtitle": "Creamy roasted eggplant dip",
-          "description": "Deep smoky charred eggplant with generous argan oil. Part blended, part chunky — the guacamole moment. Gets dramatically better overnight.",
           "ingredients": ["graffiti eggplant", "olive oil", "argan oil", "garlic", "cumin", "paprika", "preserved lemon", "tomatoes", "cilantro", "parsley", "lemon juice"],
           "recipe": {
             "steps": [
@@ -131,7 +83,6 @@
         {
           "name": "Beyond Merguez",
           "subtitle": "Homemade vegan sausages",
-          "description": "Homemade vegan merguez with Beyond Meat. Heavy on spice and fat — sweet paprika, smoked paprika, harissa, fennel, and cumin. The protein star.",
           "ingredients": ["Beyond Meat ground", "garlic", "sweet paprika", "smoked paprika", "cumin", "coriander", "fennel seeds", "cayenne", "cinnamon", "harissa", "olive oil"],
           "recipe": {
             "steps": [
@@ -146,7 +97,6 @@
         {
           "name": "Roasted Zucchini",
           "subtitle": "Harissa and fresh mint",
-          "description": "Roasted zucchini with harissa and fresh mint. Simple, fast, holds well. High heat for caramelized edges, not soft steamed zucchini.",
           "ingredients": ["zucchini", "harissa", "olive oil", "cumin", "fresh mint", "lemon juice"],
           "recipe": {
             "steps": [
@@ -160,7 +110,6 @@
         {
           "name": "Fennel & Orange Salad",
           "subtitle": "Shaved fennel with cumin dressing",
-          "description": "Shaved fennel and navel orange with cumin dressing. The crunch and acid element. Traditional Moroccan, pre-Columbian.",
           "ingredients": ["fennel bulbs", "navel oranges", "olive oil", "lemon juice", "cumin", "parsley", "fennel fronds"],
           "recipe": {
             "steps": [
@@ -174,7 +123,6 @@
         {
           "name": "Pearl Barley",
           "subtitle": "Nutty, chewy neutral base",
-          "description": "Pearl barley as the neutral base. Nutty, chewy, plain. Salt and olive oil only — keep it simple so everything else can shine.",
           "ingredients": ["pearl barley", "water or vegetable stock", "salt", "olive oil"],
           "recipe": {
             "steps": [
@@ -188,7 +136,6 @@
         {
           "name": "Shiba Herbal Infusion",
           "subtitle": "Pre-colonial Amazigh tea ritual",
-          "description": "Caffeine-free Amazigh herbal infusion — dried shiba wormwood, verbena louiza, and thyme steeped in boiling water. Unlike anything your guests have tasted. Pour from height for theater.",
           "ingredients": ["dried shiba wormwood", "dried verbena louiza", "dried thyme", "boiling water"],
           "recipe": {
             "steps": [
@@ -202,7 +149,6 @@
         {
           "name": "Sellou",
           "subtitle": "Ancient Amazigh no-cook dessert",
-          "description": "Toasted flour, almond, sesame, honey, argan oil, cinnamon. No cooking required — make ahead, it keeps for days and gets better. Serve in small portions alongside shiba tea.",
           "ingredients": ["all-purpose flour", "almond flour", "brown sesame seeds", "honey or agave", "argan oil", "olive oil", "cinnamon", "ground anise seed", "powdered sugar"],
           "recipe": {
             "steps": [
