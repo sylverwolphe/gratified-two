@@ -8,7 +8,6 @@
 
     if (!lightbox || !lightboxImg) return;
 
-    // Open lightbox with image
     window.openImageLightbox = function(src, alt) {
         lightboxImg.src = src;
         lightboxImg.alt = alt || '';
@@ -16,23 +15,19 @@
         document.body.style.overflow = 'hidden';
     };
 
-    // Close lightbox
     function closeLightbox() {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
     }
 
-    // Close button
     closeBtn?.addEventListener('click', closeLightbox);
 
-    // Click outside image to close
     lightbox.addEventListener('click', (e) => {
         if (e.target === lightbox) {
             closeLightbox();
         }
     });
 
-    // Escape key to close
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && lightbox.classList.contains('active')) {
             closeLightbox();
@@ -56,11 +51,9 @@
 
     if (!detailView || !scrollWrapper || !backButton) return;
 
-    // Track current drink index for navigation
     let currentDrinkIndex = 0;
     let drinkCards = [];
 
-    // Update navigation button states
     function updateNavButtons() {
         if (prevButton) {
             prevButton.disabled = currentDrinkIndex <= 0;
@@ -70,21 +63,16 @@
         }
     }
 
-    // Show detail view for a drink
     window.showDrinkDetail = function(drinkId, cardElement) {
         const details = drinkDetails[drinkId];
         if (!details) return;
 
-        // Get all drink cards and find current index
         drinkCards = Array.from(document.querySelectorAll('.drink-card'));
         currentDrinkIndex = drinkCards.indexOf(cardElement);
 
-        // Copy the illustration from the card (image or SVG)
         const img = cardElement.querySelector('.drink-image');
-        const svg = cardElement.querySelector('.drink-svg');
         if (img) {
             detailIllustration.innerHTML = img.outerHTML;
-            // Add click handler for lightbox
             const detailImg = detailIllustration.querySelector('.drink-image');
             if (detailImg) {
                 detailImg.addEventListener('click', () => {
@@ -93,56 +81,67 @@
                     }
                 });
             }
-        } else if (svg) {
-            detailIllustration.innerHTML = svg.outerHTML;
+        } else {
+            detailIllustration.innerHTML = `<div class="drink-icon-placeholder">${details.name[0]}</div>`;
         }
 
-        // Set the content
         detailName.textContent = details.name;
         detailDesc.textContent = details.desc;
         detailExtras.innerHTML = details.extras;
 
-        // Hide scroll wrapper, show detail view
+        // Add price display if available
+        const existingPrice = detailView.querySelector('.drink-detail-price');
+        if (existingPrice) existingPrice.remove();
+        if (details.price) {
+            const priceEl = document.createElement('div');
+            priceEl.className = 'drink-detail-price';
+            priceEl.textContent = `$${details.price.toFixed(2)}`;
+            detailExtras.parentNode.insertBefore(priceEl, detailExtras.nextSibling);
+        }
+
+        // Add order button if ordering is available
+        const existingOrderBtn = detailView.querySelector('.drink-detail-order-btn');
+        if (existingOrderBtn) existingOrderBtn.remove();
+        if (details.price && window.orderFlow) {
+            const orderBtn = document.createElement('button');
+            orderBtn.className = 'submit-btn drink-detail-order-btn';
+            orderBtn.textContent = 'Order This';
+            orderBtn.addEventListener('click', () => {
+                window.orderFlow.startCustomize(drinkId);
+            });
+            const info = detailView.querySelector('.drink-detail-info');
+            if (info) info.appendChild(orderBtn);
+        }
+
         scrollWrapper.classList.add('hidden');
         detailView.classList.add('active');
+        const cartBar = document.getElementById('orderCartBar');
+        if (cartBar) cartBar.style.display = 'none';
 
-        // Update nav button states
         updateNavButtons();
 
-        // Trigger animation after display change
         requestAnimationFrame(() => {
             detailView.style.opacity = '1';
             detailView.style.transform = 'translateY(0)';
         });
     };
 
-    // Navigate to a drink by index
     function navigateToDrink(index) {
         if (index < 0 || index >= drinkCards.length) return;
 
         const card = drinkCards[index];
         const drinkId = card.dataset.drink;
 
-        // Update selected state
         drinkCards.forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
 
-        // Update colors and effects
-        if (window.setLiquidDrink) setLiquidDrink(drinkId);
-        if (window.setSpiceColors) setSpiceColors(drinkId);
-        if (window.setDrinkTheme) setDrinkTheme(drinkId);
-
-        // Show the new drink detail
         currentDrinkIndex = index;
         const details = drinkDetails[drinkId];
         if (!details) return;
 
-        // Copy the illustration from the card (image or SVG)
         const img = card.querySelector('.drink-image');
-        const svg = card.querySelector('.drink-svg');
         if (img) {
             detailIllustration.innerHTML = img.outerHTML;
-            // Add click handler for lightbox
             const detailImg = detailIllustration.querySelector('.drink-image');
             if (detailImg) {
                 detailImg.addEventListener('click', () => {
@@ -151,40 +150,59 @@
                     }
                 });
             }
-        } else if (svg) {
-            detailIllustration.innerHTML = svg.outerHTML;
+        } else {
+            detailIllustration.innerHTML = `<div class="drink-icon-placeholder">${details.name[0]}</div>`;
         }
 
-        // Set the content
         detailName.textContent = details.name;
         detailDesc.textContent = details.desc;
         detailExtras.innerHTML = details.extras;
 
-        // Update nav button states
+        // Update price
+        const existingPrice = detailView.querySelector('.drink-detail-price');
+        if (existingPrice) existingPrice.remove();
+        if (details.price) {
+            const priceEl = document.createElement('div');
+            priceEl.className = 'drink-detail-price';
+            priceEl.textContent = `$${details.price.toFixed(2)}`;
+            detailExtras.parentNode.insertBefore(priceEl, detailExtras.nextSibling);
+        }
+
+        // Update order button
+        const existingOrderBtn = detailView.querySelector('.drink-detail-order-btn');
+        if (existingOrderBtn) existingOrderBtn.remove();
+        if (details.price && window.orderFlow) {
+            const orderBtn = document.createElement('button');
+            orderBtn.className = 'submit-btn drink-detail-order-btn';
+            orderBtn.textContent = 'Order This';
+            orderBtn.addEventListener('click', () => {
+                window.orderFlow.startCustomize(drinkId);
+            });
+            const info = detailView.querySelector('.drink-detail-info');
+            if (info) info.appendChild(orderBtn);
+        }
+
         updateNavButtons();
     }
 
-    // Hide detail view and show scroll menu
     window.hideDrinkDetail = function() {
         detailView.classList.remove('active');
         scrollWrapper.classList.remove('hidden');
 
-        // Reset liquid shader and colors
-        if (window.setLiquidDrink) setLiquidDrink('none');
-        if (window.setSpiceColors) setSpiceColors('default');
-        if (window.setLogoColor) setLogoColor('default');
+        // Show cart bar if there are items
+        if (window.orderFlow && window.orderFlow.getCart().length > 0) {
+            const cartBar = document.getElementById('orderCartBar');
+            if (cartBar) cartBar.style.display = '';
+        }
 
-        // Remove selected state from cards
         document.querySelectorAll('.drink-card').forEach(c => c.classList.remove('selected'));
     };
 
-    // Back button handler
     backButton.addEventListener('click', (e) => {
         e.stopPropagation();
         hideDrinkDetail();
     });
 
-    // Previous button handler
     if (prevButton) {
         prevButton.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -192,7 +210,6 @@
         });
     }
 
-    // Next button handler
     if (nextButton) {
         nextButton.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -200,7 +217,6 @@
         });
     }
 
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
         if (!detailView.classList.contains('active')) return;
 
@@ -225,7 +241,6 @@
 
     let isSliderActive = false;
 
-    // Update slider when scrolling manually
     scrollContainer.addEventListener('scroll', () => {
         if (isSliderActive) return;
         const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
@@ -234,7 +249,6 @@
         }
     });
 
-    // Disable scroll-snap while dragging slider
     slider.addEventListener('mousedown', () => {
         isSliderActive = true;
         scrollContainer.style.scrollSnapType = 'none';
@@ -247,7 +261,6 @@
         scrollContainer.style.scrollBehavior = 'auto';
     }, { passive: true });
 
-    // Re-enable scroll-snap when done
     const endSliderDrag = () => {
         if (!isSliderActive) return;
         isSliderActive = false;
@@ -260,7 +273,6 @@
     window.addEventListener('mouseup', endSliderDrag);
     window.addEventListener('touchend', endSliderDrag);
 
-    // Scroll when slider changes
     slider.addEventListener('input', () => {
         const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
         scrollContainer.scrollLeft = (slider.value / 100) * maxScroll;

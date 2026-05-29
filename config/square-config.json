@@ -1,0 +1,6 @@
+{
+  "applicationId": "YOUR_SQUARE_APPLICATION_ID",
+  "locationId": "YOUR_SQUARE_LOCATION_ID",
+  "workerUrl": "https://api.gratified.com",
+  "environment": "sandbox"
+}

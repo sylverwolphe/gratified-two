@@ -13,44 +13,25 @@
     <!-- Skip Navigation Link for Accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <div class="muddy-flow"></div>
-    <canvas id="spice-canvas"></canvas>
     <div class="grain-overlay"></div>
     <div class="ancient-pattern"></div>
-
-    <!-- Temporary Particle Toggle Button - DISABLED (uncomment to re-enable)
-    <button class="particle-toggle" id="particleToggle" onclick="cycleParticleMode()">Particles: Steam</button>
-    <script>
-        function cycleParticleMode() {
-            const modes = ['dots', 'diamonds', 'steam', 'dust', 'grounds'];
-            const current = window.getParticleMode ? window.getParticleMode() : 'steam';
-            const nextIndex = (modes.indexOf(current) + 1) % modes.length;
-            if (window.setParticleMode) window.setParticleMode(modes[nextIndex]);
-        }
-    </script>
-    -->
 
     <!-- Main Navigation -->
     <nav class="main-nav" id="mainNav">
         <a href="#landing" class="nav-link active" data-page="landing">
             <span class="nav-icon icon-dash"></span>
-          <!--  <span class="nav-label">Home</span> -->
         </a>
         <a href="#nourish" class="nav-link" data-page="nourish">
             <span class="nav-icon icon-equal"></span>
-           <!-- <span class="nav-label">Nourish</span> -->
         </a>
         <a href="#collab" class="nav-link" data-page="collab">
             <svg class="nav-icon icon-diamond" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
-            <!--<span class="nav-label">Collab</span> -->
         </a>
         <a href="#create" class="nav-link" data-page="create">
             <svg class="nav-icon icon-bronze" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
-            <!-- <span class="nav-label">Create</span>  -->
         </a>
         <a href="#about" class="nav-link" data-page="about">
             <svg class="nav-icon icon-yellow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 511.995 511.995" fill="currentColor" aria-hidden="true"><path d="M507.807,200.272L262.474,12.859c-3.819-2.923-9.109-2.923-12.949,0L4.191,200.272c-3.627,2.773-5.077,7.509-3.648,11.84l93.717,281.92c1.451,4.352,5.547,7.296,10.133,7.296h303.253c4.608,0,8.683-2.944,10.091-7.296l93.717-281.92C512.885,207.803,511.413,203.046,507.807,200.272z"/></svg>
-           <!-- <span class="nav-label">About</span> -->
         </a>
     </nav>
 
@@ -60,14 +41,6 @@
         <svg class="theme-toggle-icon dark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
     </button>
 
-    <!-- Solstice Popup Toggle Button -->
-<button class="solstice-toggle" id="solsticeToggle" aria-label="View solstice event">
-    <svg viewBox="0 0 100 100" class="solstice-toggle-diamond">
-        <circle cx="50" cy="50" r="30" fill="none" stroke="var(--rich-saffron)" stroke-width="2" opacity="0.3"/>
-        <rect x="15" y="15" width="70" height="70" transform="rotate(45 50 50)" fill="var(--dusty-rose)"/>
-    </svg>
-</button>
-
     <!-- Page Container -->
     <main class="pages-container" id="main-content">
 
@@ -75,8 +48,7 @@
         <div class="page active" id="page-landing" data-page="landing">
             <div class="container landing-container">
                 <div class="landing-hero">
-                                        <p class="tagline landing-tagline">nourish collab create</p>
-
+                    <p class="tagline landing-tagline">nourish collab create</p>
                     <h1 class="logo landing-logo">Gratified</h1>
                     <div class="logobot landing-logobot">coffee + art</div>
 
@@ -91,11 +63,6 @@
             </div>
         </div>
 
-
-
-
-
-        
         <!-- ========== NOURISH PAGE ========== -->
         <div class="page" id="page-nourish" data-page="nourish">
             <div class="container">
@@ -106,8 +73,6 @@
 
                 <div class="content">
                     <div class="section" id="nourish">
-                        <canvas id="liquid-canvas"></canvas>
-
                         <!-- Expanded drink detail view (hidden by default) -->
                         <div class="drink-detail-view" id="drinkDetailView">
                             <div class="drink-detail-nav-top">
@@ -127,6 +92,63 @@
                             </div>
                         </div>
 
+                        <!-- Order customization panel (hidden by default) -->
+                        <div class="order-customize" id="orderCustomize" style="display: none;">
+                            <div class="drink-detail-nav-top">
+                                <button class="drink-detail-back" id="orderCustomizeBack">← back to menu</button>
+                            </div>
+                            <h3 class="order-drink-name" id="orderDrinkName"></h3>
+                            <div class="order-options">
+                                <div class="order-option-group">
+                                    <h4>Size</h4>
+                                    <div class="option-chips" id="sizeOptions"></div>
+                                </div>
+                                <div class="order-option-group">
+                                    <h4>Milk</h4>
+                                    <div class="option-chips" id="milkOptions"></div>
+                                </div>
+                                <div class="order-option-group">
+                                    <h4>Add-ons</h4>
+                                    <div class="option-chips" id="addOnOptions"></div>
+                                </div>
+                            </div>
+                            <div class="order-subtotal">
+                                <span>Subtotal:</span>
+                                <span class="order-subtotal-amount" id="orderSubtotal">$0.00</span>
+                            </div>
+                            <button class="submit-btn" id="addToOrderBtn">Add to Order</button>
+                        </div>
+
+                        <!-- Timeslot picker (hidden by default) -->
+                        <div class="order-timeslot" id="orderTimeslot" style="display: none;">
+                            <div class="drink-detail-nav-top">
+                                <button class="drink-detail-back" id="orderTimeslotBack">← back</button>
+                            </div>
+                            <h3 class="section-title">Pick a Pickup Time</h3>
+                            <div class="timeslot-grid" id="timeslotGrid"></div>
+                        </div>
+
+                        <!-- Payment step (hidden by default) -->
+                        <div class="order-payment" id="orderPayment" style="display: none;">
+                            <div class="drink-detail-nav-top">
+                                <button class="drink-detail-back" id="orderPaymentBack">← back</button>
+                            </div>
+                            <h3 class="section-title">Pay</h3>
+                            <div class="order-summary" id="orderSummary"></div>
+                            <div id="card-container"></div>
+                            <button class="submit-btn" id="payBtn" disabled>Pay Now</button>
+                            <p class="order-fallback-msg" id="orderFallbackMsg" style="display: none;">
+                                Online ordering temporarily unavailable. Visit us in person!
+                            </p>
+                        </div>
+
+                        <!-- Confirmation (hidden by default) -->
+                        <div class="order-confirmation" id="orderConfirmation" style="display: none;">
+                            <h3 class="section-title">Order Confirmed</h3>
+                            <p class="order-confirmation-text" id="orderConfirmationText"></p>
+                            <button class="submit-btn" id="newOrderBtn">Start New Order</button>
+                        </div>
+
                         <div class="menu-scroll-wrapper" id="menuScrollWrapper">
                             <!-- Drink cards are dynamically loaded from menu-config.json -->
                             <div class="drinks-scroll"></div>
@@ -139,30 +161,49 @@
                                 <span class="scroll-arrow">→</span>
                             </div>
                         </div>
+
+                        <!-- Order cart bar -->
+                        <div class="order-cart-bar" id="orderCartBar" style="display: none;">
+                            <span class="order-cart-count" id="orderCartCount">0 items</span>
+                            <span class="order-cart-total" id="orderCartTotal">$0.00</span>
+                            <button class="order-cart-btn" id="orderCartBtn">Checkout →</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
-
-
-
-        
-        <!-- ========== CREATE PAGE ========== -->
-        <!-- collab page content loaded from config/collab-config.json -->
+        <!-- ========== COLLAB PAGE ========== -->
         <div class="page" id="page-collab" data-page="collab">
             <div class="container">
                 <div class="header">
-                    <h2 class="logo"></h2>
-                    <div class="tagline"></div>
+                    <h2 class="logo">Collab</h2>
+                    <div class="tagline">community + connection</div>
                 </div>
 
                 <div class="content">
+                    <!-- Social Links -->
                     <div class="section">
-                        <h3 class="section-title"></h3>
-                        <p class="section-intro"></p>
-                        <div class="subscription-grid"></div>
+                        <h3 class="section-title">Find Us</h3>
+                        <div class="social-links-grid" id="socialLinksGrid">
+                            <!-- Loaded from config/socials-config.json -->
+                        </div>
+                    </div>
+
+                    <!-- Partners -->
+                    <div class="section">
+                        <h3 class="section-title">Partners</h3>
+                        <p class="partners-note">We've had the pleasure of working with these amazing groups and businesses.</p>
+                        <div class="partners-logos" id="partnersLogos">
+                            <div class="partner-logo-placeholder">Your logo here</div>
+                        </div>
+                    </div>
+
+                    <!-- Franchise CTA -->
+                    <div class="section franchise-cta">
+                        <h3 class="section-title">do u wanna franchise?</h3>
+                        <p class="section-intro">Interested in bringing Gratified to your city? Let's talk.</p>
+                        <a href="mailto:hello@gratified.com?subject=Franchise%20Inquiry" class="franchise-btn">Let's Talk →</a>
                     </div>
                 </div>
             </div>
@@ -173,59 +214,51 @@
             <div class="container">
                 <div class="header">
                     <h2 class="logo">Create</h2>
-                    <div class="tagline">grow with us</div>
+                    <div class="tagline">gather + make</div>
                 </div>
 
-        
+                <div class="content">
+                    <!-- Events -->
                     <div class="section">
-                        <h3 class="section-title">Partners</h3>
-                        <p class="partners-note">We've had the pleasure of working with these amazing groups and businesses.</p>
-
-                        <!-- Partner logos are dynamically loaded from partners/partners.json -->
-                        <div class="partners-logos" id="partnersLogos">
-                            <div class="partner-logo-placeholder">Your logo here</div>
+                        <h3 class="section-title">Upcoming</h3>
+                        <div class="events-grid" id="eventsGrid">
+                            <!-- Loaded from config/events-config.json -->
                         </div>
-                        
                     </div>
 
-<div class="section">
-    <h3 class="section-title">Interested?</h3>
-    <p class="section-intro">Would love to hear from space managers, local roasters, etc</p>
+                    <!-- Contact Form -->
+                    <div class="section">
+                        <h3 class="section-title">Want to host something?</h3>
+                        <p class="section-intro">We love collaborating with artists, musicians, and community builders.</p>
 
-    <div class="partnership-layout">
-        <div class="partnership-form-container">
-            <form id="contactForm" class="partnership-form" action="https://formspree.io/f/manrvldp" method="POST">
-                
-                <div class="form-group">
-                    <label class="form-label" for="contact-name">Name</label>
-                    <input type="text" class="form-input" id="contact-name" name="name" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="contact-email">Email</label>
-                    <input type="email" class="form-input" id="contact-email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="contact-message">Message</label>
-                    <textarea class="form-textarea" id="contact-message" name="message" placeholder="Tell us what you're up to and how we could do epic stuff together" required></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">Send</button>
-            </form>
-            <div id="contactSuccess" style="display: none; padding: 20px; text-align: center; color: var(--theme-accent);">
-                ✓ Message sent! We'll get back to you soon.
-            </div>
-        </div>
-    </div>
-</div>
-
-                
+                        <div class="partnership-layout">
+                            <div class="partnership-form-container">
+                                <form id="contactForm" class="partnership-form" action="https://formspree.io/f/manrvldp" method="POST">
+                                    <div class="form-group">
+                                        <label class="form-label" for="contact-name">Name</label>
+                                        <input type="text" class="form-input" id="contact-name" name="name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="contact-email">Email</label>
+                                        <input type="email" class="form-input" id="contact-email" name="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="contact-message">Message</label>
+                                        <textarea class="form-textarea" id="contact-message" name="message" placeholder="Tell us what you're thinking" required></textarea>
+                                    </div>
+                                    <button type="submit" class="submit-btn">Send</button>
+                                </form>
+                                <div id="contactSuccess" style="display: none; padding: 20px; text-align: center; color: var(--theme-accent);">
+                                    Message sent! We'll get back to you soon.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ========== END PAGE ========== -->
+        <!-- ========== ABOUT PAGE ========== -->
         <div class="page" id="page-about" data-page="about">
             <div class="container">
                 <div class="header">
@@ -234,142 +267,70 @@
                 </div>
 
                 <div class="content">
-                    <div class="section buttercup-hero">
-                        <div class="buttercup-visual">
-                            <svg viewBox="0 0 200 200" class="buttercup-flower">
-                                <defs>
-                                    <radialGradient id="petalGrad" cx="50%" cy="50%" r="50%">
-                                        <stop offset="0%" style="stop-color:#FFE066"/>
-                                        <stop offset="100%" style="stop-color:#F0B832"/>
-                                    </radialGradient>
-                                </defs>
-                                <!-- Petals -->
-                                <ellipse cx="100" cy="60" rx="25" ry="40" fill="url(#petalGrad)" opacity="0.9"/>
-                                <ellipse cx="140" cy="85" rx="25" ry="40" fill="url(#petalGrad)" opacity="0.85" transform="rotate(72 100 100)"/>
-                                <ellipse cx="130" cy="130" rx="25" ry="40" fill="url(#petalGrad)" opacity="0.8" transform="rotate(144 100 100)"/>
-                                <ellipse cx="70" cy="130" rx="25" ry="40" fill="url(#petalGrad)" opacity="0.85" transform="rotate(216 100 100)"/>
-                                <ellipse cx="60" cy="85" rx="25" ry="40" fill="url(#petalGrad)" opacity="0.9" transform="rotate(288 100 100)"/>
-                                <!-- Center -->
-                                <circle cx="100" cy="100" r="20" fill="#CC5500"/>
-                                <circle cx="100" cy="100" r="12" fill="#8B7355"/>
-                            </svg>
-                        </div>
-                        <h3 class="section-title buttercup-title">Still in Development</h3>
-                        <p class="buttercup-description">
-                            Something is blooming. Check back soon.
+                    <!-- Founding Story -->
+                    <div class="section">
+                        <h3 class="section-title">Our Story</h3>
+                        <p class="about-story-text">
+                            [Founding story goes here — how Gratified started, why coffee + art, what drives us.]
                         </p>
+                    </div>
+
+                    <!-- Founders -->
+                    <div class="section">
+                        <h3 class="section-title">Founders</h3>
+                        <div class="founders-grid">
+                            <div class="founder-card">
+                                <div class="founder-photo-placeholder">Photo</div>
+                                <h4>Leah</h4>
+                                <p>[Bio placeholder]</p>
+                            </div>
+                            <div class="founder-card">
+                                <div class="founder-photo-placeholder">Photo</div>
+                                <h4>Azmyth</h4>
+                                <p>[Bio placeholder]</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5-Step Plan -->
+                    <div class="section">
+                        <h3 class="section-title">The Plan</h3>
+                        <ol class="plan-steps">
+                            <li><span class="step-number">1</span> [Step one placeholder]</li>
+                            <li><span class="step-number">2</span> [Step two placeholder]</li>
+                            <li><span class="step-number">3</span> [Step three placeholder]</li>
+                            <li><span class="step-number">4</span> [Step four placeholder]</li>
+                            <li><span class="step-number">5</span> [Step five placeholder]</li>
+                        </ol>
+                    </div>
+
+                    <!-- Core Drives -->
+                    <div class="section">
+                        <h3 class="section-title">Core Drives</h3>
+                        <div class="drives-grid">
+                            <div class="drive-item">
+                                <h4>[Drive 1]</h4>
+                                <p>[Description placeholder]</p>
+                            </div>
+                            <div class="drive-item">
+                                <h4>[Drive 2]</h4>
+                                <p>[Description placeholder]</p>
+                            </div>
+                            <div class="drive-item">
+                                <h4>[Drive 3]</h4>
+                                <p>[Description placeholder]</p>
+                            </div>
+                            <div class="drive-item">
+                                <h4>[Drive 4]</h4>
+                                <p>[Description placeholder]</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
     </main>
-
-    <!-- Unlimited Membership Modal -->
-    <div class="modal-overlay" id="unlimitedModal">
-        <div class="booking-modal">
-            <button class="modal-close" onclick="closeModal('unlimitedModal')">&times;</button>
-            <h2 class="modal-title">Find us IRL</h2>
-<!--
-            <form id="unlimitedForm">
-                
-
-            
-                <div class="form-group">
-                    <label class="form-label" for="unlimited-name">Your Name</label>
-                    <input type="text" class="form-input" id="unlimited-name" name="name" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="unlimited-email">Email</label>
-                    <input type="email" class="form-input" id="unlimited-email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="unlimited-phone">Phone (for membership card)</label>
-                    <input type="tel" class="form-input" id="unlimited-phone" name="phone" placeholder="Optional">
-                </div>
-
-                <div class="estimate-display" style="display: block;">
-                    <div class="estimate-amount">$108/month</div>
-                    <div class="estimate-note">Unlimited drinks • Pastry discounts • Cancel anytime</div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="unlimited-source">How did you hear about us?</label>
-                    <select class="form-select" id="unlimited-source" name="source">
-                        <option value="">Select one</option>
-                        <option value="Instagram">Instagram</option>
-                        <option value="Twitter">Twitter</option>
-                        <option value="Friend">Friend</option>
-                        <option value="Visit">Visited a location</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="submit-btn">Start Membership</button>
-
-           
-            </form>
-             -->
-        </div>
-    </div>
-
-
-
-
-
-
-    <!-- Solstice Event Popup -->
-<div class="welcome-overlay" id="welcomeOverlay">
-    <div class="welcome-modal solstice-modal">
-        <button class="welcome-close" onclick="closeWelcome()">&times;</button>
-        
-        <div class="welcome-diamond solstice-diamond">
-            <svg viewBox="0 0 100 100" class="diamond-svg">
-                <circle cx="50" cy="50" r="30" fill="none" stroke="var(--rich-saffron)" stroke-width="2" opacity="0.3"/>
-                <rect class="diamond-fill" x="15" y="15" width="70" height="70" transform="rotate(45 50 50)" fill="var(--dusty-rose)"/>
-                <rect class="diamond-stroke" x="15" y="15" width="70" height="70" transform="rotate(45 50 50)" fill="none" stroke="var(--rich-saffron)" stroke-width="2"/>
-            </svg>
-        </div>
-        
-        <h2 class="welcome-title solstice-title">Spring Equinox</h2>
-        <p class="welcome-subtitle">24 hours · art · ppl</p>
-        
-        <div class="solstice-details">
-            <p class="solstice-date">Mar 21-22 · 7pm to 7pm</p>
-            <p class="solstice-location">SF Mission near 16th St BART</p>
-        </div>
-        
-        <p class="welcome-text">
-            Storytelling, bedroll stayover, tea ceremony as the sun rises, release art, weave symbols.
-        </p>
-        
-        <div class="solstice-activities">
-            <span>feast</span>
-            <span>sleep</span>
-            <span>tea</span>
-            <span>art</span>
-            <span>dance</span>
-        </div>
-        
-        <div class="welcome-btn-group">
-            <a href="https://partiful.com/e/STZlZE38xzkT12WzeEGb" target="_blank" class="welcome-btn primary">RSVP ($64)</a>
-            <button class="welcome-btn secondary" onclick="closeWelcome()">back to Site</button>
-        </div>
-    </div>
-</div>
-
-    
-
-    <!-- Project Details Modal -->
-    <div class="modal-overlay" id="projectModal">
-        <div class="booking-modal" style="max-width: 550px;">
-            <button class="modal-close" onclick="closeProjectModal()">&times;</button>
-            <h2 class="modal-title" id="projectTitle"></h2>
-            <div id="projectContent" style="position: relative; z-index: 2;"></div>
-        </div>
-    </div>
 
     <!-- Accessible Form Notification (aria-live region) -->
     <div id="formNotification" class="form-notification" role="status" aria-live="polite" aria-atomic="true"></div>
@@ -385,7 +346,7 @@
         <a href="#collab" class="mobile-nav-item" data-page="collab" aria-label="Collab">
             <svg class="mobile-nav-icon icon-diamond" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
         </a>
-        <a href="#create" class="mobile-nav-item" data-page="create" aria-label="Partner">
+        <a href="#create" class="mobile-nav-item" data-page="create" aria-label="Create">
             <svg class="mobile-nav-icon icon-bronze" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
         </a>
         <a href="#about" class="mobile-nav-item" data-page="about" aria-label="About">
@@ -393,43 +354,37 @@
         </a>
     </nav>
 
-    <!-- Modular JavaScript -->
-    <script src="assets/js/theme.js"></script>
-    <script src="assets/js/page-theme.js"></script>
     <!-- Image Lightbox -->
     <div class="image-lightbox" id="imageLightbox">
         <button class="lightbox-close" aria-label="Close">&times;</button>
         <img class="lightbox-image" id="lightboxImage" src="" alt="">
     </div>
 
-
-    
-
-    <script src="assets/js/particles.js"></script>
-    <script src="assets/js/liquid-shader.js"></script>
+    <!-- Modular JavaScript -->
+    <script src="assets/js/theme.js"></script>
     <script src="assets/js/menu-loader.js"></script>
-    <script src="assets/js/collab-loader.js"></script>
-    <script src="assets/js/catering-loader.js"></script>
-   <!-- <script src="assets/js/partnership-loader.js"></script> -->
     <script src="assets/js/drink-detail.js"></script>
+    <script src="assets/js/order-flow.js"></script>
+    <script src="assets/js/square-client.js"></script>
+    <script src="assets/js/socials-loader.js"></script>
+    <script src="assets/js/events-loader.js"></script>
     <script src="assets/js/modals.js"></script>
     <script src="assets/js/partners-loader.js"></script>
     <script src="assets/js/navigation.js"></script>
-    <script src="assets/js/particle-controller.js"></script>
 
     <script>
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const form = e.target;
     const data = new FormData(form);
-    
+
     try {
         await fetch(form.action, {
             method: 'POST',
             body: data,
             headers: { 'Accept': 'application/json' }
         });
-        
+
         form.style.display = 'none';
         document.getElementById('contactSuccess').style.display = 'block';
         form.reset();
@@ -438,51 +393,5 @@ document.getElementById('contactForm').addEventListener('submit', async function
     }
 });
 </script>
-
-    <script>
-// Show solstice popup on first visit
-window.addEventListener('DOMContentLoaded', function() {
-    const hasVisited = localStorage.getItem('gratifiedSolsticeViewed');
-    const eventDate = new Date('2025-12-21T19:00:00');
-    const now = new Date();
-    
-    // Show popup if not viewed and event hasn't passed
-    if (!hasVisited && now < eventDate) {
-        document.getElementById('welcomeOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-});
-
-function closeWelcome() {
-    const overlay = document.getElementById('welcomeOverlay');
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-    localStorage.setItem('gratifiedSolsticeViewed', 'true');
-}
-
-// Reopen popup when clicking the diamond button
-document.getElementById('solsticeToggle').addEventListener('click', function() {
-    document.getElementById('welcomeOverlay').classList.add('active');
-    document.body.style.overflow = 'hidden';
-});
-
-// Close on escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        const overlay = document.getElementById('welcomeOverlay');
-        if (overlay.classList.contains('active')) {
-            closeWelcome();
-        }
-    }
-});
-
-// Close on backdrop click
-document.getElementById('welcomeOverlay').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeWelcome();
-    }
-});
-</script>
-</body>
 </body>
 </html>

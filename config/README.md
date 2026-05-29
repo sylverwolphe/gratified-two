@@ -1,144 +1,84 @@
 # Config
 
-JSON configuration files for site content. Edit these to update drinks, subscription tiers, and page content without touching code.
+JSON configuration files for site content. Edit these to update drinks, events, socials, and ordering without touching code.
 
 ## Files
 
 ### menu-config.json
 
-Drink menu data loaded by `assets/js/menu-loader.js`.
+Drink menu data loaded by `assets/js/menu-loader.js`. Includes pricing and customization options for the ordering flow.
 
 ```json
 {
+  "sizeUpcharges": { "small": 0, "medium": 0.50, "large": 1.00 },
+  "addOnPrices": { "extra-shot": 1.00, "vanilla": 0.75 },
   "drinks": [
     {
-      "id": "pour-over",        // Used for theming (CSS, particles, shader)
-      "name": "Pour Over",      // Display name
-      "shortDesc": "...",       // Card description
-      "fullDesc": "...",        // Detail view description
-      "extras": ["...", "..."], // Bullet points in detail view
-      "icon": "pour-over",      // Key into menu-icons.json (fallback)
-      "image": "config/menu-images/pour-over.jpg"  // Optional: custom image
+      "id": "pour-over",
+      "name": "Pour Over",
+      "shortDesc": "Card description",
+      "fullDesc": "Detail view description",
+      "extras": ["Bullet 1", "Bullet 2"],
+      "image": "config/menu-images/pour-over.jpg",
+      "price": 5.00,
+      "sizes": ["small", "medium", "large"],
+      "milkOptions": [],
+      "addOns": ["honey"]
     }
   ]
-}
-```
-
-### menu-icons.json
-
-SVG icons for drinks (used when no image is provided).
-
-```json
-{
-  "pour-over": "<svg>...</svg>",
-  "cappuccino": "<svg>...</svg>"
 }
 ```
 
 ### menu-images/
 
-Folder for drink images. Images are cropped to square using CSS `object-fit: cover`.
+Folder for drink images. Cropped to square via CSS `object-fit: cover`.
 
-To add an image:
-1. Place image in `config/menu-images/`
-2. Update `menu-config.json`: `"image": "config/menu-images/filename.jpg"`
-3. Leave `"image": ""` or omit the field to use the SVG icon from `menu-icons.json`
+### socials-config.json
 
-**Drink IDs** must match the theming system:
-- `pour-over`, `cappuccino`, `latte`, `mocha`, `hot-chocolate`, `matcha-latte`, `moroccan-mint`, `something-different`
-
-Adding a new drink requires updating color configs in:
-- `assets/js/particles.js` - `drinkSpiceColors`, `drinkLogoColorsLight`, `drinkLogoColorsDark`, `drinkNavbarColors`
-- `assets/js/liquid-shader.js` - `drinkConfigs`
-
-### subscribe-config.json
-
-Subscription page content loaded by `assets/js/subscribe-loader.js`.
+Social media links loaded by `assets/js/socials-loader.js`.
 
 ```json
 {
-  "page": {
-    "title": "Subscribe",
-    "tagline": "join the journey"
-  },
-  "joinSection": {
-    "title": "Join Us",
-    "intro": "..."
-  },
-  "tiers": [
+  "socials": [
+    { "platform": "Instagram", "handle": "@gratifiedwegrow", "url": "https://..." }
+  ]
+}
+```
+
+### events-config.json
+
+Event cards loaded by `assets/js/events-loader.js`.
+
+```json
+{
+  "events": [
     {
-      "id": "follow",
-      "name": "Follow",
-      "price": "Free",
-      "priceSubtext": "",
-      "featured": false,         // Adds visual highlight
-      "perks": ["...", "..."],
-      "buttons": [
-        {
-          "text": "Substack",
-          "url": "https://...",
-          "type": "link",        // "link" or "modal"
-          "primary": false
-        }
-      ]
+      "id": "summer-solstice-2026",
+      "title": "Summer Solstice",
+      "date": "June 21, 2026",
+      "time": "2:30 - 3:30 PM",
+      "description": "...",
+      "rsvpUrl": "",
+      "status": "upcoming",
+      "badge": "Next Event"
     }
   ]
 }
 ```
 
-**Button types:**
-- `"type": "link"` - Opens URL in new tab
-- `"type": "modal"` - Opens modal by `modalId` (e.g., `"unlimitedModal"`)
+Event `status` can be `"upcoming"` (full card) or `"tbd"` (dashed placeholder).
 
----
+### square-config.json
 
-### partnership-config.json
-
-Partnership page info cards loaded by `assets/js/partnership-loader.js`.
+Client-safe Square configuration. **Never put your access token here** — that goes in the Cloudflare Worker environment variables.
 
 ```json
 {
-  "infoCards": {
-    "default": {
-      "title": "Let's Build Together",
-      "intro": "Tell us who you are..."
-    },
-    "investor": {
-      "title": "Invest in Gratified",
-      "intro": "Join us as a founding investor...",
-      "tier": {
-        "amount": "$25,000",
-        "equity": "0.2% equity stake",
-        "label": "Founding Investor"
-      },
-      "listTitle": "What you get:",
-      "items": ["Equity stake...", "Quarterly updates..."],
-      "note": "We're raising a small friends & family round..."
-    },
-    "business": {
-      "title": "Business Partnerships",
-      "intro": "...",
-      "listTitle": "We work with:",
-      "items": ["Venues & coworking spaces", "..."],
-      "note": "..."
-    },
-    "barista": {
-      "title": "Join as a Barista",
-      "intro": "...",
-      "listTitle": "What we offer:",
-      "items": ["Training provided", "..."],
-      "note": "..."
-    }
-  }
+  "applicationId": "YOUR_SQUARE_APPLICATION_ID",
+  "locationId": "YOUR_SQUARE_LOCATION_ID",
+  "workerUrl": "https://api.gratified.com",
+  "environment": "sandbox"
 }
 ```
 
-**Info card fields:**
-- `title` - Card heading (required)
-- `intro` - Opening paragraph (required)
-- `tier` - Investment tier display (investor only, optional)
-- `listTitle` - Heading above bullet list (optional)
-- `items` - Array of bullet points (optional)
-- `note` - Footer text, styled subtly (optional)
-
-**Category keys** must match the form category buttons: `default`, `investor`, `business`, `barista`
+Set `environment` to `"production"` when going live.

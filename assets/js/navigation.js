@@ -15,21 +15,7 @@
     function updateNavActiveStates(pageName) {
         // Desktop nav
         document.querySelectorAll('.nav-link').forEach(link => {
-            const isActive = link.dataset.page === pageName;
-            link.classList.toggle('active', isActive);
-
-            // Reset drink theme styling when switching pages
-            if (isActive) {
-                // Re-apply drink theme to active link if one is set
-                if (window.currentDrinkTheme && window.currentDrinkTheme !== 'default') {
-                    const color = window.getLogoColor ? window.getLogoColor(window.currentDrinkTheme) : '';
-                    link.style.color = color || '';
-                    link.style.borderColor = color || '';
-                }
-            } else {
-                link.style.color = '';
-                link.style.borderColor = '';
-            }
+            link.classList.toggle('active', link.dataset.page === pageName);
         });
 
         // Mobile nav
@@ -102,11 +88,6 @@
 
                     // Update nav highlighting
                     updateNavActiveStates(pageName);
-
-                    // Update page theme colors
-                    if (window.applyPageTheme) {
-                        window.applyPageTheme(pageName);
-                    }
 
                     // Update URL hash (debounced to prevent rapid updates)
                     clearTimeout(scrollTimeout);

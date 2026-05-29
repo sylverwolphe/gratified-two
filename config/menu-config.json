@@ -1,4 +1,17 @@
 {
+  "sizeUpcharges": {
+    "small": 0,
+    "medium": 0.50,
+    "large": 1.00
+  },
+  "addOnPrices": {
+    "extra-shot": 1.00,
+    "vanilla": 0.75,
+    "honey": 0.75,
+    "maple": 0.75,
+    "whipped-cream": 0.50,
+    "cinnamon": 0.00
+  },
   "drinks": [
     {
       "id": "pour-over",
@@ -10,8 +23,11 @@
         "Available hot only"
       ],
       "icon": "pour-over",
-            "image": "config/menu-images/pour-over.jpg"
-
+      "image": "config/menu-images/pour-over.jpg",
+      "price": 5.00,
+      "sizes": ["small", "medium", "large"],
+      "milkOptions": [],
+      "addOns": ["honey"]
     },
     {
       "id": "cappuccino",
@@ -23,8 +39,11 @@
         "Extra shot available"
       ],
       "icon": "cappuccino",
-            "image": "config/menu-images/capp.jpg"
-
+      "image": "config/menu-images/capp.jpg",
+      "price": 5.50,
+      "sizes": ["small", "medium", "large"],
+      "milkOptions": ["whole", "oat", "almond"],
+      "addOns": ["extra-shot", "vanilla"]
     },
     {
       "id": "latte",
@@ -36,8 +55,11 @@
         "Maple or honey syrup"
       ],
       "icon": "latte",
-            "image": "config/menu-images/latte.jpg"
-
+      "image": "config/menu-images/latte.jpg",
+      "price": 5.50,
+      "sizes": ["small", "medium", "large"],
+      "milkOptions": ["whole", "oat", "almond"],
+      "addOns": ["extra-shot", "vanilla", "maple", "honey"]
     },
     {
       "id": "mocha",
@@ -49,7 +71,11 @@
         "Add whipped cream"
       ],
       "icon": "mocha",
-      "image": "config/menu-images/mocha.jpeg"
+      "image": "config/menu-images/mocha.jpeg",
+      "price": 6.00,
+      "sizes": ["small", "medium", "large"],
+      "milkOptions": ["whole", "oat", "almond"],
+      "addOns": ["extra-shot", "whipped-cream"]
     },
     {
       "id": "hot-chocolate",
@@ -61,20 +87,27 @@
         "Thinking about weird marshmallow alternatives"
       ],
       "icon": "hot-chocolate",
-            "image": "config/menu-images/hotchocolate.jpg"
-
+      "image": "config/menu-images/hotchocolate.jpg",
+      "price": 5.50,
+      "sizes": ["small", "medium", "large"],
+      "milkOptions": ["whole", "oat", "almond"],
+      "addOns": ["whipped-cream", "cinnamon"]
     },
     {
       "id": "matcha-latte",
       "name": "Matcha Latte",
       "shortDesc": "Ceremonial grade, oat milk",
-      "fullDesc": "Premium ceremonial-grade matcha from, whisked and combined with your choice of milk. Earthy, smooth, and gently energizing.",
+      "fullDesc": "Premium ceremonial-grade matcha, whisked and combined with your choice of milk. Earthy, smooth, and gently energizing.",
       "extras": [
         "Iced option available",
         "Add honey syrup and/or vanilla"
       ],
       "icon": "matcha-latte",
-      "image": "config/menu-images/matcha.jpeg"
+      "image": "config/menu-images/matcha.jpeg",
+      "price": 6.50,
+      "sizes": ["small", "medium", "large"],
+      "milkOptions": ["whole", "oat", "almond"],
+      "addOns": ["vanilla", "honey"]
     },
     {
       "id": "moroccan-mint",
@@ -86,7 +119,11 @@
         "Ask for sweetness"
       ],
       "icon": "moroccan-mint",
-      "image": "config/menu-images/mint.jpeg"
+      "image": "config/menu-images/mint.jpeg",
+      "price": 4.50,
+      "sizes": ["small", "medium", "large"],
+      "milkOptions": [],
+      "addOns": ["honey"]
     },
     {
       "id": "something-different",
@@ -98,7 +135,11 @@
         "muahahaha"
       ],
       "icon": "surprise",
-      "image": "config/menu-images/surprise.jpeg"
+      "image": "config/menu-images/surprise.jpeg",
+      "price": 6.00,
+      "sizes": ["medium"],
+      "milkOptions": ["whole", "oat", "almond"],
+      "addOns": []
     }
   ]
 }

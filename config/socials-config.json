@@ -1,0 +1,29 @@
+{
+  "socials": [
+    {
+      "platform": "TikTok",
+      "handle": "@gratifiedwegrow",
+      "url": "https://www.tiktok.com/@gratifiedwegrow"
+    },
+    {
+      "platform": "Instagram",
+      "handle": "@gratifiedwegrow",
+      "url": "https://www.instagram.com/gratifiedwegrow"
+    },
+    {
+      "platform": "X",
+      "handle": "@gratifiedwegrow",
+      "url": "https://x.com/gratifiedwegrow"
+    },
+    {
+      "platform": "Substack",
+      "handle": "@gratifiedwegrow",
+      "url": "https://substack.com/@gratifiedwegrow"
+    },
+    {
+      "platform": "Discord",
+      "handle": "Join us",
+      "url": "https://discord.gg/UDRNAydqWf"
+    }
+  ]
+}

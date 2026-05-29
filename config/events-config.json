@@ -1,0 +1,24 @@
+{
+  "events": [
+    {
+      "id": "summer-solstice-2026",
+      "title": "Summer Solstice",
+      "date": "June 21, 2026",
+      "time": "2:30 - 3:30 PM",
+      "description": "Collaborative art piece for the cafe wall, guided by Azmyth Alauris. Bring your creative energy — we'll provide the materials and the coffee.",
+      "rsvpUrl": "",
+      "status": "upcoming",
+      "badge": "Next Event"
+    },
+    {
+      "id": "video-game-night",
+      "title": "Video Game Night",
+      "date": "TBD",
+      "time": "TBD",
+      "description": "Details coming soon.",
+      "rsvpUrl": "",
+      "status": "tbd",
+      "badge": ""
+    }
+  ]
+}

@@ -20,21 +20,25 @@
       "logo": "relod.png",
       "url": "https://www.relod.app/"
     },
-    
     {
       "name": "Mox",
       "logo": "moxlogo.png",
       "url": "https://moxsf.com/"
     },
-     {
+    {
       "name": "Inkhaven",
       "logo": "favicon.png",
       "url": "https://www.inkhaven.blog/"
     },
-      {
+    {
       "name": "not diamond",
       "logo": "diamondlogo.png",
       "url": "https://www.notdiamond.ai/"
+    },
+    {
+      "name": "Dandelion Chocolate",
+      "logo": "dandelion.png",
+      "url": "https://www.dandelionchocolate.com/"
     }
   ]
 }
