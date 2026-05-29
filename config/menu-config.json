@@ -1,11 +1,8 @@
 {
-  "sizeUpcharges": {
-    "small": 0,
-    "medium": 0.50,
-    "large": 1.00
-  },
+  "sizeUpcharges": {},
   "addOnPrices": {
     "extra-shot": 1.00,
+    "iced": 0.50,
     "vanilla": 0.75,
     "honey": 0.75,
     "maple": 0.75,
@@ -14,36 +11,49 @@
   },
   "drinks": [
     {
-      "id": "pour-over",
-      "name": "Pour Over",
-      "shortDesc": "Clean, bright, single origin",
-      "fullDesc": "A slow, meditative brewing process that highlights the unique characteristics of each bean. We rotate our single origins weekly and source almost exclusively from East Africa.",
+      "id": "drip",
+      "name": "Drip",
+      "shortDesc": "Fresh brewed, simple and clean",
+      "fullDesc": "A straightforward cup of freshly brewed coffee. We rotate our beans weekly and source from local roasters.",
       "extras": [
-        "Ask about today's origin",
-        "Available hot only"
+        "Ask about today's roast"
       ],
-      "icon": "pour-over",
+      "icon": "drip",
       "image": "config/menu-images/pour-over.jpg",
-      "price": 5.00,
-      "sizes": ["small", "medium", "large"],
+      "price": 3.50,
+      "sizes": [],
       "milkOptions": [],
-      "addOns": ["honey"]
+      "addOns": ["iced", "honey"]
     },
     {
-      "id": "cappuccino",
-      "name": "Cappuccino",
-      "shortDesc": "Espresso, steamed milk, velvet foam",
-      "fullDesc": "The classic Italian preparation—equal parts espresso, steamed milk, and microfoam. Rich, balanced, and perfect for savoring slowly.",
+      "id": "espresso",
+      "name": "Espresso",
+      "shortDesc": "Bold, concentrated, classic",
+      "fullDesc": "A clean double shot pulled to order. The foundation of everything we make.",
       "extras": [
-        "Oat, almond, or whole milk",
-        "Extra shot available"
+        "Double shot standard"
       ],
-      "icon": "cappuccino",
-      "image": "config/menu-images/capp.jpg",
-      "price": 5.50,
-      "sizes": ["small", "medium", "large"],
-      "milkOptions": ["whole", "oat", "almond"],
-      "addOns": ["extra-shot", "vanilla"]
+      "icon": "espresso",
+      "image": "",
+      "price": 3.50,
+      "sizes": [],
+      "milkOptions": [],
+      "addOns": ["extra-shot"]
+    },
+    {
+      "id": "americano",
+      "name": "Americano",
+      "shortDesc": "Espresso stretched with hot water",
+      "fullDesc": "Our espresso diluted with hot water for a smooth, full-bodied cup. All the flavor, more to sip.",
+      "extras": [
+        "Iced option available"
+      ],
+      "icon": "americano",
+      "image": "",
+      "price": 3.50,
+      "sizes": [],
+      "milkOptions": [],
+      "addOns": ["iced", "extra-shot"]
     },
     {
       "id": "latte",
@@ -57,41 +67,56 @@
       "icon": "latte",
       "image": "config/menu-images/latte.jpg",
       "price": 5.50,
-      "sizes": ["small", "medium", "large"],
+      "sizes": [],
       "milkOptions": ["whole", "oat", "almond"],
-      "addOns": ["extra-shot", "vanilla", "maple", "honey"]
+      "addOns": ["iced", "extra-shot", "vanilla", "maple", "honey"]
     },
     {
-      "id": "mocha",
-      "name": "Mocha",
-      "shortDesc": "Espresso meets rich chocolate",
-      "fullDesc": "Tcho chocolate swirled with our espresso and topped with steamed milk. Indulgent but not too sweet—the way chocolate and coffee were meant to meet.",
+      "id": "cappuccino",
+      "name": "Cappuccino",
+      "shortDesc": "Espresso, steamed milk, velvet foam",
+      "fullDesc": "The classic Italian preparation — equal parts espresso, steamed milk, and microfoam. Rich, balanced, and perfect for savoring slowly.",
       "extras": [
-        "Get a double shot",
-        "Add whipped cream"
+        "Oat, almond, or whole milk",
+        "Extra shot available"
       ],
-      "icon": "mocha",
-      "image": "config/menu-images/mocha.jpeg",
-      "price": 6.00,
-      "sizes": ["small", "medium", "large"],
-      "milkOptions": ["whole", "oat", "almond"],
-      "addOns": ["extra-shot", "whipped-cream"]
-    },
-    {
-      "id": "hot-chocolate",
-      "name": "Hot Chocolate",
-      "shortDesc": "Decadent mixture of love",
-      "fullDesc": "Made with Tcho chocolate, chocolate sauce, and melted cacao powder. Liquified in hot milk, and topped with a sprinkle of cinnamon. Pure comfort in a cup.",
-      "extras": [
-        "Dairy-free option available",
-        "Thinking about weird marshmallow alternatives"
-      ],
-      "icon": "hot-chocolate",
-      "image": "config/menu-images/hotchocolate.jpg",
+      "icon": "cappuccino",
+      "image": "config/menu-images/capp.jpg",
       "price": 5.50,
-      "sizes": ["small", "medium", "large"],
+      "sizes": [],
       "milkOptions": ["whole", "oat", "almond"],
-      "addOns": ["whipped-cream", "cinnamon"]
+      "addOns": ["iced", "extra-shot", "vanilla"]
+    },
+    {
+      "id": "cortado",
+      "name": "Cortado",
+      "shortDesc": "Espresso cut with warm milk",
+      "fullDesc": "Equal parts espresso and steamed milk. Small, strong, balanced. For when you want the coffee to lead.",
+      "extras": [
+        "Oat, almond, or whole milk"
+      ],
+      "icon": "cortado",
+      "image": "",
+      "price": 5.50,
+      "sizes": [],
+      "milkOptions": ["whole", "oat", "almond"],
+      "addOns": ["extra-shot"]
+    },
+    {
+      "id": "chai",
+      "name": "Chai",
+      "shortDesc": "Spiced tea latte, warming",
+      "fullDesc": "House-spiced chai concentrate with your choice of steamed milk. Cardamom, cinnamon, ginger, clove.",
+      "extras": [
+        "Oat, almond, or whole milk",
+        "Iced option available"
+      ],
+      "icon": "chai",
+      "image": "",
+      "price": 5.50,
+      "sizes": [],
+      "milkOptions": ["whole", "oat", "almond"],
+      "addOns": ["iced", "honey", "vanilla"]
     },
     {
       "id": "matcha-latte",
@@ -104,41 +129,111 @@
       ],
       "icon": "matcha-latte",
       "image": "config/menu-images/matcha.jpeg",
-      "price": 6.50,
-      "sizes": ["small", "medium", "large"],
+      "price": 7.50,
+      "sizes": [],
       "milkOptions": ["whole", "oat", "almond"],
-      "addOns": ["vanilla", "honey"]
+      "addOns": ["iced", "vanilla", "honey"]
+    },
+    {
+      "id": "hot-chocolate",
+      "name": "Hot Chocolate",
+      "shortDesc": "Decadent mixture of love",
+      "fullDesc": "Made with real chocolate, chocolate sauce, and melted cacao powder. Liquified in hot milk, topped with a sprinkle of cinnamon. Optional espresso shot.",
+      "extras": [
+        "Optional espresso shot",
+        "Dairy-free option available"
+      ],
+      "icon": "hot-chocolate",
+      "image": "config/menu-images/hotchocolate.jpg",
+      "price": 7.50,
+      "sizes": [],
+      "milkOptions": ["whole", "oat", "almond"],
+      "addOns": ["extra-shot", "whipped-cream", "cinnamon"]
+    },
+    {
+      "id": "mission-chocolate",
+      "name": "Mission Chocolate",
+      "shortDesc": "Local chocolate, espresso, milk",
+      "fullDesc": "A rich mocha made with chocolate from local San Francisco makers. Espresso and steamed milk bring it together.",
+      "extras": [
+        "Sourced from local chocolatiers"
+      ],
+      "icon": "mission-chocolate",
+      "image": "config/menu-images/mocha.jpeg",
+      "price": 7.50,
+      "sizes": [],
+      "milkOptions": ["whole", "oat", "almond"],
+      "addOns": ["iced", "extra-shot", "whipped-cream"]
+    },
+    {
+      "id": "yerba-mlatte",
+      "name": "Yerba M'latte",
+      "shortDesc": "Yerba mate meets steamed milk",
+      "fullDesc": "Brewed yerba mate combined with your choice of steamed milk. Smooth, earthy energy without the jitters.",
+      "extras": [
+        "Caffeine from yerba mate",
+        "Iced option available"
+      ],
+      "icon": "yerba-mlatte",
+      "image": "",
+      "price": 7.50,
+      "sizes": [],
+      "milkOptions": ["whole", "oat", "almond"],
+      "addOns": ["iced", "honey", "vanilla"]
     },
     {
       "id": "moroccan-mint",
-      "name": "Moroccan Mint",
-      "shortDesc": "Two mints, green tea, herbs",
-      "fullDesc": "Traditional Moroccan-style mint tea made with spearmint, peppermint, gunpowder green - and weird herbs. Refreshing and aromatic.",
+      "name": "Moroccan Mint Tea",
+      "shortDesc": "Serves two, traditional style",
+      "fullDesc": "Traditional Moroccan-style mint tea made with spearmint, peppermint, gunpowder green — and weird herbs. Refreshing and aromatic. Served in a pot for two.",
       "extras": [
-        "Caffeine-free mint available",
+        "Serves two",
         "Ask for sweetness"
       ],
       "icon": "moroccan-mint",
       "image": "config/menu-images/mint.jpeg",
-      "price": 4.50,
-      "sizes": ["small", "medium", "large"],
+      "price": 9.50,
+      "sizes": [],
       "milkOptions": [],
       "addOns": ["honey"]
     },
     {
-      "id": "something-different",
-      "name": "Surprise Me",
-      "shortDesc": "Trust the barista's choice",
-      "fullDesc": "Feeling adventurous? Let our barista craft something special based on your mood and preferences. Tell us if you like it sweet, strong, fruity, or cozy—we'll take it from there.",
-      "extras": [
-        "Just tell us your vibe",
-        "muahahaha"
-      ],
-      "icon": "surprise",
-      "image": "config/menu-images/surprise.jpeg",
-      "price": 6.00,
-      "sizes": ["medium"],
-      "milkOptions": ["whole", "oat", "almond"],
+      "id": "croissant",
+      "name": "Croissant",
+      "shortDesc": "Buttery, flaky, fresh daily",
+      "fullDesc": "Classic butter croissant brought in fresh daily from a local bakery.",
+      "extras": [],
+      "icon": "croissant",
+      "image": "",
+      "price": 3.50,
+      "sizes": [],
+      "milkOptions": [],
+      "addOns": []
+    },
+    {
+      "id": "blueberry-muffin",
+      "name": "Blueberry Muffin",
+      "shortDesc": "Baked fresh, real blueberries",
+      "fullDesc": "A classic blueberry muffin, baked fresh and brought in daily.",
+      "extras": [],
+      "icon": "blueberry-muffin",
+      "image": "",
+      "price": 5.50,
+      "sizes": [],
+      "milkOptions": [],
+      "addOns": []
+    },
+    {
+      "id": "acai-cup",
+      "name": "Acai Cup",
+      "shortDesc": "Blended acai, topped fresh",
+      "fullDesc": "Blended acai bowl served in a cup with fresh toppings.",
+      "extras": [],
+      "icon": "acai-cup",
+      "image": "",
+      "price": 7.50,
+      "sizes": [],
+      "milkOptions": [],
       "addOns": []
     }
   ]
