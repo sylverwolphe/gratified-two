@@ -36,9 +36,9 @@
             <span class="nav-icon icon-dash"></span>
           <!--  <span class="nav-label">Home</span> -->
         </a>
-        <a href="#menu" class="nav-link" data-page="menu">
+        <a href="#nourish" class="nav-link" data-page="nourish">
             <span class="nav-icon icon-equal"></span>
-           <!-- <span class="nav-label">Menu</span> -->
+           <!-- <span class="nav-label">Nourish</span> -->
         </a>
         <a href="#collab" class="nav-link" data-page="collab">
             <svg class="nav-icon icon-diamond" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
@@ -48,9 +48,9 @@
             <svg class="nav-icon icon-bronze" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
             <!-- <span class="nav-label">Create</span>  -->
         </a>
-        <a href="#buttercup" class="nav-link" data-page="buttercup">
+        <a href="#about" class="nav-link" data-page="about">
             <svg class="nav-icon icon-yellow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 511.995 511.995" fill="currentColor" aria-hidden="true"><path d="M507.807,200.272L262.474,12.859c-3.819-2.923-9.109-2.923-12.949,0L4.191,200.272c-3.627,2.773-5.077,7.509-3.648,11.84l93.717,281.92c1.451,4.352,5.547,7.296,10.133,7.296h303.253c4.608,0,8.683-2.944,10.091-7.296l93.717-281.92C512.885,207.803,511.413,203.046,507.807,200.272z"/></svg>
-           <!-- <span class="nav-label">Buttercup</span> -->
+           <!-- <span class="nav-label">About</span> -->
         </a>
     </nav>
 
@@ -91,8 +91,13 @@
             </div>
         </div>
 
-        <!-- ========== MENU PAGE ========== -->
-        <div class="page" id="page-menu" data-page="menu">
+
+
+
+
+        
+        <!-- ========== NOURISH PAGE ========== -->
+        <div class="page" id="page-nourish" data-page="nourish">
             <div class="container">
                 <div class="header">
                     <h2 class="logo">Nourish</h2>
@@ -100,7 +105,7 @@
                 </div>
 
                 <div class="content">
-                    <div class="section" id="menu">
+                    <div class="section" id="nourish">
                         <canvas id="liquid-canvas"></canvas>
 
                         <!-- Expanded drink detail view (hidden by default) -->
@@ -139,7 +144,12 @@
             </div>
         </div>
 
-        <!-- ========== SUBSCRIPTION PAGE ========== -->
+
+
+
+
+        
+        <!-- ========== CREATE PAGE ========== -->
         <!-- collab page content loaded from config/collab-config.json -->
         <div class="page" id="page-collab" data-page="collab">
             <div class="container">
@@ -158,7 +168,7 @@
             </div>
         </div>
 
-        <!-- ========== create PAGE ========== -->
+        <!-- ========== CREATE PAGE ========== -->
         <div class="page" id="page-create" data-page="create">
             <div class="container">
                 <div class="header">
@@ -166,89 +176,7 @@
                     <div class="tagline">grow with us</div>
                 </div>
 
-                <!--
-
-                <div class="content">
-                    <div class="section">
-                        <h3 class="section-title">Work With Us</h3>
-                        <p class="section-intro">We're always looking for venues, brands, and creatives who share our vision of community through coffee and art.</p>
-
-                        <div class="partnership-layout">
-                            <div class="partnership-form-container">
-                                <form id="partnershipForm" class="partnership-form">
-                                    <div class="form-group">
-                                        <label class="form-label">Who are you?</label>
-                                        <input type="hidden" id="partner-category" name="category" value="">
-                                        <div class="category-buttons" id="categoryButtons" role="group" aria-label="Select your role">
-                                            <button type="button" class="category-btn" data-category="investor" aria-pressed="false">Investor</button>
-                                            <button type="button" class="category-btn" data-category="business" aria-pressed="false">Business</button>
-                                            <button type="button" class="category-btn" data-category="barista" aria-pressed="false">Barista</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="form-label" for="partner-name">Your Name</label>
-                                        <input type="text" class="form-input" id="partner-name" name="name" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="form-label" for="partner-email">Email</label>
-                                        <input type="email" class="form-input" id="partner-email" name="email" required>
-                                    </div>
-
-                                    <div class="category-fields" data-category="investor">
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-phone">Phone</label>
-                                            <input type="tel" class="form-input" id="partner-phone" name="phone">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-linkedin">LinkedIn or Website</label>
-                                            <input type="url" class="form-input" id="partner-linkedin" name="linkedin" placeholder="Optional">
-                                        </div>
-                                    </div>
-
-                                    <div class="category-fields" data-category="business">
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-business">Business Name</label>
-                                            <input type="text" class="form-input" id="partner-business" name="business">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-website">Website</label>
-                                            <input type="url" class="form-input" id="partner-website" name="website" placeholder="Optional">
-                                        </div>
-                                    </div>
-
-                                    <div class="category-fields" data-category="barista">
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-experience">Experience</label>
-                                            <input type="text" class="form-input" id="partner-experience" name="experience" placeholder="Years, previous roles...">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="partner-availability">Availability</label>
-                                            <input type="text" class="form-input" id="partner-availability" name="availability" placeholder="Weekends, mornings, flexible...">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="form-label" for="partner-details">Tell us more</label>
-                                        <textarea class="form-textarea" id="partner-details" name="details" placeholder="What you're looking for, ideas, questions..."></textarea>
-                                    </div>
-
-                                    <button type="submit" class="submit-btn" id="createubmit" disabled>Select a category above</button>
-                                </form>
-
-                                <button class="info-card-toggle" id="infoCardToggle" aria-label="Toggle info panel" title="More info"></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bottom-sheet-backdrop" id="bottomSheetBackdrop"></div>
-
-                    <div class="partnership-info-container">
-                        <div class="partnership-info-card" id="partnershipInfoCard">
-                        </div>
-                    </div>
--->
+        
                     <div class="section">
                         <h3 class="section-title">Partners</h3>
                         <p class="partners-note">We've had the pleasure of working with these amazing groups and businesses.</p>
@@ -297,12 +225,12 @@
             </div>
         </div>
 
-        <!-- ========== BUTTERCUP DESTINY PAGE ========== -->
-        <div class="page" id="page-buttercup" data-page="buttercup">
+        <!-- ========== END PAGE ========== -->
+        <div class="page" id="page-about" data-page="about">
             <div class="container">
                 <div class="header">
-                    <h2 class="logo buttercup-logo">Buttercup Destiny</h2>
-                    <div class="tagline">parent org</div>
+                    <h2 class="logo about-logo">About</h2>
+                    <div class="tagline">people and story</div>
                 </div>
 
                 <div class="content">
@@ -451,16 +379,16 @@
         <a href="#landing" class="mobile-nav-item" data-page="landing" aria-label="Home">
             <span class="mobile-nav-icon icon-dash"></span>
         </a>
-        <a href="#menu" class="mobile-nav-item" data-page="menu" aria-label="Menu">
+        <a href="#nourish" class="mobile-nav-item" data-page="nourish" aria-label="Nourish">
             <span class="mobile-nav-icon icon-equal"></span>
         </a>
-        <a href="#collab" class="mobile-nav-item" data-page="collab" aria-label="collab">
+        <a href="#collab" class="mobile-nav-item" data-page="collab" aria-label="Collab">
             <svg class="mobile-nav-icon icon-diamond" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
         </a>
         <a href="#create" class="mobile-nav-item" data-page="create" aria-label="Partner">
             <svg class="mobile-nav-icon icon-bronze" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect></svg>
         </a>
-        <a href="#buttercup" class="mobile-nav-item" data-page="buttercup" aria-label="Buttercup">
+        <a href="#about" class="mobile-nav-item" data-page="about" aria-label="About">
             <svg class="mobile-nav-icon icon-yellow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 511.995 511.995" fill="currentColor" aria-hidden="true"><path d="M507.807,200.272L262.474,12.859c-3.819-2.923-9.109-2.923-12.949,0L4.191,200.272c-3.627,2.773-5.077,7.509-3.648,11.84l93.717,281.92c1.451,4.352,5.547,7.296,10.133,7.296h303.253c4.608,0,8.683-2.944,10.091-7.296l93.717-281.92C512.885,207.803,511.413,203.046,507.807,200.272z"/></svg>
         </a>
     </nav>
